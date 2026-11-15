@@ -1,0 +1,974 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<meta name="claude:viewport-fit-sides" content="cover">
+<title>산철이네 마을 · 가상 실무 체험</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;700&display=swap">
+<style>:root{--wall:#1c2636;--wall2:#27364d;--desk:#e6ebf1;--paper:#eef1f5;--card:#ffffff;--tx:#1f2937;--mut:#586274;--ln:#d3dae3;--ac:#245f9e;--ok:#1f7a4d;--bad:#c0392b;--hi:#f1f5f9;--onac:#ffffff}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--wall:#0b111a;--wall2:#141d2b;--desk:#101722;--paper:#0c121b;--card:#182131;--tx:#e5eaf2;--mut:#9aa7ba;--ln:#2b394f;--ac:#6aa7e8;--ok:#4cc38a;--bad:#ef7d74;--hi:#1f2a3b;--onac:#0c121b;color-scheme:dark}}
+:root[data-theme="dark"]{--wall:#0b111a;--wall2:#141d2b;--desk:#101722;--paper:#0c121b;--card:#182131;--tx:#e5eaf2;--mut:#9aa7ba;--ln:#2b394f;--ac:#6aa7e8;--ok:#4cc38a;--bad:#ef7d74;--hi:#1f2a3b;--onac:#0c121b;color-scheme:dark}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--tx);font:15px/1.55 "Noto Sans KR","Apple SD Gothic Neo","Malgun Gothic",sans-serif;min-height:100vh}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--wall2);z-index:10}
+header{background:linear-gradient(var(--wall),var(--wall2));color:#eaf2ee;padding:14px 16px 0;position:relative}
+header::after{content:"";position:absolute;right:16px;top:12px;width:54px;height:38px;border:3px solid #6f9a8f;border-radius:3px;background:linear-gradient(#9cc6e0 50%,#7fae92 50%);opacity:.55}
+h1{margin:0;font-size:18px;font-weight:700}
+.sub{font-size:13px;color:#b9d0c6;margin:2px 0 10px}
+nav{display:flex;gap:4px;overflow-x:auto;margin:0 -4px}
+nav button{flex:1 0 auto;border:0;background:transparent;color:#b9d0c6;padding:9px 12px;font:inherit;font-size:14px;border-radius:8px 8px 0 0;cursor:pointer}
+nav button.on{background:var(--desk);color:#fff;font-weight:700}
+main{background:var(--desk);padding:14px 12px 28px;min-height:70vh;background-image:repeating-linear-gradient(90deg,transparent 0 46px,rgba(0,0,0,.05) 46px 47px)}
+.sheet{background:var(--card);border:1px solid var(--ln);border-radius:6px;padding:14px;max-width:680px;margin:0 auto 12px;box-shadow:0 2px 0 rgba(0,0,0,.18)}
+.sheet h2{margin:0 0 6px;font-size:16px}
+p{margin:6px 0}.mut{color:var(--mut);font-size:13px}
+.ev{display:flex;gap:10px;align-items:flex-start;width:100%;text-align:left;border:1px solid var(--ln);background:var(--card);color:var(--tx);border-radius:6px;padding:10px 12px;margin-top:8px;font:inherit;cursor:pointer}
+.ev:hover{background:var(--hi)}
+.q{flex:0 0 28px;height:28px;border-radius:50%;background:var(--ac);color:#fff;font-weight:700;display:grid;place-items:center}
+.q.ok{background:var(--ok)}.q.see{background:var(--mut)}
+.ev b{display:block}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th,td{padding:6px 4px;border-bottom:1px solid var(--ln);text-align:left}
+td.n,th.n{text-align:right;font-variant-numeric:tabular-nums}
+select,input{font:inherit;color:var(--tx);background:var(--card);border:1px solid var(--ln);border-radius:5px;padding:7px 6px;min-width:0}
+.row{display:grid;grid-template-columns:64px 1fr 110px 30px;gap:6px;margin-top:6px}
+.row .x{border:0;background:transparent;color:var(--mut);font-size:18px;cursor:pointer}
+.btn{border:0;border-radius:6px;padding:10px 16px;font:inherit;font-weight:700;cursor:pointer;background:var(--ac);color:#fff}
+.btn.g{background:transparent;color:var(--tx);border:1px solid var(--ln);font-weight:400}
+.bar{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px;align-items:center}
+.tot{font-size:13px;color:var(--mut);margin-top:8px}
+.fb{margin-top:12px;padding:10px 12px;border-radius:6px;border-left:4px solid var(--bad);background:var(--hi)}
+.fb.ok{border-color:var(--ok)}
+.fb li{margin:2px 0}
+.fld{display:grid;grid-template-columns:1fr 150px;gap:8px;align-items:center;margin-top:8px}
+.ans td:first-child{width:56px}
+@media (max-width:420px){.row{grid-template-columns:58px 1fr 96px 24px}}
+header,main{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+body{display:flex;flex-direction:column;font-family:"IBM Plex Sans KR","Noto Sans KR","Apple SD Gothic Neo","Malgun Gothic",sans-serif;background:var(--paper)}
+main{flex:1;background:var(--desk);background-image:none}
+h1,h2{font-weight:700}
+header::after{display:none}
+h1{font-size:19px;letter-spacing:0}
+header{padding-bottom:0}
+.sub{color:#9fb0c7}
+nav{align-items:center;padding-bottom:8px}
+nav button.on{background:var(--ac);color:var(--onac);border-radius:6px;padding:6px 12px;font-weight:700;flex:0 0 auto}
+.rn{padding:6px 8px;font-size:15px;font-weight:700;color:#e8edf5}
+.sheet{border:1px solid var(--ln);border-radius:8px;box-shadow:none}
+.ev{border-radius:8px}
+.btn{border-radius:6px;color:var(--onac);box-shadow:none}
+.btn.g{color:var(--tx);border:1px solid var(--ln)}
+.q{color:var(--onac)}
+button:focus-visible,summary:focus-visible,canvas:focus-visible{outline:3px solid #f2b705;outline-offset:2px}
+main.map{padding-top:14px;padding-bottom:22px}
+.hint{max-width:540px;margin:12px auto 0;text-align:center;font-size:13px;color:var(--mut)}
+.dd{max-width:680px;margin:0 auto 10px;text-align:center;font-size:13px;color:var(--mut)}
+details.qm{max-width:540px;margin:10px auto 0;color:var(--tx);font-size:13px}
+details.qm summary{cursor:pointer;text-align:center;color:var(--mut)}
+details.qm .bar{justify-content:center}
+details.qm .btn{padding:7px 12px;font-size:13px}
+.stage{max-width:540px;margin:0 auto;border:3px solid #1f2a3c;border-radius:6px;overflow:hidden;background:#1f2a3c;line-height:0}
+#cv,.fcv{display:block;width:100%;height:auto;touch-action:manipulation;user-select:none;-webkit-user-select:none}
+#cv{aspect-ratio:24/33;cursor:pointer}
+.fcv{aspect-ratio:384/176;max-width:680px;margin:0 auto 12px;border-radius:6px}
+.act{max-width:540px;margin:10px auto 0;display:flex;gap:10px;align-items:center;justify-content:center;min-height:38px;font-size:13px}
+.pad{display:none;max-width:540px;margin:8px auto 0;justify-content:center;gap:8px}
+.pad button{width:52px;height:44px;border:1px solid var(--ln);background:var(--card);color:var(--tx);border-radius:6px;font-size:16px;touch-action:none}
+@media (pointer:coarse){.pad{display:flex}}
+.rbn{display:flex;gap:10px;align-items:baseline;padding:10px 14px}
+.rbn b{font-size:17px}
+.tbn{display:flex;gap:10px;align-items:center;justify-content:space-between;max-width:680px;margin:0 auto 12px;padding:10px 14px}
+.gbf{display:grid;gap:6px;margin:8px 0}
+.gbi{padding:8px 0;border-bottom:1px solid var(--ln);display:flex;gap:4px;align-items:baseline;flex-wrap:wrap}
+.gbi .x{margin-left:auto;border:0;background:transparent;color:var(--mut);font-size:18px;cursor:pointer}
+main.map .sheet{max-width:540px}
+.tbn .btn,.rbn .btn{white-space:nowrap}
+</style>
+<header>
+<h1>(주)산철이네 본사 회계팀</h1>
+<div class="sub" id="sub"></div>
+<nav id="nav"></nav>
+</header>
+<main id="m"></main>
+<script>
+const W=n=>Number(n).toLocaleString('ko-KR');
+const ACC=['현금','보통예금','카드매출미수금','배달앱미수금','선급금','부가세대급금','원재료','비품','시설장치','단기대여금','감가상각누계액','외상매입금','미지급금','예수금','부가세예수금','단기차입금','4대보험예수금','미지급비용','매장매출','배달매출','이자수익','원재료비','급여','복리후생비','임차료','수도광열비','배달수수료','카드수수료','소모품비','수선비','광고선전비','접대비','이자비용','잡손실','감가상각비','지급수수료'];
+const ASSET=['현금','보통예금','카드매출미수금','배달앱미수금','선급금','부가세대급금','원재료','비품','시설장치','단기대여금'],LIAB=['외상매입금','미지급금','예수금','부가세예수금','단기차입금','4대보험예수금','미지급비용'],REVN=['매장매출','배달매출','이자수익'];
+const OPEN={'현금':10000000,'보통예금':120000000,'자본금':-130000000};
+const EV=[
+{id:1,t:'본점 현금 매출 입금',d:'1월 2일 본점 홀 현금 매출 3,300,000원(부가세 포함)을 점장이 오늘 보통예금에 전액 입금했습니다. 세금계산서 발행 대상이 아닌 일반 매출입니다.',h:'포함된 금액을 1.1로 나누면 공급가액입니다. 차변은 실제로 늘어난 자산 하나뿐이에요.',a:[['D','보통예금',3300000],['C','매장매출',3000000],['C','부가세예수금',300000]]},
+{id:2,t:'본점 카드 매출 집계',d:'같은 날 본점 카드 매출은 7,700,000원(부가세 포함)입니다. 카드사 입금은 아직 되지 않았습니다.',h:'아직 못 받은 돈은 보통예금이 아니라 받을 권리, 즉 미수금 계정입니다.',a:[['D','카드매출미수금',7700000],['C','매장매출',7000000],['C','부가세예수금',700000]]},
+{id:3,t:'식자재 외상 매입',d:'식자재 업체에서 원재료 5,500,000원(부가세 포함)을 외상으로 들여오고 전자세금계산서를 받았습니다.',h:'매입 부가세는 비용이 아니라 나중에 돌려받을 세금입니다. 계정 이름에 대급금이 들어갑니다.',a:[['D','원재료',5000000],['D','부가세대급금',500000],['C','외상매입금',5500000]]},
+{id:4,t:'배달앱 정산금 입금',d:'배달앱 미수금 5,000,000원이 정산되어 수수료 440,000원(공급가액 400,000원, 부가세 40,000원, 세금계산서 수취)을 뺀 4,560,000원이 보통예금에 입금되었습니다.',h:'미수금은 전액 줄어들어야 합니다. 수수료 공급가액은 비용, 부가세는 대급금으로 나눠요.',a:[['D','보통예금',4560000],['D','배달수수료',400000],['D','부가세대급금',40000],['C','배달앱미수금',5000000]]},
+{id:5,t:'3호점 주방 설비 수리비',d:'3호점 주방 설비를 수리하고 880,000원(부가세 포함)을 보통예금에서 이체했습니다. 세금계산서를 받았고 수리는 수익적 지출입니다.',h:'수익적 지출은 자산이 아니라 바로 비용 처리합니다. 부가세는 따로 분리하세요.',a:[['D','수선비',800000],['D','부가세대급금',80000],['C','보통예금',880000]]},
+{id:6,t:'아르바이트 급여 지급',d:'아르바이트 급여 2,000,000원을 지급했습니다. 3.3%(소득세 60,000원, 지방소득세 6,000원)를 원천징수하고 나머지를 보통예금에서 이체했습니다.',h:'떼어 둔 세금은 회사 돈이 아니라 대신 걷어 둔 돈이므로 부채 계정입니다. 급여는 총액으로 인식하세요.',a:[['D','급여',2000000],['C','예수금',66000],['C','보통예금',1934000]]},
+{id:7,day:2,t:'식자재 외상대금 지급',d:'1월 2일에 들여온 식자재 외상대금 5,500,000원을 보통예금에서 이체했습니다.',h:'외상으로 샀던 빚을 갚는 거래입니다. 부가세는 이미 매입 때 처리했어요.',a:[['D','외상매입금',5500000],['C','보통예금',5500000]]},
+{id:8,day:2,t:'2호점 임차료 지급',d:'2호점 월 임차료 3,300,000원(부가세 포함)을 보통예금에서 이체했고 전자세금계산서를 받았습니다.',h:'임차료는 공급가액만 비용이고 부가세는 대급금입니다.',a:[['D','임차료',3000000],['D','부가세대급금',300000],['C','보통예금',3300000]]},
+{id:9,day:2,t:'카드사 매출 입금',d:'1월 2일 카드 매출 7,700,000원이 카드사 수수료 1%(77,000원, 부가세 없음)를 뺀 7,623,000원으로 보통예금에 입금되었습니다.',h:'미수금은 전액 없어지고, 못 받은 차액은 수수료 비용입니다.',a:[['D','보통예금',7623000],['D','카드수수료',77000],['C','카드매출미수금',7700000]]},
+{id:10,day:3,t:'배달 매출 발생',d:'배달앱 주문 매출 4,400,000원(부가세 포함)이 발생했고 정산은 다음 주에 들어옵니다.',h:'정산 전이니 배달앱 미수금이 차변입니다. 매출과 부가세는 분리하세요.',a:[['D','배달앱미수금',4400000],['C','배달매출',4000000],['C','부가세예수금',400000]]},
+{id:11,day:3,t:'전기요금 청구',d:'본점 전기요금 1,100,000원(부가세 포함) 청구서가 왔고 납부는 다음 달입니다. 세금계산서를 받았습니다.',h:'아직 돈을 안 냈으니 보통예금이 아니라 미지급 성격의 부채입니다.',a:[['D','수도광열비',1000000],['D','부가세대급금',100000],['C','미지급금',1100000]]},
+{id:12,day:3,t:'홍보 전단 제작',d:'신메뉴 홍보 전단 제작비 330,000원(부가세 포함)을 현금으로 지급했고 세금계산서를 받았습니다.',h:'광고비 공급가액은 비용, 부가세는 대급금, 대변은 현금입니다.',a:[['D','광고선전비',300000],['D','부가세대급금',30000],['C','현금',330000]]},
+{id:13,day:4,t:'은행 단기 대출 실행',d:'은행에서 단기차입금 24,000,000원을 연 6%(만기 1년)로 빌려 보통예금에 입금되었습니다.',h:'빌린 돈은 갚아야 하는 의무라 부채예요. 통장에 들어온 쪽은 자산이 늘어요.',a:[['D','보통예금',24000000],['C','단기차입금',24000000]]},
+{id:14,day:5,t:'차입금 이자 지급',d:'이번 달 차입금 이자 120,000원(24,000,000원 x 6% ÷ 12)을 보통예금에서 이체했습니다.',h:'이자는 돈을 빌린 대가라 비용이에요. 원금은 그대로예요.',a:[['D','이자비용',120000],['C','보통예금',120000]]},
+{id:15,day:5,t:'거래처 대여금 지급',d:'협력 농장에 운전자금으로 12,000,000원을 연 5%로 빌려주고 보통예금에서 이체했습니다.',h:'빌려준 돈은 돌려받을 권리, 즉 자산이에요.',a:[['D','단기대여금',12000000],['C','보통예금',12000000]]},
+{id:16,day:6,t:'대여금 이자 입금',d:'협력 농장에서 이번 달 이자 50,000원(12,000,000원 x 5% ÷ 12)이 보통예금으로 입금되었습니다. 원천징수는 없다고 가정합니다.',h:'받은 이자는 수익이에요. 대여금 원금은 그대로예요.',a:[['D','보통예금',50000],['C','이자수익',50000]]},
+{id:17,day:6,t:'차입금 일부 상환',d:'차입금 원금 4,000,000원과 남은 원금 20,000,000원에 대한 이번 달 이자 100,000원을 함께 보통예금에서 이체했습니다.',h:'원금 상환은 부채가 줄어드는 거래이고, 이자는 따로 비용으로 나눠요.',a:[['D','단기차입금',4000000],['D','이자비용',100000],['C','보통예금',4100000]]},
+{id:20,day:2,x:'pay',t:'정규직 급여 지급',d:'정규직 월급 3,000,000원을 지급했습니다. 근로자 부담 4대보험 280,650원과 소득세·지방소득세 88,000원을 떼고 나머지를 보통예금에서 이체했습니다.',h:'급여는 총액을 비용으로 잡고, 떼어 둔 돈은 모두 부채예요. 4대보험은 4대보험예수금, 세금은 예수금이에요.',a:[['D','급여',3000000],['C','4대보험예수금',280650],['C','예수금',88000],['C','보통예금',2631350]]},
+{id:21,day:2,x:'pay',t:'회사 부담 4대보험 인식',d:'같은 달 회사가 부담할 4대보험 288,150원이 확정됐지만 아직 내지 않았습니다.',h:'회사 몫은 비용(복리후생비)이고, 아직 안 냈으니 미지급금이에요.',a:[['D','복리후생비',288150],['C','미지급금',288150]]},
+{id:22,day:3,x:'pay',t:'4대보험 납부',d:'다음 달 10일에 4대보험 합계 568,800원(근로자분 280,650원 + 회사분 288,150원)을 보통예금에서 납부했습니다.',h:'이미 인식해 둔 부채 두 가지를 함께 줄이는 거래예요. 새로 비용은 생기지 않아요.',a:[['D','4대보험예수금',280650],['D','미지급금',288150],['C','보통예금',568800]]},
+{id:31,day:6,x:'close',t:'감가상각비 인식',d:'본점 주방 시설장치(취득가 18,000,000원, 잔존가치 0원, 내용연수 8년, 정액법)의 한 달 감가상각비를 인식합니다.',h:'18,000,000 ÷ 8 ÷ 12로 구해요. 자산을 직접 줄이지 않고 감가상각누계액에 쌓아요.',a:[['D','감가상각비',187500],['C','감가상각누계액',187500]]},
+{id:32,day:6,x:'close',t:'재고 실사와 원재료비 대체',d:'월말 재고 실사 결과 원재료 기말 재고가 1,800,000원입니다. 장부상 원재료 5,000,000원 중 사용한 3,200,000원을 원재료비로 바꿉니다.',h:'사용한 만큼 자산(원재료)이 줄고 비용(원재료비)이 늘어요.',a:[['D','원재료비',3200000],['C','원재료',3200000]]},
+{id:33,day:6,x:'close',t:'미지급 이자 인식',d:'월말까지 발생했지만 아직 내지 않은 차입금 이자 80,000원이 있습니다.',h:'기간이 지난 비용은 아직 안 냈어도 인식해요. 갚을 의무라 부채이고 이름은 미지급비용이에요.',a:[['D','이자비용',80000],['C','미지급비용',80000]]}
+
+];
+let S={done:{},vat:null,tax:null};
+try{const x=JSON.parse(localStorage.getItem('hongun1')||'null');if(x)S=x}catch(e){}
+S.day=S.day||1;S.notes=S.notes||{};S.q=S.q||{};S.fx=S.fx||[];S.dec=S.dec||{};S.ap=S.ap||{};S.ex=S.ex||[];S.tr=S.tr||{};S.nq=S.nq||{};var mode='work',realS=null;const save=()=>{if(mode=='tour')return;S.at=Date.now();if(gbUid)S.uid=gbUid;try{localStorage.setItem('hongun1',JSON.stringify(S))}catch(e){}if(typeof cloudSave=='function')cloudSave()};
+let view='inbox',cur=null,rows=[],fb=null;
+let myG='';try{myG=localStorage.getItem('sc_g')||''}catch(e){}if(myG!='f'&&myG!='m')myG='';
+const meLook=()=>({g:myG=='f'?'f':'m',shirt:myG=='f'?'#a8456b':'#35507a'});
+const $=s=>document.querySelector(s);
+function ledger(){const b={...OPEN},log=[];ALL().forEach(e=>{if(!S.done[e.id])return;e.a.forEach(([s,a,m])=>{b[a]=(b[a]||0)+(s=='D'?m:-m);if(a=='현금'||a=='보통예금')log.push({t:e.t,a,i:s=='D'?m:0,o:s=='C'?m:0})})});(S.fx||[]).forEach(f=>f.a.forEach(([s,a,m])=>{b[a]=(b[a]||0)+(s=='D'?m:-m);if(a=='현금'||a=='보통예금')log.push({t:f.t,a,i:s=='D'?m:0,o:s=='C'?m:0})}));return{b,log}}
+function agg(l){const o={};l.forEach(([s,a,m])=>{if(a&&m>0){const k=s+'|'+a;o[k]=(o[k]||0)+m}});return o}
+function grade(r,ans){const u=agg(r.map(x=>[x.s,x.a,+x.m])),c=agg(ans),msg=[];
+if(!Object.keys(u).length)return{ok:false,msg:['입력된 줄이 없어요. 계정과목과 금액을 넣어 주세요.']};
+let D=0,C=0;for(const k in u)k[0]=='D'?D+=u[k]:C+=u[k];
+if(D!=C)msg.push('차변 합계 '+W(D)+'원과 대변 합계 '+W(C)+'원이 달라요. 복식부기는 하나의 거래를 원인과 결과 두 쪽으로 기록하기 때문에 모든 거래에서 차변 합계와 대변 합계가 같아야 해요.');
+for(const k in c){const[s,a]=k.split('|'),ty=TY[a],ns=NS(a),inc=s=='D'?ns=='차변':ns=='대변',sd=s=='D'?'차변':'대변',o=(s=='D'?'C':'D')+'|'+a;
+if(u[k]===undefined)msg.push(u[o]!==undefined?a+'은(는) '+ty+' 계정이에요. '+ty+'의 증가는 '+ns+', 감소는 '+(ns=='차변'?'대변':'차변')+'에 적어요. 이 거래에서 '+a+'은(는) '+(inc?'늘어나므로':'줄어드니')+' '+sd+'에 적어야 맞아요.':a+' 계정이 빠졌어요. 이 거래로 '+ty+' 계정인 '+a+'이(가) '+(inc?'늘었으니':'줄었으니')+' '+sd+'에 적어야 해요.');
+else if(u[k]!=c[k])msg.push(a+' 금액이 달라요. '+(a.includes('부가세')?'부가세 포함 금액을 1.1로 나눈 값이 공급가액이고, 공급가액의 10%가 부가세예요.':'거래 설명에서 이 계정에 해당하는 금액이 얼마인지, 부가세나 수수료가 섞여 있지 않은지 다시 확인하세요.'))}
+for(const k in u){const a=k.split('|')[1];if(!Object.keys(c).some(x=>x.split('|')[1]==a))msg.push(a+'은(는) 이 거래에 필요 없어요. 이 거래에서는 '+TY[a]+' 계정인 '+a+'이(가) 변하지 않아요. 돈이나 권리, 의무가 실제로 바뀌는 계정만 골라 보세요.')}
+return{ok:!msg.length,msg}}
+function newRows(){rows=[{s:'D',a:'',m:''},{s:'C',a:'',m:''}]}
+function openEv(id){cur=ALL().find(e=>e.id==id);fb=null;newRows();view='voucher';render()}
+function nav(v){view=v;cur=null;fb=null;render()}
+function sync(){document.querySelectorAll('.row').forEach((el,i)=>{rows[i].s=el.children[0].value;rows[i].a=el.children[1].value;rows[i].m=el.children[2].value})}
+function addRow(){sync();rows.push({s:'D',a:'',m:''});render()}
+function delRow(i){sync();if(rows.length>2)rows.splice(i,1);render()}
+function submit(){sync();const r=grade(rows,cur.a),st=S.done[cur.id]||{n:0};
+if(r.ok){S.done[cur.id]={ok:true,n:st.n+1};save();fb={ok:true,msg:['정답입니다. 전표가 원장에 반영되었어요.'+(st.n?'':' 한 번에 맞혔어요.')]}}
+else{S.tries=S.tries||{};S.tries[cur.id]=(S.tries[cur.id]||0)+1;save();fb={ok:false,msg:r.msg}}
+render()}
+function show(){S.done[cur.id]={ok:false,seen:true};save();fb=null;render()}
+function ansTable(e){return'<table class="ans"><tr><th>구분</th><th>계정과목</th><th class="n">금액</th></tr>'+e.a.map(([s,a,m])=>'<tr><td>'+(s=='D'?'차변':'대변')+'</td><td>'+a+'</td><td class="n">'+W(m)+'</td></tr>').join('')+'</table>'}
+function inbox(){const E=EVD(),n=E.filter(e=>S.done[e.id]).length,ok=E.filter(e=>S.done[e.id]&&S.done[e.id].ok).length;
+return'<div class="sheet"><h2>오늘의 사건함</h2><p class="mut">?가 붙은 사건을 눌러 전표를 입력하세요. 처리 '+n+'/'+E.length+'건, 정답 '+ok+'건.</p>'+E.map(e=>{const d=S.done[e.id];return'<button class="ev" onclick="openEv('+e.id+')"><span class="q'+(d?d.ok?' ok':' see':'')+'">'+(d?d.ok?'✓':'…':'?')+'</span><span><b>'+e.t+'</b><span class="mut">'+(d?d.ok?'처리 완료':'정답 확인함':'전표 입력 대기')+'</span></span></button>'}).join('')+(n==E.length?'<div class="fb ok" style="margin-top:12px">'+S.day+'일차 전표를 모두 처리했어요. 결산실과 교육실도 둘러보고 다음 날로 넘어가세요.'+(S.day<MAXD?'<div class="bar"><button class="btn" onclick="nextDay()">다음 날로 ('+dl(S.day+1)+')</button></div>':'<p>준비된 사건은 여기까지예요. 다음 사건은 이어서 추가할 수 있어요.</p>')+'</div>':'')+'</div>'}
+function voucher(){const d=S.done[cur.id];
+let h='<div class="sheet"><h2>'+cur.t+'</h2><p>'+cur.d+'</p>';
+if(d){h+='<p class="mut">'+(d.ok?'처리된 전표입니다.':'정답을 확인한 전표입니다.')+'</p>'+ansTable(cur)+'<div class="bar"><button class="btn" onclick="back()">돌아가기</button></div></div>';return h}
+h+='<div id="rows">'+rows.map((r,i)=>'<div class="row"><select><option value="D"'+(r.s=='D'?' selected':'')+'>차변</option><option value="C"'+(r.s=='C'?' selected':'')+'>대변</option></select><select><option value="">계정과목</option>'+ACC.map(a=>'<option'+(r.a==a?' selected':'')+'>'+a+'</option>').join('')+'</select><input type="number" inputmode="numeric" placeholder="금액" value="'+r.m+'"><button class="x" onclick="delRow('+i+')" aria-label="줄 삭제">×</button></div>').join('')+'</div>';
+const u=rows.reduce((t,r)=>{t[r.s]+=+r.m||0;return t},{D:0,C:0});
+h+='<div class="tot">차변 '+W(u.D)+' / 대변 '+W(u.C)+'</div><div class="bar"><button class="btn g" onclick="addRow()">줄 추가</button><button class="btn" onclick="submit()">전표 제출</button><button class="btn g" onclick="back()">나중에</button></div>';
+if(fb)h+='<div class="fb'+(fb.ok?' ok':'')+'"><ul style="margin:0;padding-left:18px">'+fb.msg.map(m=>'<li>'+m+'</li>').join('')+'</ul>'+(fb.ok?'<div class="bar"><button class="btn" onclick="back()">돌아가기</button></div>':'<p class="mut">힌트: '+cur.h+'</p><div class="bar"><button class="btn g" onclick="show()">정답 보기</button></div>')+'</div>';
+return h+'</div>'}
+function vat(){const{b}=ledger(),sale=-(b['부가세예수금']||0),buy=b['부가세대급금']||0,pay=sale-buy,v=S.vat;
+return'<div class="sheet"><h2>부가세 신고</h2><p class="mut">지금까지 반영된 전표를 기준으로 매출세액과 매입세액을 계산해 입력하세요. 원 단위로 입력합니다.</p><div class="fld"><span>매출세액</span><input id="v1" type="number" inputmode="numeric"></div><div class="fld"><span>매입세액</span><input id="v2" type="number" inputmode="numeric"></div><div class="fld"><span>납부(환급)세액 · 환급은 음수</span><input id="v3" type="number" inputmode="numeric"></div><div class="bar"><button class="btn" onclick="chkVat()">신고서 확인</button></div>'+(v?'<div class="fb'+(v.ok?' ok':'')+'">'+v.msg+'</div>':'')+'</div>'}
+function chkVat(){const{b}=ledger(),sale=-(b['부가세예수금']||0),buy=b['부가세대급금']||0,x=[+$('#v1').value,+$('#v2').value,+$('#v3').value],e=[sale,buy,sale-buy];
+const bad=['매출세액','매입세액','납부세액'].filter((_,i)=>x[i]!=e[i]);
+S.vat=bad.length?{ok:false,msg:bad.join(', ')+' 항목이 원장과 달라요. 부가세예수금과 부가세대급금 잔액을 다시 확인하세요.'}:{ok:true,msg:'일치합니다. 매출세액 '+W(sale)+'원, 매입세액 '+W(buy)+'원, 납부세액 '+W(sale-buy)+'원입니다.'};save();render()}
+function tax(){const t=S.tax,got=S.done[6];
+return'<div class="sheet"><h2>세무 신청 · 원천세</h2>'+(got?'<p class="mut">아르바이트 급여 지급분에서 떼어 둔 원천징수세액을 구분해 신고서에 적으세요. 신고·납부는 다음 달 10일까지입니다.</p><div class="fld"><span>소득세(3%)</span><input id="t1" type="number" inputmode="numeric"></div><div class="fld"><span>지방소득세(0.3%)</span><input id="t2" type="number" inputmode="numeric"></div><div class="bar"><button class="btn" onclick="chkTax()">신고서 확인</button></div>'+(t?'<div class="fb'+(t.ok?' ok':'')+'">'+t.msg+'</div>':''):'<p class="mut">급여 지급 전표(사건 6)를 먼저 처리하면 신고서를 쓸 수 있어요.</p>')+'</div>'}
+function chkTax(){const a=+$('#t1').value,c=+$('#t2').value;S.tax=a==60000&&c==6000?{ok:true,msg:'일치합니다. 원천징수세액은 66,000원이고 예수금 잔액과 같아요.'}:{ok:false,msg:'금액이 달라요. 급여 2,000,000원에 3%와 0.3%를 각각 곱해 보세요.'};save();render()}
+function fund(){const{b,log}=ledger();
+const row=a=>{const i=log.filter(l=>l.a==a).reduce((t,l)=>t+l.i,0),o=log.filter(l=>l.a==a).reduce((t,l)=>t+l.o,0);return'<tr><td>'+a+'</td><td class="n">'+W(OPEN[a])+'</td><td class="n">'+W(i)+'</td><td class="n">'+W(o)+'</td><td class="n">'+W(b[a])+'</td></tr>'};
+return'<div class="sheet"><h2>자금일보 · 누적 현황</h2><table><tr><th>구분</th><th class="n">전일</th><th class="n">입금</th><th class="n">출금</th><th class="n">잔액</th></tr>'+row('보통예금')+row('현금')+'</table></div><div class="sheet"><h2>자금 변동 내역</h2>'+(log.length?'<table>'+log.map(l=>'<tr><td>'+l.t+'<br><span class="mut">'+l.a+'</span></td><td class="n" style="color:var(--'+(l.i?'ok':'bad')+')">'+(l.i?'+'+W(l.i):'-'+W(l.o))+'</td></tr>').join('')+'</table>':'<p class="mut">아직 반영된 자금 거래가 없어요. 회계팀에서 전표를 처리하세요.</p>')+'</div>'}
+const MAXD=6,WK=['월','화','수','목','금','토','일'];
+const dl=d=>d+'일차 · 1월 '+(d+1)+'일 '+WK[(d-1)%7]+'요일';
+const ALL=()=>EV.concat(S.ex||[]);
+const EVD=()=>ALL().filter(e=>!e.x&&(e.day||1)<=S.day);
+const esc=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');
+const li=a=>'<ul style="margin:6px 0;padding-left:18px">'+a.map(x=>'<li>'+x+'</li>').join('')+'</ul>';
+const ta=(k,ph,dv)=>'<textarea rows="5" style="width:100%;font:inherit;color:var(--tx);background:var(--card);border:1px solid var(--ln);border-radius:5px;padding:8px" placeholder="'+ph+'" oninput="note(\''+k+'\',this.value)">'+esc(S.notes[k]!==undefined?S.notes[k]:(dv||''))+'</textarea>';
+function nextDay(){S.day++;resolve();save();begin()}
+function note(k,v){S.notes[k]=v;save()}
+function meet(){const{b}=ledger(),d=S.day,ev=EV.filter(e=>(e.day||1)==d),sale=-(b['부가세예수금']||0),buy=b['부가세대급금']||0;
+const ag=ev.map(e=>e.t+' ('+(S.done[e.id]?'처리 완료':'미처리')+'): 증빙과 계정 처리 근거를 설명한다').concat(['자금 잔액 보고: 보통예금 '+W(b['보통예금'])+'원, 현금 '+W(b['현금'])+'원','미결 사항과 내일 예정 업무를 확인한다']);
+const wk=['부가세 예상 납부세액: 매출세액 '+W(sale)+'원 - 매입세액 '+W(buy)+'원 = '+W(sale-buy)+'원','미수금 잔액: 카드 '+W(b['카드매출미수금']||0)+'원, 배달앱 '+W(b['배달앱미수금']||0)+'원. 회수가 늦어지는 곳이 있는가','지급 예정 잔액: 외상매입금 '+W(-(b['외상매입금']||0))+'원, 미지급금 '+W(-(b['미지급금']||0))+'원. 다음 주 자금 일정은 충분한가','지점별로 이번 주 지출에서 평소와 다른 항목이 있었는가'];
+return'<div class="sheet"><h2>일간 회의 · '+dl(d)+'</h2><p class="mut">오늘 사건에서 자동으로 만든 안건입니다. 날짜가 넘어가면 새 안건이 생겨요.</p>'+li(ag)+ta('d'+d,'회의 결과, 결정 사항, 담당자와 기한을 적으세요.')+'</div><div class="sheet"><h2>주간 회의 · 누적 집계</h2><p class="mut">금요일 주간 회의에서 다룰 안건입니다. 숫자는 지금까지 반영된 전표 기준이에요.</p>'+li(wk)+ta('w','주간 회의록을 적으세요.')+'</div>'}
+function rep(){const{b}=ledger(),REV=['매장매출','배달매출'],rv=REV.reduce((t,a)=>t-(b[a]||0),0),ex=OPC.filter(a=>b[a]),cost=ex.reduce((t,a)=>t+b[a],0),ks=Object.keys(b).filter(a=>b[a]);
+let D=0,C=0;const tb=ks.map(a=>{const v=b[a];v>0?D+=v:C-=v;return'<tr><td>'+a+'</td><td class="n">'+(v>0?W(v):'')+'</td><td class="n">'+(v<0?W(-v):'')+'</td></tr>'}).join('');
+return'<div class="sheet"><h2>가결산 시산표 · 누적</h2><table><tr><th>계정과목</th><th class="n">차변</th><th class="n">대변</th></tr>'+tb+'<tr><th>합계</th><th class="n">'+W(D)+'</th><th class="n">'+W(C)+'</th></tr></table><p class="mut">'+(D==C?'차변과 대변이 일치합니다. 자본금은 개시 잔액의 상대 계정으로 가정했어요.':'차대가 맞지 않아요.')+'</p></div><div class="sheet"><h2>손익계산서 · 누적</h2><table><tr><td>매출액</td><td class="n">'+W(rv)+'</td></tr>'+ex.map(a=>'<tr><td>'+a+'</td><td class="n">-'+W(b[a])+'</td></tr>').join('')+'<tr><th>영업이익</th><th class="n">'+W(rv-cost)+'</th></tr>'+nonop(b,rv,cost)+'</table><p class="mut">'+(S.done[32]?'재고 실사가 반영됐어요.':'원재료 사용분(원재료비)은 재고 실사를 해야 확정돼요. 결산실의 월말 결산 실습에서 처리해요.')+'</p></div><div class="sheet"><h2>월말 결산 점검표</h2>'+li(['시산표 차대 일치 확인','원재료 재고 실사 후 원재료비 대체','시설장치와 비품 감가상각','선급·미지급 비용 정리','부가세예수금과 대급금 상계','지점별 손익과 전월 대비 변동 원인 정리'])+ta('c','결산 중 발견한 이슈를 적으세요.')+'</div><div class="sheet"><h2>반기 보고서 초안</h2>'+ta('h','','1. 영업 실적 요약\n2. 손익 변동 원인 (전기 대비)\n3. 자금과 채권채무 현황\n4. 이슈와 개선 계획')+'</div>'}
+const TY={};ACC.forEach(a=>TY[a]=ASSET.includes(a)?'자산':a=='감가상각누계액'?'자산 차감':LIAB.includes(a)?'부채':REVN.includes(a)?'수익':'비용');const OPC=ACC.filter(a=>TY[a]=='비용'&&a!='이자비용');
+const NS=a=>TY[a]=='자산'||TY[a]=='비용'?'차변':'대변';
+const TS='width:100%;font:inherit;color:var(--tx);background:var(--card);border:1px solid var(--ln);border-radius:5px;padding:8px';
+const QB=[
+{ty:'mc',q:'자산이 늘어날 때 기록하는 쪽은?',o:['차변','대변','양쪽 모두','기록하지 않는다'],a:0,e:'자산과 비용의 증가는 차변, 부채·자본·수익의 증가는 대변에 적어요. 감소는 그 반대예요.'},
+{ty:'mc',q:'다음 중 부채 계정은?',o:['미수금','선수금','선급금','비품'],a:1,e:'선수금은 미리 받은 돈이라 나중에 재화나 용역을 제공할 의무가 남아 부채예요. 나머지는 받을 권리나 쓸 수 있는 물건이라 자산이에요.'},
+{ty:'mc',q:'부가세예수금은 어떤 계정일까요?',o:['자산','부채','수익','비용'],a:1,e:'손님에게 받았지만 회사 몫이 아니라 국가에 대신 내야 할 돈이라 부채예요. 수익이 아니에요.'},
+{ty:'mc',q:'주방 설비를 원래 상태로 되돌리는 수리비 880,000원(부가세 포함)에서 공급가액 800,000원은?',o:['수선비(비용)','시설장치(자산)','차입금(부채)','자본금(자본)'],a:0,e:'원상회복이나 능률 유지 목적의 지출은 수익적 지출이라 바로 비용으로 처리해요. 가치를 늘리는 개량이면 자본적 지출로 자산에 넣어요.'},
+{ty:'mc',q:'부가세 납부세액을 구하는 식은?',o:['매출세액 - 매입세액','매출액 - 매입액','매입세액 - 매출세액','공급가액 x 10%'],a:0,e:'손님에게 받은 부가세(매출세액)에서 우리가 낸 부가세(매입세액)를 빼서 차액만 납부해요. 음수면 환급이에요.'},
+{ty:'mc',q:'아르바이트 급여 원천징수 3.3%의 구성은?',o:['소득세 3% + 지방소득세 0.3%','소득세 3.3%','지방소득세 3.3%','4대보험 3.3%'],a:0,e:'사업소득 원천징수는 소득세 3%에 그 10%인 지방소득세 0.3%를 더해 3.3%예요. 회사는 이 돈을 예수금으로 두었다가 다음 달 10일까지 납부해요.'},
+{ty:'mc',q:'취득원가 12,000,000원, 잔존가치 0원, 내용연수 5년인 비품의 정액법 연 감가상각비는?',o:['2,400,000원','2,000,000원','1,200,000원','3,000,000원'],a:0,e:'(취득원가 - 잔존가치) / 내용연수 = 12,000,000 / 5 = 2,400,000원이에요.'},
+{ty:'mc',q:'시산표를 만드는 가장 큰 목적은?',o:['차변과 대변 합계 일치로 기장 오류를 점검','세금 납부액 확정','현금 시재 확인','이익 처분 결정'],a:0,e:'모든 계정 잔액의 차변 합계와 대변 합계가 같은지 확인해서 전표 입력 오류를 찾는 절차예요. 다만 합계가 같아도 계정을 잘못 고른 오류는 못 잡아요.'},
+{ty:'ox',q:'외상매입금은 자산 계정이다.',a:1,e:'외상으로 산 물건값을 나중에 갚아야 하니 부채예요.'},
+{ty:'ox',q:'카드 매출은 카드사 입금일이 아니라 결제 승인일에 매출로 인식한다.',a:0,e:'발생주의에서는 판매가 이루어진 시점에 수익을 인식해요. 입금 전까지는 카드매출미수금으로 두고, 수수료는 입금 때 비용으로 처리해요.'},
+{ty:'ox',q:'발생주의에서는 현금이 오가야만 수익과 비용을 인식한다.',a:1,e:'현금이 오갔는지와 상관없이 거래가 발생한 시점에 인식하는 게 발생주의이고, 현금이 오갈 때 인식하는 게 현금주의예요.'},
+{ty:'ox',q:'선급비용은 비용 계정이다.',a:1,e:'미리 낸 돈은 앞으로 용역을 받을 권리라 자산이에요. 기간이 지나 사용한 만큼 비용으로 바뀌어요.'},
+{ty:'es',q:'복식부기에서 모든 거래의 차변 합계와 대변 합계가 같아야 하는 이유를 서술하세요.',k:['자산','부채','자본'],e:'모든 거래는 자산, 부채, 자본의 변동을 원인과 결과 두 측면에서 동시에 기록해요. 자산 = 부채 + 자본이라는 등식이 항상 성립해야 하므로 차변 합계와 대변 합계도 항상 같아요.'},
+{ty:'es',q:'발생주의와 현금주의의 차이를 서술하세요.',k:['발생','현금','시점'],e:'현금주의는 현금을 주고받은 시점에, 발생주의는 거래나 사건이 일어난 시점에 수익과 비용을 인식해요. 외상 매출이나 미지급 비용이 있는 기업의 실적을 정확히 보여 주려고 기업회계는 발생주의를 써요.'},
+{ty:'es',q:'부가세 신고에서 매출세액과 매입세액이 각각 무엇이고 어떻게 납부액이 정해지는지 서술하세요.',k:['매출세액','매입세액','납부'],e:'매출세액은 판매하면서 받은 부가세, 매입세액은 구입하면서 낸 부가세예요. 매출세액에서 매입세액을 뺀 차액이 납부세액이고, 매입이 더 크면 환급받아요.'}
+];
+const qids=d=>[(d*3)%8,8+(d-1)%4,12+(d-1)%3];
+function qans(k,v){S.q[k]=v;save();render()}
+function qes(k,id){S.q[k]={t:document.getElementById('es'+id).value};save();render()}
+function quiz(){const d=S.day,TL={mc:'객관식',ox:'선택형 O/X',es:'서술형'};
+return'<div class="sheet"><h2>오늘의 회계 퀴즈 · '+dl(d)+'</h2><p class="mut">매일 3문제가 나오고, 날짜가 바뀌면 새 문제로 바뀌어요.</p></div>'+qids(d).map(id=>{const q=QB[id],k=d+'-'+id,r=S.q[k];let h='<div class="sheet"><h2>'+TL[q.ty]+'</h2><p>'+q.q+'</p>';
+if(q.ty!='es'){const op=q.ty=='ox'?['O','X']:q.o;
+h+=op.map((o,i)=>'<button class="ev"'+(r!==undefined?' disabled':'')+' onclick="qans(\''+k+'\','+i+')"><span class="q'+(r===undefined?'':i==q.a?' ok':i==r?'':' see')+'">'+(i+1)+'</span><span>'+o+'</span></button>').join('');
+if(r!==undefined)h+='<div class="fb'+(r==q.a?' ok':'')+'"><b>'+(r==q.a?'정답이에요.':'아쉬워요.')+'</b> 정답은 '+op[q.a]+'입니다. '+q.e+'</div>'}
+else if(r===undefined)h+='<textarea id="es'+id+'" rows="4" style="'+TS+'" placeholder="내 말로 서술해 보세요."></textarea><div class="bar"><button class="btn" onclick="qes(\''+k+'\','+id+')">답안 제출</button></div>';
+else{const hit=q.k.filter(w=>r.t.includes(w)),miss=q.k.filter(w=>!r.t.includes(w));h+='<div class="fb'+(miss.length?'':' ok')+'"><p>핵심어 '+q.k.length+'개 중 '+hit.length+'개를 썼어요.'+(miss.length?' 빠진 핵심어: '+miss.join(', '):'')+'</p><p><b>모범 답안</b> '+q.e+'</p></div>'}
+return h+'</div>'}).join('')}
+const EC={1:{n:'평온한 한 주의 시작',m:{매장:1,배달:1,안정:1}},2:{n:'주말을 앞두고 외식 소비 소폭 증가',m:{매장:1.1,배달:1,안정:1}},3:{n:'한파 특보로 외출은 줄고 배달 주문 급증',m:{매장:.7,배달:1.5,안정:1}},4:{n:'식자재 가격 급등 소식과 소비 심리 위축',m:{매장:.9,배달:.9,안정:.9}},5:{n:'연휴 시작으로 외식 특수',m:{매장:1.5,배달:1.1,안정:1}},6:{n:'경기 침체 우려로 소비 위축',m:{매장:.8,배달:.8,안정:.95}}};
+const DC={1:{q:'신메뉴 홍보에 얼마를 투자할까요?',s:['신메뉴 출시 첫 주, 기존 홍보물 없음','최근 3개월 매출 비중: 매장 65%, 배달 35%','지난 전단 행사 반응률은 1~2% 수준'],o:[{t:'전단지 대량 배포',cost:['광고선전비',1000000],cat:'매장',base:1800000,n:'광고선전비(비용)'},{t:'배달앱 광고 노출',cost:['광고선전비',800000],cat:'배달',base:1500000,n:'광고선전비(비용)'},{t:'이번엔 투자하지 않는다',n:'회계 처리 없음'}]},
+2:{q:'4호점 주방 설비를 어떻게 할까요?',s:['현재 설비: 취득 6년 전, 취득가 18,000,000원, 내용연수 8년','감가상각누계액 13,500,000원, 장부가액 4,500,000원','최근 1년 고장 월 2회, 수리비 연 1,200,000원','교체하면 기존 설비 장부가액 4,500,000원이 폐기 손실로 남아요'],o:[{t:'최신 설비로 교체',cost:['시설장치',3000000],cat:'안정',base:1600000,n:'시설장치(자산)로 처리, 감가상각으로 나눠 비용화'},{t:'임시 수리만 진행',cost:['수선비',500000],cat:'안정',base:600000,n:'수선비(비용)'},{t:'그대로 둔다',n:'회계 처리 없음'}]},
+3:{q:'점심 세트 할인 이벤트를 열까요?',s:['점심 시간대 좌석 가동률 55%','배달 점심 주문 비중은 낮은 편'],o:[{t:'전 지점 점심 할인',cost:['광고선전비',600000],cat:'매장',base:1200000,n:'광고선전비(비용)'},{t:'배달 전용 할인 쿠폰',cost:['광고선전비',500000],cat:'배달',base:900000,n:'광고선전비(비용)'},{t:'하지 않는다',n:'회계 처리 없음'}]},
+4:{q:'연휴 전 직원 동기부여는 어떻게 할까요?',s:['직원 이직률 연 25%','연휴 전 일손 부족 예상'],o:[{t:'성과급 지급',cost:['급여',1500000],cat:'안정',base:1700000,n:'급여(비용)'},{t:'신메뉴 시식 행사',cost:['소모품비',700000],cat:'매장',base:1400000,n:'소모품비(비용)'},{t:'하지 않는다',n:'회계 처리 없음'}]}};
+function pick(i){const d=S.day,o=DC[d].o[i];if(S.dec[d])return;S.dec[d]={i,res:null};if(o.cost)S.fx.push({t:'경영 선택: '+o.t,a:[['D',o.cost[0],o.cost[1]],['C','보통예금',o.cost[1]]]});save();render()}
+function resolve(){Object.keys(S.dec).forEach(k=>{const x=S.dec[k],o=DC[k].o[x.i],rd=+k+2;if(x.res||!o.base||rd>S.day)return;const m=EC[rd].m[o.cat],amt=Math.round(o.base*m/1000)*1000;x.res={amt,day:rd,m};S.fx.push({t:'경영 성과: '+o.t,a:[['D','보통예금',amt],['C',o.cat=='배달'?'배달매출':'매장매출',amt]]})})}
+function biz(){const d=S.day,{b}=ledger(),sg=a=>b[a]||0,rv=-(sg('매장매출')+sg('배달매출')),cost=OPC.reduce((t,a)=>t+sg(a),0),dc=DC[d],x=S.dec[d];
+let h='<div class="sheet"><h2>경제 뉴스 · '+dl(d)+'</h2><p>'+EC[d].n+'</p>'+[1,2].map(n=>EC[d+n]?'<p class="mut">예보 +'+n+'일: '+EC[d+n].n+'</p>':'').join('')+'</div>';
+h+='<div class="sheet"><h2>오늘의 경영 선택</h2>'+(dc?'<p>'+dc.q+'</p>'+(dc.s?li(dc.s):'')+dc.o.map((o,i)=>'<button class="ev"'+(x?' disabled':'')+' onclick="pick('+i+')"><span class="q'+(x?(x.i==i?' ok':' see'):'')+'">'+(i+1)+'</span><span><b>'+o.t+'</b><span class="mut">'+(o.cost?'투자 '+W(o.cost[1])+'원 · ':'')+o.n+'</span></span></button>').join('')+(x?'<p class="mut">선택을 마쳤어요. 결과는 2일 뒤 경제 상황에 따라 정산돼요.</p>':'<p class="mut">예보를 보고 골라 보세요. 투자금은 바로 전표로 반영되고, 수익은 2일 뒤 정산돼요.</p>'):'<p class="mut">오늘은 준비된 선택이 없어요.</p>')+'</div>';
+const rows=Object.keys(S.dec).map(k=>{const y=S.dec[k],o=DC[k].o[y.i],inv=o.cost?o.cost[1]:0,r=y.res;return'<tr><td>'+k+'일차</td><td>'+o.t+'</td><td class="n">'+(r?'회수 '+W(r.amt)+'원<br><span class="mut">'+r.day+'일차 경제 영향 x'+r.m+', 투자 대비 '+Math.round(r.amt/inv*100)+'%</span>':o.base?(+k+2)+'일차 정산 예정':'투자 없음')+'</td></tr>'}).join('');
+return h+'<div class="sheet"><h2>성장 보고</h2><table><tr><td>보통예금 잔액</td><td class="n">'+W(sg('보통예금'))+'</td></tr><tr><td>누적 매출(공급가액)</td><td class="n">'+W(rv)+'</td></tr><tr><td>누적 비용</td><td class="n">'+W(cost)+'</td></tr><tr><th>누적 영업이익(가결산)</th><th class="n">'+W(rv-cost)+'</th></tr></table><p class="mut">원재료비는 재고 실사 전이라 반영하지 않은 가결산 기준이에요.</p></div><div class="sheet"><h2>선택 이력과 결과</h2>'+(rows?'<table>'+rows+'</table>':'<p class="mut">아직 선택 이력이 없어요.</p>')+'</div>'}
+const CK=['증빙 종류','금액 일치','공급자 일치','계약·견적 근거','결재 한도·예산','중복 지급'];
+const RQ=[
+{id:1,day:1,t:'2호점 인테리어 보수 공사비 결제 요청',from:'구매팀 김대리',amt:'11,000,000원 (부가세 포함)',docs:['견적서: A인테리어, 공급가액 10,000,000원 + 부가세 1,000,000원','전자세금계산서: A인테리어, 사업자번호 일치, 공급가액 10,000,000원','공사 계약서와 공사 완료 확인서 첨부','결재선: 팀장, 본부장, 대표 결재 완료 (500만 원 초과는 대표 결재 필요)','예산: 올해 시설 보수 예산 잔여 1,500만 원','지급 이력: 동일 업체 지급 내역 없음'],bad:{},st:['2호점 인테리어는 개점 때 시공해 사용 7년차','벽지와 바닥재 마모, 최근 1년 고객 불만 접수 3건','기존 시설장치: 취득가 15,000,000원, 내용연수 10년 정액법, 7년 상각 후 장부가액 4,500,000원','이번 공사는 노후 자재 교체와 함께 좌석을 늘려 매장 가치를 높이는 공사'],dec:'승인',why:'증빙, 금액, 공급자, 계약 근거, 결재 한도가 모두 맞아요. 인테리어 공사는 매장의 가치를 높이는 지출이라 자산으로 처리해요.',ev:{t:'2호점 인테리어 공사비 처리',d:'승인된 A인테리어 공사비 11,000,000원(부가세 포함, 세금계산서 수취)를 아직 지급하지 않았습니다. 공사는 매장 가치를 높이는 인테리어입니다.',h:'가치를 늘리는 공사는 자산, 지급 전이라 대변은 미지급 계정이에요.',a:[['D','시설장치',10000000],['D','부가세대급금',1000000],['C','미지급금',11000000]]}},
+{id:2,day:1,t:'3호점 주방 후드 교체 결제 요청',from:'구매팀 박사원',amt:'3,300,000원',docs:['견적서: B설비, 3,300,000원','증빙: 간이영수증, 날짜와 사업자번호 없음, 금액 3,300,000원','계약서 없음 (구두 발주)','결재선: 팀장, 본부장 결재 완료','예산 잔여 충분, 지급 이력 없음'],bad:{'증빙 종류':'3만 원을 넘는 지출은 세금계산서 같은 정규증빙이 필요해요. 간이영수증으로는 매입세액 공제를 못 받고 비용 인정도 위험해요.','계약·견적 근거':'구두 발주라 근거가 약해요. 다만 견적서가 있어 보완이 가능해요.'},st:['3호점 후드: 취득 9년 전, 취득가 2,400,000원','내용연수 8년을 넘겨 장부가액 0원','최근 2년간 수리 4회(누적 1,100,000원), 흡입력 저하로 위생점검 지적 1회','교체 필요성 높음, 긴급도 높음'],dec:'보류',why:'거래 자체는 진짜일 가능성이 높고 증빙만 부적합해요. 일단 반려하기보다 세금계산서를 받아 오도록 보완을 요청하는 보류가 적절해요.'},
+{id:3,day:2,t:'4호점 주방 리모델링 선급금 요청',from:'구매팀 김대리',amt:'5,500,000원 (선급)',docs:['견적서: 대성공사, 공급가액 5,000,000원 + 부가세 500,000원','지급 요청서의 입금 계좌 예금주: 김OO (개인)','계약서 없음, 세금계산서는 발행 전','결재선: 팀장 결재만 있음 (300만 원 초과는 본부장 결재 필요)','예산: 시설 보수 예산 잔여 4,000,000원'],bad:{'공급자 일치':'견적서 업체는 대성공사인데 입금 계좌 예금주는 개인이에요. 가공 거래나 횡령 위험 신호예요.','계약·견적 근거':'계약서 없이 선급금부터 달라는 건 위험해요.','결재 한도·예산':'300만 원 초과인데 본부장 결재가 없고, 5,500,000원은 잔여 예산 4,000,000원도 넘어요.'},st:['4호점 주방: 취득 4년 전, 점검 B등급(양호)','내용연수 10년 중 4년 사용, 장부가액은 취득가의 약 60%','최근 1년 고장·수리 이력 없음','요청 사유는 동선 변경, 긴급성 낮음'],dec:'반려',why:'공급자와 계좌가 다르고 계약서·결재·예산이 모두 부족해요. 보완만으로 해결하기 어려운 위험 신호가 겹쳐 반려가 맞아요.'},
+{id:4,day:3,t:'5호점 간판 교체 결제 요청',from:'구매팀 박사원',amt:'4,400,000원 (부가세 포함)',docs:['견적서와 전자세금계산서: 한빛사인, 공급가액 4,000,000원 + 부가세 400,000원, 정상','계약서 첨부, 결재선: 팀장, 본부장 결재 완료','예산 잔여 충분','지급 이력: 지난달 5일 한빛사인에 4,400,000원 지급 내역 있음 (품목: 5호점 간판 교체)'],bad:{'중복 지급':'지난달에 같은 업체에 같은 금액, 같은 품목으로 이미 지급했어요. 이중 지급 가능성이 있어요.'},st:['5호점 간판: 설치 3년, 점검 결과 양호, LED 모듈 교체 이력 있음','지난달 같은 업체에서 간판 교체를 이미 진행한 지급 이력이 있음','신규 교체 필요성 낮음'],dec:'보류',why:'증빙은 정상이지만 중복 지급 의심이 있어요. 구매팀에 확인이 끝날 때까지 지급을 멈추는 보류가 적절해요.'}
+];
+function rq(id){view='req';cur=RQ.find(r=>r.id==id);render()}
+function decide(d){const r=cur,fl=[...document.querySelectorAll('.ck:checked')].map(x=>+x.value),ok=d==r.dec;S.ap[r.id]={dec:d,fl,ok};if(ok&&r.ev&&!S.ex.some(e=>e.id==100+r.id))S.ex.push({id:100+r.id,day:S.day,...r.ev});save();render()}
+function redo(){delete S.ap[cur.id];save();render()}
+function apl(){return'<div class="sheet"><h2>결제 품의함</h2><p class="mut">구매팀이 올린 결제 요청이에요. 증빙을 확인하고 승인, 반려, 보류를 결정하세요. 승인한 건만 전표 입력 사건으로 넘어가요.</p>'+RQ.filter(r=>r.day<=S.day).map(r=>{const a=S.ap[r.id];return'<button class="ev" onclick="rq('+r.id+')"><span class="q'+(a&&a.ok?' ok':'')+'">'+(a?a.ok?'✓':'!':'?')+'</span><span><b>'+r.t+'</b><span class="mut">'+r.from+' · '+r.amt+(a?' · 내 결정: '+a.dec:'')+'</span></span></button>'}).join('')+'</div>'}
+function req(){const r=cur,a=S.ap[r.id];
+let h='<div class="sheet"><h2>'+r.t+'</h2><p class="mut">'+r.from+' · 요청 금액 '+r.amt+'</p>'+li(r.docs)+(r.st?'<h2 style="margin-top:12px">자산 현황</h2>'+li(r.st):'')+'<h2 style="margin-top:12px">검토 체크</h2><p class="mut">문제가 있다고 판단한 항목에 체크하세요.</p>'+CK.map((c,i)=>'<label style="display:block;margin:6px 0"><input type="checkbox" class="ck" value="'+i+'"'+(a&&a.fl.includes(i)?' checked':'')+(a?' disabled':'')+'> '+c+'</label>').join('');
+if(!a)h+='<div class="bar"><button class="btn" onclick="decide(\'승인\')">승인</button><button class="btn g" onclick="decide(\'보류\')">보류(보완 요청)</button><button class="btn g" onclick="decide(\'반려\')">반려</button></div>';
+else{const rows=CK.map((c,i)=>{const bad=r.bad[c],f=a.fl.includes(i);return'<li><b>'+c+'</b>: '+(bad?(f?'찾았어요. ':'놓쳤어요. ')+bad:(f?'이 항목은 문제가 없어요. 증빙 내용과 다시 대조해 보세요.':'문제 없음'))+'</li>'}).join('');
+h+='<div class="fb'+(a.ok?' ok':'')+'"><p><b>'+(a.ok?'적절한 결정이에요.':'결정을 다시 생각해 보세요.')+'</b> 내 결정은 '+a.dec+', 적절한 결정은 '+r.dec+'입니다.</p><p>'+r.why+'</p><ul style="margin:0;padding-left:18px">'+rows+'</ul>'+(a.ok&&r.ev?'<p>승인한 건이 사건함에 전표 입력 사건으로 추가됐어요.</p>':'')+'</div><div class="bar">'+(a.ok?'':'<button class="btn" onclick="redo()">다시 검토</button>')+'<button class="btn g" onclick="nav(\'ap\')">목록으로</button></div>'}
+return h+'</div>'}
+const TQ=[
+{q:'3호점 후드 교체 건(간이영수증, 보류 중)의 부가세를 이번 매입세액에 넣어도 될까요?',o:['공제 가능','공제 불가'],a:1,e:'간이영수증은 세금계산서가 아니라서 매입세액 공제를 받을 수 없어요. 세금계산서를 받은 뒤 그 신고 기간에 반영해요.'},
+{q:'거래처 접대에 쓴 식사비의 매입세액은 공제될까요?',o:['공제 가능','불공제'],a:1,e:'접대비 관련 매입세액은 부가가치세법상 공제 대상이 아니에요. 부가세까지 포함해 접대비로 처리해요.'},
+{q:'아르바이트 급여에서 떼어 둔 원천세는 언제까지 신고·납부할까요?',o:['지급한 달 말일','다음 달 10일','다음 달 25일'],a:1,e:'원천징수한 세금은 지급한 달의 다음 달 10일까지 신고·납부해요. 반기별 납부 승인을 받은 사업장은 예외예요.'},
+{q:'신고서의 매출세액이 장부와 다를 때 가장 먼저 할 일은?',o:['신고서 숫자를 장부에 맞춰 수정','원인을 찾아 누락·오류 전표를 바로잡는다','차액을 잡손실로 처리'],a:1,e:'신고서 숫자는 장부에서 나와요. 차이가 나면 신고서가 아니라 근거 전표와 증빙을 확인해 장부를 바로잡아야 해요.'}
+];
+function tq(i,j){S.tr[i]=j;save();render()}
+function addMiss(){S.ex.push({id:201,day:S.day,t:'홈택스 대사 누락분 반영',d:'홈택스 수취 세금계산서 중 장부에 없던 소모품 구입분입니다. 공급가액 500,000원 + 부가세 50,000원이고 대금 550,000원은 아직 지급하지 않았습니다.',h:'소모품은 비용, 부가세는 대급금, 대금 미지급은 부채 계정이에요.',a:[['D','소모품비',500000],['D','부가세대급금',50000],['C','미지급금',550000]]});save();render()}
+function subTx(){const{b}=ledger();S.tx={d:S.day,v:-(b['부가세예수금']||0)-(b['부가세대급금']||0),w:-(b['예수금']||0)};save();render()}
+function tx(){const{b}=ledger(),sg=a=>b[a]||0,sale=-sg('부가세예수금'),buy=sg('부가세대급금'),rev=-(sg('매장매출')+sg('배달매출')),cost=OPC.reduce((t,a)=>t+sg(a),0),wh=-sg('예수금'),it=Math.round(wh*10/11),ct=Math.max(0,Math.round((rev-cost)*0.09)),miss=S.day>=2&&!S.done[201],ht=buy+(miss?50000:0);
+let h='<div class="sheet"><h2>세무 신고 · 자동 불러오기</h2><p class="mut">홈택스처럼 장부(전표)에서 숫자를 자동으로 불러왔어요. 담당자는 숫자를 다시 입력하지 않고, 맞는지 검토하고 바로잡은 뒤 제출해요.</p><table>'+[['부가세 과세표준(매출 공급가액)',rev],['매출세액',sale],['매입세액(장부)',buy],['납부(환급)세액 · 환급은 음수',sale-buy],['원천세 · 소득세(3%)',it],['원천세 · 지방소득세(0.3%)',wh-it],['법인세 예상(가결산 영업이익의 9%, 참고용)',ct]].map(r=>'<tr><td>'+r[0]+'</td><td class="n">'+W(r[1])+'</td></tr>').join('')+'</table></div>';
+h+='<div class="sheet"><h2>홈택스 대사</h2><table><tr><td>홈택스 수집 매입 세금계산서 세액</td><td class="n">'+W(ht)+'</td></tr><tr><td>장부 매입세액</td><td class="n">'+W(buy)+'</td></tr><tr><th>차이</th><th class="n">'+W(ht-buy)+'</th></tr></table>'+(miss?'<div class="fb"><p>홈택스에는 있는데 장부에 없는 세금계산서가 있어요. 신고서 숫자를 고치지 말고 원인 전표를 찾아 장부에 반영하세요.</p>'+(S.ex.some(e=>e.id==201)?'<p class="mut">누락 전표가 사건함에 추가됐어요. 전표를 입력하면 차이가 사라져요.</p>':'<div class="bar"><button class="btn" onclick="addMiss()">누락 전표 추가</button></div>')+'</div>':'<p class="mut">차이가 없어요. 대사가 끝났습니다.</p>')+'</div>';
+h+='<div class="sheet"><h2>검토 업무</h2>'+TQ.map((x,i)=>{const r=S.tr[i];return'<p><b>'+x.q+'</b></p>'+x.o.map((o,j)=>'<button class="ev"'+(r!==undefined?' disabled':'')+' onclick="tq('+i+','+j+')"><span class="q'+(r===undefined?'':j==x.a?' ok':j==r?'':' see')+'">'+(j+1)+'</span><span>'+o+'</span></button>').join('')+(r!==undefined?'<div class="fb'+(r==x.a?' ok':'')+'"><b>'+(r==x.a?'맞아요.':'아쉬워요.')+'</b> '+x.e+'</div>':'')}).join('')+'</div>';
+const ready=!miss&&TQ.every((_,i)=>S.tr[i]!==undefined);
+h+='<div class="sheet"><h2>신고서 제출</h2>'+(S.tx?'<div class="fb ok"><p><b>접수 완료</b> '+dl(S.tx.d)+'에 제출했어요.</p>'+li(['부가세 납부세액 '+W(S.tx.v)+'원','원천세 '+W(S.tx.w)+'원 (다음 달 10일까지 납부)','법인세는 결산 후 신고해요'])+'</div><div class="bar"><button class="btn g" onclick="S.tx=null;save();render()">다시 작성</button></div>':'<p class="mut">제출 조건: 홈택스 대사 차이 0원, 검토 업무 모두 답변.</p><div class="bar"><button class="btn"'+(ready?'':' disabled')+' onclick="subTx()">검토 완료, 신고서 제출</button></div>')+'</div>';
+return h}
+function rec(){const E=ALL().filter(e=>S.done[e.id]),ok=E.filter(e=>S.done[e.id].ok),fi=ok.filter(e=>!(S.tries&&S.tries[e.id])),A=Object.values(S.ap),qk=Object.keys(S.q),qo=qk.filter(k=>{const q=QB[+k.split('-')[1]],r=S.q[k];return q.ty=='es'?q.k.every(w=>r.t.includes(w)):r==q.a}).length,tk=Object.keys(S.tr),to=tk.filter(i=>S.tr[i]==TQ[i].a).length;
+let inv=0,back=0,dn=0;Object.keys(S.dec).forEach(k=>{const x=S.dec[k];if(x.res){dn++;inv+=DC[k].o[x.i].cost[1];back+=x.res.amt}});
+const R=[['전표 입력',E.length+'건 처리 · 정답 '+ok.length+'건 · 한 번에 정답 '+fi.length+'건'],['품의 판단',A.length+'건 결정 · 적절 '+A.filter(a=>a.ok).length+'건'],['회계 퀴즈',qk.length+'문제 풀이 · 정답 '+qo+'문제'],['세무 검토',tk.length+'/'+TQ.length+'문항 답변 · 정답 '+to+'문항 · 신고서 '+(S.tx?'제출 완료':'미제출')],['경영 선택',Object.keys(S.dec).length+'건 선택 · 정산 완료 '+dn+'건 · 회수율 '+(inv?Math.round(back/inv*100):0)+'%']];
+const rv=E.filter(e=>!S.done[e.id].ok||(S.tries&&S.tries[e.id])),rp=RQ.filter(r=>S.ap[r.id]&&!S.ap[r.id].ok);
+const bt=(f,id,t,m)=>'<button class="ev" onclick="'+f+'('+id+')"><span class="q see">…</span><span><b>'+t+'</b><span class="mut">'+m+'</span></span></button>';
+return'<div class="sheet"><h2>지금까지의 기록</h2><table>'+R.map(r=>'<tr><td>'+r[0]+'</td><td class="n">'+r[1]+'</td></tr>').join('')+'</table><p class="mut">자세한 숫자는 결산실(시산표·손익), 자금팀(자금일보), 대표실(성장 보고)에서 확인해요.</p></div><div class="sheet"><h2>복습할 항목</h2>'+(rv.length||rp.length?rv.map(e=>bt('openEv',e.id,e.t,'전표 · 틀렸거나 정답을 확인한 건')).join('')+rp.map(r=>bt('rq',r.id,r.t,'품의 · 결정이 적절하지 않았던 건')).join(''):'<p class="mut">복습할 항목이 없어요.</p>')+'</div>'}
+/* ===== 게더타운풍 픽셀 오피스 ===== */
+const ROOMS=[
+{k:'inbox',n:'회계팀',d:'전표 기장',a:'#8ea4c0',b:'#869cb8',f:'#c9d3df'},
+{k:'ap',n:'결재실',d:'결제 품의',a:'#b5a48b',b:'#ad9c83',f:'#d8d0c2'},
+{k:'tx',n:'세무실',d:'세무·급여',a:'#9d94b8',b:'#958cb0',f:'#d3cfe0'},
+{k:'fund',n:'자금팀',d:'자금·차입금',a:'#86a898',b:'#7ea090',f:'#cadbd2'},
+{k:'rep',n:'결산실',d:'결산·마감',a:'#bf9f8a',b:'#b79782',f:'#e0cfc4'},
+{k:'rec',n:'자료실',d:'내 기록',a:'#9ba4af',b:'#939ca7',f:'#d4d9df'},
+{k:'quiz',n:'교육실',d:'회계 퀴즈',a:'#a6a67e',b:'#9e9e76',f:'#dcdcc4'},
+{k:'biz',n:'대표실',d:'경영 선택',a:'#7b6c5c',b:'#736454',f:'#cdbfae'}];
+const TW=24,TH=33,TL=16;
+let SOL,FL,DEC,HOT,stat=null,cx=null,sc=1,raf=0,lastT=0,px=12,py=31.7,pdir='u',pstep=0,pact=0,path=[],pend=-1,lastRoom=0,nearI=-2,nearE=false,BD={},keys={},fresh=false,doorAnim=false,lastView='',rstArm=false,wt=null;
+const R=(c,x,y,w,h)=>{cx.fillStyle=c;const X=Math.round(x*sc),Y=Math.round(y*sc);cx.fillRect(X,Y,Math.round((x+w)*sc)-X,Math.round((y+h)*sc)-Y)};
+const TXT=(s,x,y,z,c,al)=>{cx.font='700 '+(z*sc)+'px "IBM Plex Sans KR","Noto Sans KR",sans-serif';cx.fillStyle=c;cx.textAlign=al||'center';cx.textBaseline='middle';cx.fillText(s,x*sc,y*sc)};
+/* ----- 사람 스프라이트 ----- */
+function person(fx,fy,o){const sh=o.shirt||'#35507a',pa='#2d3748',sk=o.skin||'#f0c59c',ha=o.hair||'#2b211c',d=o.dir||'d',st=o.step||0,bob=(st==1||st==3)?-1:0,seat=o.seated;
+if(!seat){R('rgba(0,0,0,.28)',fx-5,fy-1.5,10,2.5);const lu=st==1?1.6:0,ru=st==3?1.6:0;R(pa,fx-3.6,fy-6.5,3,5.5-lu);R(pa,fx+0.6,fy-6.5,3,5.5-ru);R('#111827',fx-3.8,fy-1.5-lu,3.4,1.5);R('#111827',fx+0.4,fy-1.5-ru,3.4,1.5)}
+const by=fy-(seat?8:14)+bob;
+R(sh,fx-4.6,by,9.2,7.6);
+const sw=(!seat&&(st==1||st==3))?(st==1?1:-1):0;
+R(sh,fx-6.6,by+.6+sw,2.2,6);R(sh,fx+4.4,by+.6-sw,2.2,6);R(sk,fx-6.6,by+6.4+sw,2.2,1.6);R(sk,fx+4.4,by+6.4-sw,2.2,1.6);
+if(o.g!='f'&&d=='d'){R('#e5e7eb',fx-1.6,by,3.2,3);R('#b91c1c',fx-.5,by+2,1,4.4)}
+const hy=by-7.6;
+R(sk,fx-4,hy,8,7.6);
+if(d=='u'){R(ha,fx-4.6,hy-1,9.2,8.8)}
+else{R(ha,fx-4.6,hy-1,9.2,3.6);
+if(d=='d'){R(ha,fx-4.6,hy+2,1.6,3);R(ha,fx+3,hy+2,1.6,3);R('#111827',fx-2.6,hy+4,1.3,1.6);R('#111827',fx+1.3,hy+4,1.3,1.6);R('rgba(240,120,110,.55)',fx-3.6,hy+5.6,1.6,1);R('rgba(240,120,110,.55)',fx+2,hy+5.6,1.6,1)}
+else if(d=='l'){R(ha,fx+1.2,hy+2,3.4,5);R('#111827',fx-2.8,hy+4,1.3,1.6)}
+else{R(ha,fx-4.6,hy+2,3.4,5);R('#111827',fx+1.5,hy+4,1.3,1.6)}}
+if(o.g=='f'){if(d=='d'){R(ha,fx-5.2,hy+2,2.2,8.6);R(ha,fx+3,hy+2,2.2,8.6);R('#f3e9db',fx-1.4,by,2.8,1.6)}else if(d=='u')R(ha,fx-5.2,hy+6,10.4,5.6);else if(d=='l')R(ha,fx+1.2,hy+6,4,5.6);else R(ha,fx-5.2,hy+6,4,5.6)}}
+/* ----- 가구 그리기 ----- */
+const BK=['#c0504d','#d9a441','#4f8f6b','#4a78b5','#8a63b0','#d97b5a'];
+const D={
+rug:(x,y,w,o)=>{R(o.c,x+2,y+2,w*16-4,(o.h||1)*16-4);R(o.c2||'rgba(255,255,255,.18)',x+4,y+4,w*16-8,(o.h||1)*16-8)},
+desk:(x,y,w,o)=>{const W=w*16;R('rgba(0,0,0,.2)',x+1,y+14,W-2,2);R(o.dk||'#97724e',x,y+7,W,8);R(o.tp||'#c29d6e',x,y+3,W,5);R('#6f5237',x+1,y+14,2,2);R('#6f5237',x+W-3,y+14,2,2);
+(o.mon||[]).forEach(k=>{const mx=x+k*16+3;R('#1f2937',mx,y-3,10,8);R(o.scr||'#5fb4f0',mx+1,y-2,8,5.5);if(o.bars){R('#bbf7d0',mx+2,y+1,1.5,2);R('#bbf7d0',mx+4.5,y,1.5,3);R('#bbf7d0',mx+7,y-1,1.5,4)}R('#374151',mx+3,y+5,4,1.5)});
+(o.lap||[]).forEach(k=>{const lx=x+k*16+3;R('#cbd5e1',lx,y+5,10,5);R('#1f2937',lx+1,y,8,5.5);R('#60a5fa',lx+2,y+1,6,3.5)});
+(o.pap||[]).forEach(k=>{R('#f8fafc',x+k*16+3,y+4,7,4.5);R('#cbd5e1',x+k*16+4,y+5.5,5,1)});
+(o.calc||[]).forEach(k=>{R('#9ca3af',x+k*16+4,y+3,7,6);R('#4b5563',x+k*16+5,y+4,5,2);R('#e5e7eb',x+k*16+5,y+7,1.5,1.3);R('#e5e7eb',x+k*16+8,y+7,1.5,1.3)});
+(o.cup||[]).forEach(k=>{R('#fff',x+k*16+11,y+3,3,3.5);R('#92400e',x+k*16+11,y+3,3,1)});
+if(o.name){R('#d4a017',x+W/2-5,y+8.5,10,3.4)}},
+chair:(x,y,w,o)=>{R('rgba(0,0,0,.18)',x+3,y+13,10,2);R(o.c||'#3b4556',x+4,y+5,8,8);R('#232b38',x+4,y+2,8,4)},
+plant:(x,y)=>{R('rgba(0,0,0,.18)',x+3,y+14,10,2);R('#a8643c',x+4,y+9,8,6);R('#c27a4c',x+4,y+9,8,1.5);R('#2f7d4f',x+2.5,y,11,10);R('#4caf6a',x+5,y+1.5,6,5);R('#276b42',x+3.5,y+5,3,3)},
+shelf:(x,y,w)=>{const W=w*16;R('rgba(0,0,0,.2)',x,y+14,W,2);R('#5c4333',x,y-5,W,21);R('#3b2c21',x+1,y-4,W-2,19);for(let r=0;r<3;r++){const ry=y-3+r*6.2;R('#5c4333',x+1,ry+4.6,W-2,1.4);for(let k=0;k<Math.floor((W-4)/3.4);k++){const h=3+((k*7+r*3)%2);R(BK[(k+r*2)%6],x+2+k*3.4,ry+4.6-h,2.8,h)}}},
+cab:(x,y)=>{R('rgba(0,0,0,.2)',x+2,y+14,12,2);R('#8d99a8',x+2,y-3,12,18);R('#aab4c1',x+2,y-3,12,2);[0,6].forEach(k=>{R('#6b7788',x+3,y+k,10,5);R('#d5dbe3',x+6,y+2+k,4,1)})},
+safe:(x,y)=>{R('rgba(0,0,0,.2)',x+1,y+14,14,2);R('#5b6573',x+1,y-4,14,19);R('#8a94a3',x+2.5,y-2.5,11,16);R('#fbbf24',x+6,y+3,4,4);R('#78716c',x+6.8,y+3.8,2.4,2.4);R('#374151',x+11,y+4,1.5,4)},
+coins:(x,y)=>{R('rgba(0,0,0,.18)',x+2,y+14,12,2);[[3,9],[8,6],[8,10]].forEach(([a,b])=>{R('#f2c14e',x+a,y+b,5,4.5);R('#ffd966',x+a,y+b,5,1.3)})},
+sofa:(x,y,w,o)=>{const W=w*16;R('rgba(0,0,0,.2)',x,y+14,W,2);R(o.c||'#3f5b7d',x,y+2,W,13);R('#4b6b91',x+2,y+5,W-4,8);R('#2f465f',x,y+2,2.5,13);R('#2f465f',x+W-2.5,y+2,2.5,13);R('#2f465f',x,y,W,4)},
+pod:(x,y)=>{R('rgba(0,0,0,.2)',x+2,y+14,12,2);R('#7a5a3a',x+2,y+2,12,13);R('#a07c52',x+1,y,14,3);R('#f8fafc',x+5,y+1,6,3)},
+box:(x,y)=>{R('rgba(0,0,0,.2)',x+1,y+14,14,2);R('#b98a56',x+1,y+6,14,9);R('#d3a56e',x+1,y+6,14,2);R('#8a6338',x+7,y+6,2,9);R('#c79a62',x+3,y,10,7);R('#8a6338',x+7,y,2,7)},
+cool:(x,y)=>{R('rgba(0,0,0,.2)',x+3,y+14,10,2);R('#cbd5e1',x+3,y+4,10,11);R('#7dd3fc',x+4,y-2,8,7);R('#e0f2fe',x+5,y-1,2,4);R('#64748b',x+6,y+8,4,2)},
+recv:(x,y,w)=>{const W=w*16;R('rgba(0,0,0,.2)',x,y+14,W,2);R('#6d5a45',x,y+4,W,11);R('#a58763',x-1,y+1,W+2,5);R('#2f3b52',x+W/2-14,y+7,28,5);TXT('안내',x+W/2,y+9.6,6,'#e5e7eb')},
+win:(x,y,w)=>{const W=w*16;R('#e8edf3',x+1,y+1,W-2,13);R('#7cc4ee',x+2.5,y+2.5,W-5,10);R('#b9e1f7',x+2.5,y+2.5,W-5,3);R('#e8edf3',x+W/2-.6,y+2.5,1.2,10);R('#fff',x+4,y+4,4,1.5)},
+clock:(x,y)=>{R('#f8fafc',x+4,y+3,8,8);R('#334155',x+8,y+4.5,1,3.5);R('#334155',x+8,y+7.5,2.5,1)},
+poster:(x,y,w,o)=>{const W=w*16;R('#f8fafc',x+3,y+1,W-6,12);R(o.c||'#94a3b8',x+4.5,y+2.5,W-9,3);R('#cbd5e1',x+4.5,y+7,W-9,1);R('#cbd5e1',x+4.5,y+9.5,W-12,1)},
+paint:(x,y,w)=>{const W=w*16;R('#7a5a3a',x+2,y+1,W-4,13);R('#e7e1d3',x+3.5,y+2.5,W-7,10);R('#6fa88a',x+3.5,y+8,W-7,4.5);R('#f4b860',x+W-9,y+4,3,3)},
+wb:(x,y,w)=>{const W=w*16;R('#94a3b8',x+1,y+1,W-2,14);R('#f8fafc',x+2,y+2,W-4,12);R('#ef6a5b',x+5,y+8,4,5);R('#f2c14e',x+11,y+6,4,7);R('#4fb58a',x+17,y+9,4,4);R('#4a78b5',x+23,y+4,4,9);R('#cbd5e1',x+5,y+4.5,16,1)},
+chalk:(x,y,w)=>{const W=w*16;R('#7a5a3a',x+1,y+1,W-2,14);R('#36634e',x+2.2,y+2.2,W-4.4,11.6);R('#e5e7eb',x+6,y+5,9,1);R('#e5e7eb',x+6,y+8,14,1);R('#e5e7eb',x+W-12,y+5,5,1)},
+plaque:(x,y,w,o)=>{const W=w*16;R('#1f2937',x+1,y+2,W-2,11);R('#f2c14e',x+1,y+2,W-2,1);TXT(o.t,x+W/2,y+8.2,7.4,'#ffffff')},
+npc:(x,y,w,o)=>{person(x+8,y+14,Object.assign({seated:true,dir:'u'},o))}};
+/* ----- 지도 만들기 ----- */
+function buildMap(){
+SOL=Array.from({length:TH},()=>Array(TW).fill(true));FL=Array.from({length:TH},()=>Array(TW).fill('wall'));DEC=[];HOT=[];
+const open=(x,y,k)=>{SOL[y][x]=false;FL[y][x]=k};
+for(let y=1;y<=24;y++)for(let x=10;x<=13;x++)open(x,y,'cor');
+for(let y=25;y<=31;y++)for(let x=1;x<=22;x++)open(x,y,'lob');
+for(let x=1;x<=9;x++){SOL[25][x]=true;FL[25][x]='lface'}for(let x=14;x<=22;x++){SOL[25][x]=true;FL[25][x]='lface'}
+const add=(z,f,gx,gy,w,solid,o)=>{DEC.push({z,f,x:gx*TL,y:gy*TL,w,o:o||{}});if(solid)for(let k=0;k<w;k++)SOL[gy][gx+k]=true};
+ROOMS.forEach((r,i)=>{const yw=6*(i>>1),right=i&1,L=(ix,iy,w=1)=>({x:right?22-(ix+w-1):1+ix,y:yw+1+iy});
+for(let iy=0;iy<5;iy++)for(let ix=0;ix<8;ix++){const g=L(ix,iy);if(iy==0){FL[g.y][g.x]={face:i}}else open(g.y*0+g.x,g.y,{room:i,chk:(g.x+g.y)&1})}
+open(right?14:9,yw+3,'door');
+const W=(t,ix,w,o)=>{const g=L(ix,0,w);add(-50,D[t],g.x,g.y,w,false,o)};
+const F=(t,ix,iy,w,solid,o,z)=>{const g=L(ix,iy,w);add(z===undefined?g.y*16+(t=='chair'?0:t=='npc'?1:2):z,D[t],g.x,g.y,w,solid,o);return g};
+W('plaque',3,2,{t:r.n});
+const H=(g)=>HOT.push({i,tx:g.x,ty:g.y});
+const sets={
+inbox:()=>{W('win',0,2);W('win',5,2);W('clock',7,1);F('rug',2,3,4,false,{c:'#7a8fa9',h:2},-80);
+const a=F('desk',1,1,2,true,{mon:[0,1],pap:[1]});H(L(1,1));F('chair',1,2,1,false);F('npc',2,2,1,true,{shirt:'#4b8f6b',hair:'#5a3b2e'});F('desk',4,1,2,true,{mon:[0],lap:[1],cup:[1]});F('chair',4,2,1,false);F('chair',5,2,1,false,{c:'#7c3a3a'});F('cab',7,1,1,true);F('plant',0,4,1,true);F('plant',7,4,1,true)},
+ap:()=>{W('win',0,2);W('paint',5,2);W('clock',7,1);F('rug',1,2,5,false,{c:'#8c6f5a',h:3},-80);
+F('desk',2,1,3,true,{mon:[1],pap:[0,2],name:1,tp:'#a97d52',dk:'#7a5538'});H(L(2,1));F('chair',3,2,1,false,{c:'#7b4a2e'});F('chair',2,3,1,false,{c:'#59627a'});F('chair',4,3,1,false,{c:'#59627a'});F('shelf',6,1,1,true);F('plant',0,1,1,true);F('plant',0,4,1,true);F('plant',7,4,1,true)},
+tx:()=>{W('poster',0,1,{c:'#8b6fc0'});W('poster',1,1,{c:'#5fa08a'});W('win',5,2);W('clock',7,1);
+F('shelf',0,1,3,true);F('cab',6,1,1,true);const a=F('desk',3,3,2,true,{calc:[0],pap:[1],mon:[1]});H(L(3,3));F('chair',3,4,1,false,{c:'#5b4b8a'});F('npc',4,4,1,true,{shirt:'#b4506a',hair:'#1f1a17'});F('plant',7,4,1,true);F('plant',0,4,1,true)},
+fund:()=>{W('poster',0,2,{c:'#4fb58a'});W('win',5,2);W('clock',7,1);F('rug',1,3,4,false,{c:'#4f7a68',h:2},-80);
+F('safe',1,1,1,true);H(L(1,1));F('coins',2,1,1,true);F('desk',5,1,2,true,{mon:[0],bars:1,scr:'#1e3a2f',pap:[1]});F('chair',5,2,1,false,{c:'#2f5d4a'});F('desk',3,3,3,true,{pap:[0],cup:[2]});F('npc',4,4,1,true,{shirt:'#3f7d9a',hair:'#3a2a22'});F('plant',0,4,1,true);F('plant',7,4,1,true)},
+rep:()=>{W('wb',0,3);W('win',5,2);W('clock',7,1);F('desk',1,3,2,true,{lap:[0,1]});H(L(1,3));F('desk',4,3,2,true,{lap:[0],pap:[1]});F('chair',1,4,1,false);F('chair',2,4,1,false);F('chair',4,4,1,false,{c:'#7c3a3a'});F('npc',5,4,1,true,{shirt:'#a0623e',hair:'#2b211c'});F('cab',6,1,1,true);F('plant',0,1,1,true);F('plant',7,4,1,true)},
+rec:()=>{W('win',0,2);W('poster',5,2,{c:'#7c8aa0'});F('shelf',1,1,2,true);F('shelf',4,1,2,true);H(L(4,1));F('shelf',1,4,2,true);F('shelf',4,4,2,true);F('box',6,4,1,true);F('box',7,4,1,true);F('plant',0,1,1,true)},
+quiz:()=>{W('chalk',0,3);W('win',5,2);W('clock',7,1);F('pod',2,1,1,true);H(L(2,1));[1,3,5].forEach(k=>{F('desk',k,3,1,true,{pap:[0]});F('chair',k,4,1,false)});F('npc',1,4,1,true,{shirt:'#c0504d',hair:'#1f1a17'});F('npc',5,4,1,true,{shirt:'#4a78b5',hair:'#5a3b2e'});F('plant',0,1,1,true);F('plant',7,1,1,true)},
+biz:()=>{W('win',0,3);W('paint',5,2);W('clock',7,1);F('rug',1,2,4,false,{c:'#6a5848',h:3},-80);
+F('desk',1,1,3,true,{mon:[1],pap:[0],name:1,tp:'#6d4c33',dk:'#523822'});H(L(2,1));F('chair',2,2,1,false,{c:'#8a2f2f'});F('sofa',3,4,3,true,{c:'#3a3f4b'});F('shelf',6,1,1,true);F('plant',0,4,1,true);F('plant',7,4,1,true)}};
+sets[r.k]()});
+/* 복도와 로비 */
+add(9*16+100,D.plant,10,1,1,true);add(9*16+100,D.plant,13,1,1,true);add(12*16+2,D.cool,10,12,1,true);add(18*16+2,D.plant,13,18,1,true);
+add(-50,D.poster,2,25,2,false,{c:'#64748b'});add(-50,D.paint,5,25,2,false);add(-50,D.win,15,25,2,false);add(-50,D.clock,18,25,1,false);add(-50,D.poster,20,25,2,false,{c:'#7c8aa0'});
+add(26*16+3,(x,y)=>person(x+32,y+14,{dir:'d',shirt:'#7a4a8a',hair:'#2b211c'}),3,26,1,false);
+add(27*16+2,D.recv,2,27,4,true);add(27*16+2,D.sofa,17,27,4,true,{c:'#4a6a58'});add(-80,D.rug,8,28,6,false,{c:'#6a7c8e',h:2});
+add(25*16+80,D.plant,1,26,1,true);add(25*16+80,D.plant,22,26,1,true);add(31*16+80,D.plant,1,31,1,true);add(31*16+80,D.plant,22,31,1,true);add(30*16,D.box,20,30,1,true);add(-60,D.rug,11,31,2,false,{c:'#5a4634',c2:'#6d563f'});
+DEC.sort((a,b)=>a.z-b.z)}
+/* ----- 바닥과 벽 ----- */
+function tileBase(x,y,k){const X=x*TL,Y=y*TL;
+if(k=='wall'){R('#2f3b52',X,Y,16,16);R('#3d4b66',X,Y,16,1);if(y==0||FL[y-1][x]!='wall'&&!(FL[y-1][x].face===undefined&&typeof FL[y-1][x]=='object'))R('#4a5a78',X,Y,16,3);return}
+if(k=='cor'||k=='door'){R((x+y)&1?'#d4d9df':'#dde1e6',X,Y,16,16);R('#c4cad2',X,Y+15,16,1);R('#c4cad2',X+15,Y,1,16);if(k=='door'){R('#b6bfcb',X,Y,16,16);R('#9aa4b2',X,Y+14,16,2);R('#c9d1db',X+2,Y+2,12,12)}return}
+if(k=='lob'){R('#b48a64',X,Y,16,16);R('#a27a56',X,Y+7,16,1);R('#a27a56',X,Y+15,16,1);R('#a27a56',((x*5+y*3)%12)+X,Y,1,7);R('#a27a56',((x*7+y)%12)+X,Y+8,1,7);return}
+if(k=='lface'){R('#cbd3dd',X,Y,16,16);R('#9aa4b2',X,Y+13,16,3);R('rgba(0,0,0,.1)',X,Y,16,2);return}
+if(k.face!==undefined){const r=ROOMS[k.face];R(r.f,X,Y,16,16);R('rgba(0,0,0,.1)',X,Y,16,2);R('#8f99a8',X,Y+13,16,3);return}
+if(k.room!==undefined){const r=ROOMS[k.room];R(k.chk?r.a:r.b,X,Y,16,16);return}}
+function buildStatic(){const cv=$('#cv'),dpr=Math.min(window.devicePixelRatio||1,3),cw=cv.clientWidth||360;sc=cw*dpr/(TW*TL);cv.width=Math.round(TW*TL*sc);cv.height=Math.round(TH*TL*sc);
+stat=document.createElement('canvas');stat.width=cv.width;stat.height=cv.height;cx=stat.getContext('2d');
+for(let y=0;y<TH;y++)for(let x=0;x<TW;x++)tileBase(x,y,FL[y][x]);
+DEC.forEach(d=>{d.f(d.x,d.y,d.w,d.o)});
+/* 엘리베이터 (1층으로) */
+{const EX=11*TL,EY=32*TL;R('#374151',EX-3,EY-9,38,25);R('#111827',EX+1,EY-8,30,6);TXT('1층 엘리베이터',EX+16,EY-5,4.2,'#fbbf24');
+R('#aeb8c4',EX+1,EY-1,14,17);R('#aeb8c4',EX+17,EY-1,14,17);R('#d5dce5',EX+2,EY,2,15);R('#d5dce5',EX+18,EY,2,15);R('#1f2937',EX+15,EY-1,2,17);
+R('#d1d5db',EX+35,EY+3,3,6);R('#fbbf24',EX+36,EY+4.5,1,1.5)}
+cx=cv.getContext('2d')}
+/* ----- 움직임 ----- */
+const isSol=(x,y)=>{const r=SOL[Math.floor(y)];return !r||r[Math.floor(x)]!==false};
+const canStand=(x,y)=>!(isSol(x-.26,y)||isSol(x+.26,y)||isSol(x-.26,y-.28)||isSol(x+.26,y-.28));
+function nearestWalk(tx,ty){for(let r=0;r<12;r++)for(let dy=-r;dy<=r;dy++)for(let dx=-r;dx<=r;dx++){if(Math.max(Math.abs(dx),Math.abs(dy))!=r)continue;const x=tx+dx,y=ty+dy;if(y>=0&&y<TH&&x>=0&&x<TW&&!SOL[y][x])return{x,y}}return null}
+function findPath(sx,sy,tx,ty){const key=(x,y)=>y*TW+x,prev=new Map([[key(sx,sy),null]]),q=[[sx,sy]];
+while(q.length){const[x,y]=q.shift();if(x==tx&&y==ty){const p=[];let c=key(x,y);while(prev.get(c)){const v=prev.get(c);p.push([c%TW,Math.floor(c/TW)]);c=v}return p.reverse()}
+for(const[dx,dy]of[[1,0],[-1,0],[0,1],[0,-1]]){const nx=x+dx,ny=y+dy;if(nx<0||ny<0||nx>=TW||ny>=TH||SOL[ny][nx]||prev.has(key(nx,ny)))continue;prev.set(key(nx,ny),key(x,y));q.push([nx,ny])}}
+return null}
+const nearElev=()=>Math.hypot(px-12,(py-.4)-31.4)<1.7;
+function nearHot(){let b=-1,bd=1.9;HOT.forEach((h,j)=>{const d=Math.hypot(px-(h.tx+.5),(py-.4)-(h.ty+.5));if(d<bd){bd=d;b=j}});return b}
+function update(dt){let dx=0,dy=0;if(keys.l)dx--;if(keys.r)dx++;if(keys.u)dy--;if(keys.d)dy++;
+if(dx||dy){path=[];pend=-1;const n=Math.hypot(dx,dy);dx/=n;dy/=n}
+else if(path.length){const[wx,wy]=path[0],tx=wx+.5,ty=wy+.75,ddx=tx-px,ddy=ty-py,dist=Math.hypot(ddx,ddy);if(dist<.07){path.shift();if(!path.length&&pend>=0){const h=nearHot();if(h==pend)openRoom(pend);pend=-1}else if(!path.length&&pend==-2){pend=-1;if(nearElev())goCafe(1)}}else{dx=ddx/dist;dy=ddy/dist}}
+if(dx||dy){const sp=4.2*dt;let nx=px+dx*sp,ny=py+dy*sp;if(canStand(nx,py))px=nx;if(canStand(px,ny))py=ny;
+pdir=Math.abs(dx)>Math.abs(dy)?(dx<0?'l':'r'):(dy<0?'u':'d');pact+=dt;pstep=[0,1,0,3][Math.floor(pact*7)%4]}else{pstep=0;pact=0}}
+function draw(t){const cv=$('#cv');if(!cv)return;const c=cv.getContext('2d');cx=c;c.drawImage(stat,0,0);
+const bob=Math.sin(t/260)*1.2;
+HOT.forEach((h,j)=>{const x=h.tx*TL+8,y=h.ty*TL-8+bob,on=nearI==j;R(on?'#fde047':'#fbbf24',x-3.5,y-3.5,7,7);R('#92400e',x-.7,y-2.2,1.4,3);R('#92400e',x-.7,y+1.4,1.4,1.2);
+const n=BD[ROOMS[h.i].k];if(n){R('#ef4444',x-11,y-9,8,8);TXT(String(n),x-7,y-4.8,6,'#fff')}});
+{const ex=12*TL,ey=30*TL+6+bob,c=nearE?'#fde047':'#fbbf24';R(c,ex-4,ey-4,8,2);R(c,ex-2.5,ey-2,5,2);R(c,ex-1,ey,2,2)}
+const fx=px*TL,fy=py*TL;person(fx,fy,Object.assign(meLook(),{dir:pdir,step:pstep}));
+R('rgba(17,24,39,.78)',fx-5,fy-31,10,6.2);TXT('나',fx,fy-27.8,5.6,'#fff')}
+function loop(t){if(view!='map'||!$('#cv'))return;const dt=Math.min(.05,(t-lastT)/1000||0);lastT=t;update(dt);draw(t);
+const n=nearHot(),e=nearElev();if(n!=nearI||e!=nearE){nearI=n;nearE=e;actBar()}raf=requestAnimationFrame(loop)}
+function actBar(){const a=$('#act');if(!a)return;a.innerHTML=nearI>=0?'<button class="btn" onclick="openRoom('+nearI+')">'+ROOMS[HOT[nearI].i].n+' 열기</button><span class="mut">Space 또는 E</span>':nearE?'<button class="btn" onclick="goCafe(1)">엘리베이터 타고 1층으로</button><span class="mut">Space 또는 E</span>':'<span class="mut">노란 표시가 있는 책상이나 장비 가까이로 가 보세요 · 아래쪽 엘리베이터는 1층으로 가요</span>'}
+function openRoom(j){cancelAnimationFrame(raf);const i=HOT[j].i;lastRoom=j;view=ROOMS[i].k;cur=null;fb=null;path=[];pend=-1;render()}
+function leave(){const h=HOT[lastRoom],p=nearestWalk(h.tx,h.ty+1);if(p){px=p.x+.5;py=p.y+.75}pdir='d';view='map';cur=null;fb=null;render()}
+function spawn(){px=12;py=31.7;pdir='u';path=[];pend=-1}
+function mapInit(){if(!SOL)buildMap();buildStatic();BD=badges();nearI=-2;nearE=null;actBar();cancelAnimationFrame(raf);lastT=performance.now();raf=requestAnimationFrame(loop)}
+function mapTap(ev){const r=$('#cv').getBoundingClientRect(),tx=Math.floor((ev.clientX-r.left)/r.width*TW),ty=Math.floor((ev.clientY-r.top)/r.height*TH);
+let j=-1;HOT.forEach((h,k)=>{if(Math.abs(h.tx-tx)<=1&&Math.abs(h.ty-ty)<=1)j=k});
+const sx=Math.min(TW-1,Math.max(0,Math.floor(px))),sy=Math.min(TH-1,Math.max(0,Math.floor(py-.2)));
+if(tx>=10&&tx<=13&&ty>=31){if(nearElev()){goCafe(1);return}const pe=findPath(sx,sy,tx<12?11:12,31);if(pe){path=pe;pend=-2;if(!pe.length){pend=-1;goCafe(1)}}return}
+let best=null;
+if(j>=0){const h=HOT[j];[[0,1],[0,2],[1,0],[-1,0],[0,-1],[1,1],[-1,1]].forEach(([a,b])=>{const x=h.tx+a,y=h.ty+b;if(y<0||x<0||x>=TW||y>=TH||SOL[y][x])return;const p=findPath(sx,sy,x,y);if(p&&(!best||p.length<best.length))best=p});if(best){path=best;pend=j;if(!best.length)openRoom(j)}return}
+const t=nearestWalk(tx,ty);if(!t)return;const p=findPath(sx,sy,t.x,t.y);if(p){path=p;pend=-1}}
+const KM={arrowleft:'l',a:'l',arrowright:'r',d:'r',arrowup:'u',w:'u',arrowdown:'d',s:'d'};
+document.addEventListener('keydown',e=>{if(view!='map'||e.ctrlKey||e.metaKey||e.altKey)return;const k=e.key.toLowerCase();if(KM[k]){e.preventDefault();keys[KM[k]]=1}else if(k==' '||k=='e'||k=='enter'){if(e.repeat)return;if(nearI>=0&&document.activeElement.tagName!='BUTTON'){e.preventDefault();openRoom(nearI)}else if(nearE&&document.activeElement.tagName!='BUTTON'){e.preventDefault();goCafe(1)}}});
+document.addEventListener('keyup',e=>{const k=KM[e.key.toLowerCase()];if(k)keys[k]=0});
+window.addEventListener('blur',()=>{keys={}});
+window.addEventListener('resize',()=>{if(view=='map'&&$('#cv')){buildStatic()}if((view=='start'||view=='gate')&&$('#fc'))facade(doorOpen)});
+function padHold(d,on){keys[d]=on?1:0}
+function map(){if(!SOL)buildMap();
+return'<div class="stage"><canvas id="cv" role="application" aria-label="본사 사무실 지도" onpointerdown="mapTap(event)"></canvas></div><div id="act" class="act"></div>'
++'<div class="pad" aria-hidden="true">'+[['u','▲'],['l','◀'],['d','▼'],['r','▶']].map(([d,t])=>'<button data-d="'+d+'" onpointerdown="padHold(\''+d+'\',1)" onpointerup="padHold(\''+d+'\',0)" onpointerleave="padHold(\''+d+'\',0)" onpointercancel="padHold(\''+d+'\',0)">'+t+'</button>').join('')+'</div>'
++'<p class="hint">화면을 눌러 걸어가거나 방향키(WASD)로 움직여요. 책상 위 노란 표시 가까이에서 Space 또는 E를 누르면 열려요. 아래쪽 엘리베이터 앞에서 Space 또는 E를 누르면 1층으로 내려가요. 왼쪽 위 ?에는 상사와 동료의 요청이 가끔 도착해요(Q).</p>'
++'<details class="qm"><summary>방 목록으로 바로 이동</summary><div class="bar"><button class="btn g" onclick="goCafe(1)">엘리베이터 (1층으로)</button>'+HOT.map((h,j)=>'<button class="btn g" onclick="openRoom('+j+')">'+ROOMS[h.i].n+'</button>').join('')+'</div></details>'}
+function badges(){const d=S.day;return{inbox:EVD().filter(e=>!S.done[e.id]).length,ap:RQ.filter(r=>r.day<=d&&!S.ap[r.id]).length,quiz:qids(d).filter(id=>S.q[d+'-'+id]===undefined).length,biz:DC[d]&&!S.dec[d]?1:0}}
+/* ----- 건물 외관 (시작·출근 화면) ----- */
+let doorOpen=0;
+function facade(open){doorOpen=open;const cv=$('#fc');if(!cv)return;const dpr=Math.min(window.devicePixelRatio||1,3),cw=cv.clientWidth||360;sc=cw*dpr/384;cv.width=Math.round(384*sc);cv.height=Math.round(176*sc);cx=cv.getContext('2d');
+R('#17243a',0,0,384,176);R('#1f3350',0,50,384,50);R('#2a4466',0,100,384,50);
+[[6,92,26,60],[34,104,22,48],[330,88,30,64],[360,110,24,42],[62,118,18,34],[304,112,20,40]].forEach(([x,y,w,h])=>R('#31465f',x,y,w,h));
+R('#3b4a60',40,26,304,126);R('#2a3548',34,22,316,8);R('#475872',40,26,304,2);
+for(let r=0;r<4;r++)for(let k=0;k<12;k++){const lit=(r*7+k*3)%5==0||(r+k)%7==0;R(lit?'#f6d466':'#566d8c',52+k*24.3,38+r*17,17,11)}
+R('#0f172a',112,74,160,26);R('#d4a017',112,74,160,1.5);R('#d4a017',112,98.5,160,1.5);TXT('산철이네',192,85,13,'#ffffff');TXT('본사 회계팀',192,94.5,5.6,'#9fb0c7');
+R('#1f2937',165,104,54,48);R('#fde68a',168,107,48,45);
+const s=Math.round(open*20);R('#8ec1ea',168-s,107,24,45);R('#8ec1ea',192+s,107,24,45);R('#cfe6f7',170-s,110,5,16);R('#cfe6f7',194+s,110,5,16);R('#6b7f95',191.2-s,107,1.6,45);R('#6b7f95',192+s,107,1.6,45);
+R('#6b7280',0,152,384,24);R('#7b8494',0,152,384,3);R('#5b6472',0,164,384,1);
+R('#4b5563',78,142,22,10);R('#2f7d4f',80,128,18,15);R('#4caf6a',84,131,10,7);R('#4b5563',284,142,22,10);R('#2f7d4f',286,128,18,15);R('#4caf6a',290,131,10,7);
+person(192,170,Object.assign(meLook(),{dir:'u'}))}
+function facadeInit(){const cv=$('#fc');if(!cv)return;cancelAnimationFrame(raf);if(view=='gate'&&doorAnim){doorAnim=false;const t0=performance.now(),st=t=>{const o=Math.min(1,(t-t0)/800);if(!$('#fc'))return;facade(o);if(o<1)raf=requestAnimationFrame(st)};raf=requestAnimationFrame(st)}else facade(view=='gate'?1:0)}
+function rst(){if(!rstArm){rstArm=true;render();return}rstArm=false;S={done:{},vat:null,tax:null,day:1,notes:{},q:{},fx:[],dec:{},ap:{},ex:[],tr:{},nq:{},bk:null,tx:null};save();begin()}
+/* ---------- 새 업무: 숫자 문제 ---------- */
+const NQ={
+i1:{q:'단기차입금 24,000,000원, 연 이자율 6%입니다. 한 달 이자는 얼마일까요?',a:120000,h:'원금 × 연 이자율 ÷ 12개월로 구해요.',w:'24,000,000 × 6% ÷ 12 = 120,000원'},
+i2:{q:'4,000,000원을 갚아 원금이 20,000,000원이 됐습니다. 다음 달 이자는?',a:100000,h:'줄어든 원금에 같은 방법으로 계산해요.',w:'20,000,000 × 6% ÷ 12 = 100,000원'},
+i3:{q:'대여금 12,000,000원, 연 5%입니다. 한 달에 받을 이자는?',a:50000,h:'받는 쪽도 원금 × 이자율 ÷ 12예요.',w:'12,000,000 × 5% ÷ 12 = 50,000원'},
+p1:{q:'월급 3,000,000원에서 근로자가 내는 4대보험 합계는? (국민연금 4.5%, 건강보험 3.5%, 장기요양 건강보험료의 13%, 고용보험 0.9%)',a:280650,h:'장기요양은 월급이 아니라 건강보험료(105,000원)에 13%를 곱해요.',w:'135,000 + 105,000 + 13,650 + 27,000 = 280,650원'},
+p2:{q:'월급 3,000,000원에서 위 4대보험과 소득세·지방소득세 88,000원을 빼면 실수령액은?',a:2631350,h:'3,000,000에서 280,650과 88,000을 모두 빼요.',w:'3,000,000 - 280,650 - 88,000 = 2,631,350원'},
+p3:{q:'회사가 부담하는 4대보험은? (국민연금 4.5%, 건강보험 3.5%, 장기요양 건강보험료의 13%, 고용보험 1.15%)',a:288150,h:'근로자 부담과 같지만 고용보험만 1.15%예요.',w:'135,000 + 105,000 + 13,650 + 34,500 = 288,150원'}};
+function nqRow(k){const x=NQ[k],r=S.nq[k],ok=r&&r.ok;
+return`<p style="margin-top:10px"><b>${x.q}</b></p><div class="bar" style="margin-top:4px"><input id="n_${k}" type="number" inputmode="numeric" placeholder="원" value="${r?r.v:''}" ${ok?'disabled':''}>${ok?'':`<button class="btn" onclick="chkN('${k}')">확인</button>`}</div>${r?`<div class="fb${ok?' ok':''}">${ok?'맞아요. '+x.w:'다시 계산해 보세요. 힌트: '+x.h}</div>`:''}`}
+function chkN(k){const v=+$('#n_'+k).value;S.nq[k]={v,ok:v==NQ[k].a};save();render()}
+const xb=e=>{const d=S.done[e.id];return`<button class="ev" onclick="openEv(${e.id})"><span class="q${d?d.ok?' ok':' see':''}">${d?d.ok?'✓':'…':'?'}</span><span><b>${e.t}</b><span class="mut">${d?d.ok?'처리 완료':'정답 확인함':'전표 입력 대기'}</span></span></button>`};
+const xl=t=>ALL().filter(e=>e.x==t&&(e.day||1)<=S.day).map(xb).join('')||'<p class="mut">아직 열리지 않았어요.</p>';
+const XR={close:'rep',pay:'tx'};
+function back(){nav(cur&&cur.x?XR[cur.x]:'inbox')}
+function nonop(b,rv,cost){const ii=-(b['이자수익']||0),ie=b['이자비용']||0;return(ii?`<tr><td>이자수익</td><td class="n">+${W(ii)}</td></tr>`:'')+(ie?`<tr><td>이자비용</td><td class="n">-${W(ie)}</td></tr>`:'')+`<tr><th>세전이익(가결산)</th><th class="n">${W(rv-cost+ii-ie)}</th></tr>`}
+function loan(){const{b}=ledger(),g=a=>b[a]||0;
+return`<div class="sheet"><h2>차입금·대여금</h2><table><tr><td>단기차입금 잔액</td><td class="n">${W(-g('단기차입금'))}</td></tr><tr><td>단기대여금 잔액</td><td class="n">${W(g('단기대여금'))}</td></tr><tr><td>미지급비용(이자)</td><td class="n">${W(-g('미지급비용'))}</td></tr><tr><td>이자수익 누계</td><td class="n">${W(-g('이자수익'))}</td></tr><tr><td>이자비용 누계</td><td class="n">${W(g('이자비용'))}</td></tr></table><p class="mut">가정: 차입금 연 6%, 대여금 연 5%. 실행, 이자, 상환 전표는 회계팀 사건함(4~6일차)에서 입력해요.</p>${nqRow('i1')}${nqRow('i2')}${nqRow('i3')}</div>`}
+function bank(){const{b}=ledger();if(!S.bk){S.bk={B:b['보통예금']};save()}
+const B=S.bk.B,K=B+303000,r=S.bk.res,ok=r&&r.ok,c=r?r.c:[false,false,false];
+const it=['은행 수수료 5,000원 (은행이 먼저 차감했고 장부에는 아직 없음)','예금이자 8,000원 (은행이 먼저 입금했고 장부에는 아직 없음)','미결제 수표 300,000원 (우리가 발행해 장부에는 지급으로 적었지만 은행에서는 아직 안 빠짐)'];
+return`<div class="sheet"><h2>은행 잔액 대사</h2><table><tr><td>장부 보통예금 잔액</td><td class="n">${W(B)}</td></tr><tr><td>은행 잔고증명서 잔액</td><td class="n">${W(K)}</td></tr></table><p class="mut">두 잔액이 다른 이유를 찾아 맞추는 업무예요. 차이 내역은 아래와 같아요.</p>${li(it)}<div class="fld"><span>조정 후 일치하는 잔액</span><input id="bk1" type="number" inputmode="numeric" value="${r?r.v:''}" ${ok?'disabled':''}></div><p class="mut" style="margin-top:8px">장부를 고쳐야 하는 항목에 체크하세요.</p>${it.map((t,i)=>`<label style="display:block;margin:4px 0"><input type="checkbox" id="bk_${i}" ${c[i]?'checked':''} ${ok?'disabled':''}> ${t.split(' (')[0]}</label>`).join('')}${ok?'':'<div class="bar"><button class="btn" onclick="chkBk()">대사 확인</button></div>'}${r?`<div class="fb${ok?' ok':''}">${ok?'일치해요. 수수료 5,000원 비용과 이자수익 8,000원을 장부에 반영했어요. 은행 쪽은 미결제 수표 300,000원을 빼서 맞췄어요.':r.m}</div>`:''}</div>`}
+function chkBk(){const v=+$('#bk1').value,c=[0,1,2].map(i=>$('#bk_'+i).checked),ms=[];
+if(v!=S.bk.B+3000)ms.push('조정 후 잔액이 달라요. 장부는 수수료를 빼고 이자를 더하고, 은행은 미결제 수표를 빼면 같은 금액이 돼요.');
+if(!(c[0]&&c[1]&&!c[2]))ms.push('장부를 고치는 건 은행이 먼저 처리한 수수료와 이자예요. 미결제 수표는 장부에 이미 지급으로 적혀 있어서 고치지 않아요.');
+const ok=!ms.length;S.bk.res={v,c,ok,m:ms.join(' ')};
+if(ok&&!S.bk.done){S.bk.done=true;S.fx.push({t:'은행 대사 조정: 수수료',a:[['D','지급수수료',5000],['C','보통예금',5000]]},{t:'은행 대사 조정: 예금이자',a:[['D','보통예금',8000],['C','이자수익',8000]]})}
+save();render()}
+function pay(){return`<div class="sheet"><h2>급여·4대보험 정산</h2><p class="mut">이 게임의 가정 요율: 근로자 부담은 국민연금 4.5%, 건강보험 3.5%, 장기요양 건강보험료의 13%, 고용보험 0.9%예요. 회사 부담은 고용보험만 1.15%예요. 실제 요율은 해마다 달라요.</p>${nqRow('p1')}${nqRow('p2')}${nqRow('p3')}<h2 style="margin-top:16px">전표 입력</h2>${xl('pay')}</div>`}
+function closeSheet(){return`<div class="sheet"><h2>월말 결산 분개 실습</h2><p class="mut">월말(6일차)에 열려요. 기간이 지난 비용과 자산 가치를 장부에 맞추는 결산 조정 분개를 직접 입력해 보세요.</p>${xl('close')}</div>`}
+function resetSheet(){return mode=='tour'?'':`<div class="sheet"><h2>처음부터 다시</h2><p class="mut">진행 기록을 모두 지우고 1일차로 돌아가요.</p><div class="bar"><button class="btn g" onclick="rst()">${rstArm?'정말 지울까요? 한 번 더 누르세요':'처음부터 다시'}</button></div></div>`}
+/* ---------- 시작 화면과 구경 모드 ---------- */
+function start(){return`<canvas id="fc" class="fcv" aria-label="산철이네 본사 입구"></canvas><div class="sheet"><h2>산철이네 본사 회계팀</h2><p>가상의 식당 회사 회계팀 사무실이에요. 사무실을 걸어 다니며 실제 회계 업무를 해볼 수 있어요. 구경하기는 예시가 채워진 화면을 저장 없이 둘러봐요.</p></div>${gbSheet()}`}
+function sample(){const s={done:{},vat:null,tax:null,day:6,notes:{},q:{},fx:[],dec:{},ap:{},ex:[],tr:{},nq:{},bk:null,tries:{}};
+[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,20,21].forEach(i=>s.done[i]={ok:true,n:1});
+s.ap[1]={dec:'승인',fl:[],ok:true};s.ex.push({id:101,day:6,...RQ[0].ev});s.done[101]={ok:true,n:1};
+s.nq.i1={v:120000,ok:true};s.nq.p1={v:280650,ok:true};return s}
+function goTour(){realS=S;S=sample();mode='tour';cur=null;fb=null;spawn();view='map';render()}
+function exitTour(){S=realS;realS=null;mode='work';cur=null;fb=null;view='start';render()}
+function begin(){const d=S.day;cur=null;fb=null;spawn();fresh=true;view='map';render()}
+/* ---------- 방명록 (공유 저장) ---------- */
+let GB=[],gbDb=null,gbUid=null,gbCan=false,gbOwner=false,gbMsg='불러오는 중이에요.';
+const gbSheet=()=>'<div class="sheet"><h2>방명록</h2><p class="mut">다녀간 분이 한 줄씩 남겨요. 다시 남기면 내 글이 바뀌어요.</p><div id="gbf"></div><div id="gbl"></div></div>';
+function gbRender(){const f=$('#gbf');if(!f)return;f.innerHTML=gbCan?'<div class="gbf"><input id="gbn" maxlength="12" placeholder="이름"><input id="gbm" maxlength="60" placeholder="한마디"><button class="btn" onclick="gbPost()">남기기</button><span class="mut" id="gbs"></span></div>':(gbDb?'<p class="mut">방명록을 남기려면 기여자 권한이 필요해요. 목록은 볼 수 있어요.</p>':'')}
+function gbList(){const l=$('#gbl');if(!l)return;l.textContent='';
+if(!gbDb||!GB.length){const p=document.createElement('p');p.className='mut';p.textContent=gbDb?'아직 남긴 글이 없어요. 첫 글을 남겨 보세요.':gbMsg;l.appendChild(p);return}
+GB.forEach(g=>{const d=document.createElement('div');d.className='gbi';const b=document.createElement('b');b.textContent=g.name||'익명';const s=document.createElement('span');s.textContent=' '+(g.msg||'');const t=document.createElement('small');t.className='mut';t.textContent=' · '+new Date(g.at||0).toLocaleDateString('ko-KR');d.append(b,s,t);
+if(gbOwner){const x=document.createElement('button');x.className='x';x.textContent='×';x.setAttribute('aria-label','삭제');x.onclick=()=>gbDb.doc('guestbook/'+g.id).delete().catch(()=>{});d.append(x)}l.appendChild(d)})}
+async function gbPost(){const n=($('#gbn').value||'').trim().slice(0,12)||'익명',m=($('#gbm').value||'').trim().slice(0,60),s=$('#gbs');if(!m)return;
+try{await gbDb.doc('guestbook/'+gbUid).set({name:n,msg:m,at:Date.now()});$('#gbm').value='';s.textContent='남겼어요.'}catch(e){s.textContent='지금은 남길 수 없어요.'}}
+async function gbInit(){if(!window.claude||!claude.use){gbMsg='방명록은 공유 링크에서 볼 수 있어요.';gbList();return}
+const tm=setTimeout(()=>{if(!gbDb){gbMsg='방명록을 불러오지 못했어요.';gbList()}},10000);
+try{const[db,user]=await Promise.all([claude.use('db'),claude.use('user')]);clearTimeout(tm);if(!db){gbMsg='방명록은 로그인해서 볼 수 있어요.';gbList();return}
+gbDb=db;if(user){gbUid=await user.id();gbOwner=await user.isOwner();const w=await user.can('data.write');gbCan=!!gbUid&&w!==false}
+gbRender();gbList();
+db.collection('guestbook').orderBy('at','desc').limit(30).onSnapshot(s=>{GB=s.docs.map(d=>Object.assign({id:d.id},d.data()));gbList()},()=>{gbMsg='방명록을 불러오지 못했어요.';gbList()})}
+catch(e){clearTimeout(tm);gbMsg='방명록을 불러오지 못했어요.';gbList()}}
+/* ---------- 화면 ---------- */
+function render(){
+cancelAnimationFrame(raf);
+const on=view=='voucher'?(cur&&cur.x?XR[cur.x]:'inbox'):view=='req'?'ap':view,R0=ROOMS.find(r=>r.k==on);
+if(view!=lastView){rstArm=false;lastView=view;window.scrollTo(0,0)}
+$('#sub').textContent=dl(S.day)+' · 회계 담당자'+(mode=='tour'?' · 구경 중':'');
+$('#nav').innerHTML=R0?'<button class="on" onclick="leave()">← 사무실로</button><span class="rn">'+R0.n+'</span>':'<span class="rn">'+(view=='start'?'본사 입구':'본사 사무실')+'</span>';
+const m=$('#m');m.className=view=='map'?'map':view=='gate'||view=='start'?'gate':'room';
+let body=view=='inbox'?inbox():view=='voucher'?voucher():view=='vat'?vat():view=='tax'?tax():view=='meet'?meet():view=='rep'?rep():view=='quiz'?quiz():view=='biz'?biz():view=='ap'?apl():view=='req'?req():view=='tx'?tx():view=='rec'?rec():view=='fund'?fund():view=='map'?map():view=='start'?start():map();
+if(view=='fund')body+=loan()+bank();else if(view=='tx')body+=pay();else if(view=='rep')body+=closeSheet();else if(view=='rec')body+=resetSheet();else if(view=='map')body+=gbSheet();
+const tb=mode=='tour'?'<div class="sheet tbn"><span><b>구경 중이에요.</b> 입력해도 저장되지 않아요.</span><button class="btn" onclick="exitTour()">처음으로</button></div>':'';
+m.innerHTML=tb+(R0?'<div class="sheet rbn"><b>'+R0.n+'</b><span class="mut">'+R0.d+'</span></div>':'')+body;
+if(view=='map')mapInit();
+if(view=='start'||view=='gate')facadeInit();
+if(view=='map'||view=='start'){gbRender();gbList()}}
+view='start';render();gbInit();
+</script>
+
+
+<style>
+#cfv{display:block;width:100%;height:auto;aspect-ratio:20/14;touch-action:manipulation;user-select:none;-webkit-user-select:none;cursor:pointer}
+#tv{display:block;width:100%;height:auto;aspect-ratio:26/20;touch-action:manipulation;user-select:none;-webkit-user-select:none;cursor:pointer}
+.stage.tst{max-width:680px}
+#cfst{position:relative}.cfhud{position:absolute;right:8px;top:8px;line-height:1.25;background:rgba(36,52,38,.84);color:#f5ecd9;border:1px solid #98b08b;border-radius:8px;padding:6px 10px;text-align:right;font-variant-numeric:tabular-nums;pointer-events:none}.cfhud[hidden]{display:none}.cfhud b{display:block;font-size:22px;letter-spacing:.5px}.cfhud small{display:block;font-size:11px;opacity:.88}
+main.town .sheet,main.town .act,main.town .hint,main.town details.qm,main.town .pad{max-width:680px}
+</style>
+
+<script>
+/* ===== 마을 화면 (첫 화면) ===== */
+const TN_W=26,TN_H=20;
+const TN_B=[
+{k:'acc',n:'회계 사무실',x:9,y:1,w:7,h:5,open:1},
+{k:'dev',n:'개발 사무실',x:2,y:2,w:5,h:4,roof:'#4d6b8f',wall:'#e3e8ee'},
+{k:'hr',n:'인사 사무실',x:19,y:2,w:5,h:4,roof:'#8a5f8f',wall:'#efe6ee'},
+{k:'mkt',n:'마케팅 사무실',x:2,y:12,w:5,h:4,roof:'#c2714f',wall:'#f3e7dc'},
+{k:'sal',n:'영업 사무실',x:19,y:12,w:5,h:4,roof:'#4f8f6b',wall:'#e4efe7'}];
+let tnSol=null,tnFl=null,tnTree=[],tnHot=[],tnObj=[],tnStat=null,tnX=13,tnY=18.7,tnDir='u',tnStep=0,tnAct=0,tnPath=[],tnPend=-1,tnNear=-2,tnLast=0;
+const tnTitle=document.querySelector('header h1').textContent;
+function tnBuild(){
+tnSol=Array.from({length:TN_H},()=>Array(TN_W).fill(false));tnFl=Array.from({length:TN_H},()=>Array(TN_W).fill('g'));tnTree=[];tnHot=[];tnObj=[];
+const fill=(x0,y0,x1,y1,k)=>{for(let y=y0;y<=y1;y++)for(let x=x0;x<=x1;x++)tnFl[y][x]=k};
+fill(1,6,24,7,'p');fill(1,16,24,17,'p');fill(12,6,13,19,'p');fill(8,8,8,15,'p');fill(17,8,17,15,'p');fill(9,8,16,14,'z');fill(2,9,5,10,'w');
+const sol=(x,y)=>{tnSol[y][x]=true};
+for(let y=9;y<=10;y++)for(let x=2;x<=5;x++)sol(x,y);
+const tree=(x,y)=>{tnTree.push({x,y});sol(x,y)};
+for(let x=0;x<TN_W;x++){tree(x,0);if(x!=12&&x!=13)tree(x,19)}
+for(let y=1;y<TN_H-1;y++){tree(0,y);tree(25,y)}
+[[7,3],[8,2],[17,2],[18,3],[1,3],[24,3],[1,8],[6,8],[7,11],[1,11],[18,8],[24,8],[24,11],[19,11],[7,13],[18,13],[3,18],[7,18],[10,18],[15,18],[18,18],[22,18]].forEach(([x,y])=>tree(x,y));
+tnTree.sort((a,b)=>a.y-b.y);
+TN_B.forEach(b=>{for(let y=b.y;y<b.y+b.h;y++)for(let x=b.x;x<b.x+b.w;x++)sol(x,y);
+const tx=b.x+(b.w>>1),ty=b.y+b.h-1;
+tnHot.push({k:b.k,n:b.n,open:b.open,tx,ty,x0:b.x,y0:b.y,x1:b.x+b.w-1,y1:b.y+b.h-1,fr:[[tx,ty+1]],cx:tx+.5,cy:ty+1.4,r:1.3})});
+const obj=(f,x,y,w,hh)=>{tnObj.push({f,x,y});for(let b=0;b<(hh||1);b++)for(let a=0;a<(w||1);a++)sol(x+a,y+b)};
+obj(tnFountain,12,10,2,2);
+[[10,9],[15,9],[20,9],[22,9]].forEach(([x,y])=>obj(tnBench,x,y));
+[[9,8],[16,8],[9,14],[16,14]].forEach(([x,y])=>obj(tnLamp,x,y));
+obj(tnBoard,10,13);
+obj((X,Y)=>person(X+8,Y+14,{dir:'d',shirt:'#c0504d',hair:'#5a3b2e'}),15,12);
+obj((X,Y)=>person(X+8,Y+14,{dir:'d',shirt:'#4f8f6b',hair:'#1f1a17'}),21,10);
+tnHot.push({k:'gb',n:'광장 게시판 (방명록)',tx:10,ty:13,x0:10,y0:13,x1:10,y1:13,fr:[[10,14],[11,13]],cx:10.5,cy:13.5,r:1.6})}
+function tnFountain(X,Y){R('rgba(0,0,0,.18)',X+3,Y+28,28,3);R('#9aa4b2',X+2,Y+4,28,26);R('#b8c0cc',X+2,Y+4,28,2);R('#5aa9dd',X+5,Y+7,22,20);R('#8cc8ee',X+7,Y+10,6,1);R('#8cc8ee',X+18,Y+22,6,1);R('#9aa4b2',X+13,Y+13,6,9);R('#cfe6f7',X+14,Y+7,4,7);R('#eaf6fd',X+15,Y+5,2,3)}
+function tnBench(X,Y){R('rgba(0,0,0,.2)',X+1,Y+13,14,2);R('#8a6338',X+1,Y+4,14,4);R('#a07c52',X+1,Y+8,14,4);R('#6f5237',X+2,Y+12,2,3);R('#6f5237',X+12,Y+12,2,3)}
+function tnLamp(X,Y){R('rgba(0,0,0,.2)',X+4,Y+14,8,2);R('#4b5563',X+7,Y+1,2,13);R('#374151',X+5,Y+13,6,2);R('#fde68a',X+5,Y-4,6,6);R('#374151',X+4.5,Y-5,7,1.5)}
+function tnBoard(X,Y){R('rgba(0,0,0,.2)',X+2,Y+14,12,2);R('#7a5a3a',X+3,Y+9,2,6);R('#7a5a3a',X+11,Y+9,2,6);R('#7a5a3a',X,Y-3,16,13);R('#f3e9db',X+1.5,Y-1.5,13,10);R('#c0504d',X+3,Y,4,3);R('#4a78b5',X+9,Y+1,4,5);R('#d9a441',X+3,Y+4.5,4,2.5)}
+function tnTreeDraw(x,y){const X=x*16,Y=y*16;R('rgba(0,0,0,.2)',X+2,Y+13,12,3);R('#7a5a3a',X+6.5,Y+8,3,7);R('#2f7d4f',X+1,Y-6,14,15);R('#3f9a61',X+3,Y-4,8,7);R('#276b42',X+2,Y+4,4,4)}
+function tnTile(x,y,k){const X=x*16,Y=y*16;
+if(k=='g'){R((x+y)&1?'#7fbf6a':'#79b964',X,Y,16,16);if((x*5+y*3)%4==0)R('#6aa957',X+3,Y+9,2,3);if((x*3+y*7)%5==0)R('#6aa957',X+11,Y+4,2,3);
+if((x*7+y*13)%11==0&&!tnSol[y][x]){const c=(x+y)%2?'#f7a8c4':'#ffffff';R(c,X+9,Y+9,3,3);R('#f6c945',X+10,Y+10,1,1);R(c,X+4,Y+3,3,3);R('#f6c945',X+5,Y+4,1,1)}return}
+if(k=='p'){R('#dccba4',X,Y,16,16);R('#cdbb90',X+((x*7+y*3)%10)+2,Y+((x*3+y*5)%10)+2,2,2);R('#e6d8b6',X+((x*5+y*9)%11)+1,Y+((x*11+y*3)%11)+1,2,1);return}
+if(k=='z'){R((x+y)&1?'#cfd5dc':'#c5ccd4',X,Y,16,16);R('#b3bbc5',X,Y+15,16,1);R('#b3bbc5',X+15,Y,1,16);return}
+if(k=='w'){R('#5aa9dd',X,Y,16,16);R('#8cc8ee',X+3,Y+5,6,1);R('#8cc8ee',X+9,Y+11,5,1)}}
+function tnBld(b){const X=b.x*16,Y=b.y*16,Wd=b.w*16,Hd=b.h*16,mx=X+Wd/2;
+R('rgba(0,0,0,.22)',X+3,Y+Hd-2,Wd,3);
+if(b.open){
+R('#3b4a60',X+1,Y+8,Wd-2,Hd-9);R('#2a3548',X-1,Y+3,Wd+2,6);R('#475872',X-1,Y+3,Wd+2,1.5);
+for(let r=0;r<2;r++)for(let k=0;k<8;k++){const lit=(r*5+k*3)%4==0||(r+k)%5==0;R(lit?'#f6d466':'#566d8c',X+7+k*12.6,Y+13+r*12,9,8)}
+R('#0f172a',mx-42,Y+38,84,15);R('#d4a017',mx-42,Y+38,84,1.2);R('#d4a017',mx-42,Y+51.8,84,1.2);TXT('산철이네 회계 사무실',mx,Y+45.8,7.6,'#ffffff');
+R('#1f2937',mx-12,Y+56,24,23);R('#8ec1ea',mx-10,Y+58,9.4,21);R('#8ec1ea',mx+.6,Y+58,9.4,21);R('#cfe6f7',mx-8.5,Y+60,3,8);R('#cfe6f7',mx+2,Y+60,3,8);R('#fbbf24',mx-2.4,Y+67,1.6,4);R('#fbbf24',mx+.8,Y+67,1.6,4);
+[X+8,X+Wd-26].forEach((wx,i)=>{R('#566d8c',wx,Y+59,18,11);R(i?'#f6d466':'#7f9bc0',wx+1.5,Y+60.5,15,8)});
+[X+30,X+Wd-40].forEach(qx=>{R('#4b5563',qx,Y+72,10,7);R('#2f7d4f',qx+1,Y+64,8,9);R('#4caf6a',qx+3,Y+66,4,4)});
+return}
+const rh=24;
+R(b.wall,X+1,Y+rh,Wd-2,Hd-rh-1);R('rgba(0,0,0,.1)',X+1,Y+Hd-4,Wd-2,3);
+R(b.roof,X-2,Y+2,Wd+4,rh);R('rgba(255,255,255,.2)',X-2,Y+2,Wd+4,3);for(let k=0;k<3;k++)R('rgba(0,0,0,.1)',X-2,Y+9+k*5,Wd+4,1);R('rgba(0,0,0,.28)',X-2,Y+rh-1,Wd+4,3);
+R('#1f2937',mx-28,Y+rh+5,56,11);TXT(b.n,mx,Y+rh+10.8,6.6,'#ffffff');
+[X+6,X+Wd-19].forEach(wx=>{R('#31465f',wx,Y+Hd-19,13,11);R('#9cc6e0',wx+1.5,Y+Hd-17.5,10,8);R('#31465f',wx+6,Y+Hd-17.5,1,8)});
+R('#6f5237',mx-6.5,Y+Hd-19,13,18);R('#8a6338',mx-5,Y+Hd-17.5,10,16);
+R('#f2c14e',mx-10,Y+Hd-15,20,7);TXT('준비 중',mx,Y+Hd-11.3,4.8,'#3b2c21')}
+function tnStatic(){const cv=$('#tv');if(!cv)return;const dpr=Math.min(window.devicePixelRatio||1,3),cw=cv.clientWidth||360;sc=cw*dpr/(TN_W*16);cv.width=Math.round(TN_W*16*sc);cv.height=Math.round(TN_H*16*sc);
+tnStat=document.createElement('canvas');tnStat.width=cv.width;tnStat.height=cv.height;cx=tnStat.getContext('2d');
+for(let y=0;y<TN_H;y++)for(let x=0;x<TN_W;x++)tnTile(x,y,tnFl[y][x]);
+TXT('공용 광장',13*16,8*16+8,6,'#6b7686');TXT('마을 입구',13*16,19*16+8,5.4,'#7a6842');
+TN_B.forEach(tnBld);tnObj.forEach(o=>o.f(o.x*16,o.y*16));
+cx=cv.getContext('2d')}
+const tnIsSol=(x,y)=>{const r=tnSol[Math.floor(y)];return !r||r[Math.floor(x)]!==false};
+const tnCan=(x,y)=>!(tnIsSol(x-.26,y)||tnIsSol(x+.26,y)||tnIsSol(x-.26,y-.28)||tnIsSol(x+.26,y-.28));
+function tnNearest(tx,ty){for(let r=0;r<12;r++)for(let dy=-r;dy<=r;dy++)for(let dx=-r;dx<=r;dx++){if(Math.max(Math.abs(dx),Math.abs(dy))!=r)continue;const x=tx+dx,y=ty+dy;if(y>=0&&y<TN_H&&x>=0&&x<TN_W&&!tnSol[y][x])return{x,y}}return null}
+function tnFind(sx,sy,tx,ty){const key=(x,y)=>y*TN_W+x,prev=new Map([[key(sx,sy),-1]]),q=[[sx,sy]];
+while(q.length){const[x,y]=q.shift();if(x==tx&&y==ty){const p=[];let c=key(x,y);while(prev.get(c)!=-1){p.push([c%TN_W,Math.floor(c/TN_W)]);c=prev.get(c)}return p.reverse()}
+for(const[dx,dy]of[[1,0],[-1,0],[0,1],[0,-1]]){const nx=x+dx,ny=y+dy;if(nx<0||ny<0||nx>=TN_W||ny>=TN_H||tnSol[ny][nx]||prev.has(key(nx,ny)))continue;prev.set(key(nx,ny),key(x,y));q.push([nx,ny])}}
+return null}
+function tnNearHot(){let b=-1,bd=1;tnHot.forEach((h,j)=>{const d=Math.hypot(tnX-h.cx,(tnY-.4)-h.cy)/h.r;if(d<bd){bd=d;b=j}});return b}
+function tnUpd(dt){let dx=0,dy=0,lim=9;if(keys.l)dx--;if(keys.r)dx++;if(keys.u)dy--;if(keys.d)dy++;
+if(dx||dy){tnPath=[];tnPend=-1;const n=Math.hypot(dx,dy);dx/=n;dy/=n}
+else if(tnPath.length){const[wx,wy]=tnPath[0],ax=wx+.5,ay=wy+.75,ddx=ax-tnX,ddy=ay-tnY,dist=Math.hypot(ddx,ddy);
+if(dist<.07){tnPath.shift();if(!tnPath.length&&tnPend>=0){const j=tnPend;tnPend=-1;if(tnNearHot()==j){tnUse(j);return}}}else{dx=ddx/dist;dy=ddy/dist;lim=dist}}
+if(dx||dy){const sp=Math.min(4.6*dt,lim),nx=tnX+dx*sp,ny=tnY+dy*sp;if(tnCan(nx,tnY))tnX=nx;if(tnCan(tnX,ny))tnY=ny;
+tnDir=Math.abs(dx)>Math.abs(dy)?(dx<0?'l':'r'):(dy<0?'u':'d');tnAct+=dt;tnStep=[0,1,0,3][Math.floor(tnAct*7)%4]}else{tnStep=0;tnAct=0}}
+function tnDraw(t){const cv=$('#tv');if(!cv||!tnStat)return;cx=cv.getContext('2d');cx.drawImage(tnStat,0,0);
+const bob=Math.sin(t/260)*1.2;
+tnHot.forEach((h,j)=>{const c=tnNear==j?'#fde047':'#fbbf24';
+if(h.k=='acc'){const x=h.tx*16+8,y=(h.ty+1)*16+7+bob;R(c,x-1,y-4,2,2);R(c,x-2.5,y-2,5,2);R(c,x-4,y,8,2)}
+else if(h.k=='gb'){const x=h.tx*16+8,y=h.ty*16-10+bob;R(c,x-3.5,y-3.5,7,7);R('#92400e',x-.7,y-2.2,1.4,3);R('#92400e',x-.7,y+1.4,1.4,1.2)}});
+const fx=tnX*16,fy=tnY*16;
+const me=()=>{person(fx,fy,Object.assign(meLook(),{dir:tnDir,step:tnStep}));R('rgba(17,24,39,.78)',fx-5,fy-31,10,6.2);TXT('나',fx,fy-27.8,5.6,'#fff')};
+const ac=prActors('town',t).concat([{y:fy,f:me}]).sort((a,b)=>a.y-b.y);let ai=0;
+for(const tr of tnTree){while(ai<ac.length&&(tr.y+1)*16>ac[ai].y)ac[ai++].f();tnTreeDraw(tr.x,tr.y)}
+while(ai<ac.length)ac[ai++].f()}
+function tnLoop(t){if(view!='town'||!$('#tv'))return;const dt=Math.min(.05,(t-tnLast)/1000||0);tnLast=t;tnUpd(dt);if(view!='town')return;tnDraw(t);
+const n=tnNearHot();if(n!=tnNear){tnNear=n;tnBar()}raf=requestAnimationFrame(tnLoop)}
+function tnBar(){const a=$('#tact');if(!a)return;const h=tnNear>=0?tnHot[tnNear]:null;
+a.innerHTML=!h?'<span class="mut">건물 문 앞이나 광장 게시판 가까이로 가 보세요</span>':h.k=='acc'?'<button class="btn" onclick="tnUse('+tnNear+')">회계 사무실 들어가기</button><span class="mut">Space 또는 E</span>':h.k=='gb'?'<button class="btn" onclick="tnUse('+tnNear+')">방명록 보기</button><span class="mut">Space 또는 E</span>':'<span><b>'+h.n+'</b> <span class="mut">준비 중이에요. 지금은 회계 사무실만 들어갈 수 있어요.</span></span>'}
+function tnUse(j){const h=tnHot[j];if(!h)return;if(h.k=='acc')enterAcc();else if(h.k=='gb')gbGo()}
+function tnGo(j){const h=tnHot[j];if(!h)return;const f=h.fr[0];tnX=f[0]+.5;tnY=f[1]+.75;tnDir=h.k=='gb'?'u':'u';tnPath=[];tnPend=-1;
+if(h.k=='acc'||h.k=='gb'){tnUse(j);return}tnNear=tnNearHot();tnBar();window.scrollTo(0,0)}
+function enterAcc(){tnPath=[];tnPend=-1;keys={};goCafe(0)}
+function goTown(){const h=tnHot.length?tnHot[0]:null;if(h){tnX=h.tx+.5;tnY=h.ty+1.75;tnDir='d'}tnPath=[];tnPend=-1;keys={};cur=null;fb=null;view='town';render()}
+function gbGo(){const e=document.getElementById('gbf');if(e){const s=e.closest('.sheet')||e;s.scrollIntoView({behavior:'smooth',block:'start'})}}
+function tnTap(ev){const r=$('#tv').getBoundingClientRect(),tx=Math.floor((ev.clientX-r.left)/r.width*TN_W),ty=Math.floor((ev.clientY-r.top)/r.height*TN_H);
+let j=-1;tnHot.forEach((h,k)=>{if(tx>=h.x0&&tx<=h.x1&&ty>=h.y0&&ty<=h.y1)j=k});
+const sx=Math.min(TN_W-1,Math.max(0,Math.floor(tnX))),sy=Math.min(TN_H-1,Math.max(0,Math.floor(tnY-.2)));
+if(j>=0){let best=null;tnHot[j].fr.forEach(([x,y])=>{if(tnSol[y][x])return;const p=tnFind(sx,sy,x,y);if(p&&(!best||p.length<best.length))best=p});
+if(best){tnPath=best;tnPend=j;if(!best.length){tnPend=-1;tnUse(j)}}return}
+const t=tnNearest(tx,ty);if(!t)return;const p=tnFind(sx,sy,t.x,t.y);if(p){tnPath=p;tnPend=-1}}
+function tnHTML(){if(!tnSol)tnBuild();
+const rows=[['회계 사무실','입장 가능 · 1층 카페테리아, 엘리베이터로 내 사무실'],['개발 · 인사 · 마케팅 · 영업 사무실','준비 중'],['공용 광장','다른 직무 접속자도 함께 보이는 공간 · 게시판에서 방명록']];
+return(acDone()?'':acSheet())+'<div class="stage tst"><canvas id="tv" role="application" aria-label="산철이네 마을 지도" onpointerdown="tnTap(event)"></canvas></div><div id="tact" class="act"></div>'
++'<div class="pad" aria-hidden="true">'+[['u','▲'],['l','◀'],['d','▼'],['r','▶']].map(([d,t])=>'<button onpointerdown="padHold(\''+d+'\',1)" onpointerup="padHold(\''+d+'\',0)" onpointerleave="padHold(\''+d+'\',0)" onpointercancel="padHold(\''+d+'\',0)">'+t+'</button>').join('')+'</div>'
++'<p class="hint">화면을 눌러 걸어가거나 방향키(WASD)로 움직여요. 회계 사무실 문 앞에서 Space 또는 E를 누르면 1층 카페테리아로 들어가요.</p>'
++'<details class="qm"><summary>건물로 바로 이동</summary><div class="bar">'+tnHot.map((h,j)=>'<button class="btn g" onclick="tnGo('+j+')">'+h.n+'</button>').join('')+'</div></details>'
++(acDone()?acSheet():'')+prSheet()+'<div class="sheet"><h2>마을 안내</h2><table>'+rows.map(r=>'<tr><td>'+r[0]+'</td><td class="n">'+r[1]+'</td></tr>').join('')+'</table></div>'+gbSheet()}
+function tnInit(){tnStatic();tnNear=-2;cancelAnimationFrame(raf);tnLast=performance.now();raf=requestAnimationFrame(tnLoop)}
+/* ===== 접속자 표시 (공유 저장소 사용) ===== */
+const PRC=['#c0504d','#4f8f6b','#8a63b0','#d97b5a','#3f7d9a','#b4506a'],PRH=['#2b211c','#5a3b2e','#1f1a17'];
+let prNick='',prOthers={},prSub=false,prErr=false,prLastSend=0,prLastKey='',prC=-1;
+try{prNick=localStorage.getItem('sc_nick')||''}catch(e){}
+function prName(){return(prNick||'').trim().slice(0,8)||'익명'}
+function prZone(){return view=='town'?'town':view=='cafe'?'cafe':'office'}
+function prSend(z,x,y,d){if(!gbDb||!gbCan||!gbUid)return;
+if(prC<0)prC=String(gbUid).split('').reduce((a,ch)=>(a*31+ch.charCodeAt(0))%997,7);
+try{const p=gbDb.doc('presence/'+gbUid).set({s:(z=='cafe'&&cfSit!=null)?1:0,name:prName(),zone:z,x:Math.round(x*100)/100,y:Math.round(y*100)/100,dir:d,c:prC,g:myG=='f'?'f':'m',at:Date.now()});if(p&&p.catch)p.catch(()=>{})}catch(e){}}
+function prTick(){
+if(gbDb&&gbUid&&gbCan&&!acTried){acTried=true;acLoad()}acStat();
+if(gbDb&&!prSub){prSub=true;
+try{gbDb.collection('presence').orderBy('at','desc').limit(40).onSnapshot(s=>{const seen={};
+s.docs.forEach(d=>{const v=d.data();if(!v||d.id==gbUid)return;seen[d.id]=1;const nx=+v.x||0,ny=+v.y||0;let o=prOthers[d.id];
+if(!o||o.zone!=v.zone)o=prOthers[d.id]={x:nx,y:ny};
+o.tx=nx;o.ty=ny;o.dir=v.dir||'d';o.zone=v.zone;o.name=String(v.name||'익명').slice(0,8);o.at=+v.at||0;o.c=Math.abs(v.c|0);o.g=v.g=='f'?'f':'m';o.s=v.s?1:0});
+Object.keys(prOthers).forEach(k=>{if(!seen[k])delete prOthers[k]});prStatus()},()=>{prErr=true;prStatus()})}catch(e){prErr=true}}
+if(gbDb&&gbCan&&gbUid&&!document.hidden){const z=prZone(),x=z=='town'?tnX:z=='cafe'?cfX:0,y=z=='town'?tnY:z=='cafe'?cfY:0,d=z=='town'?tnDir:z=='cafe'?cfDir:'d',
+key=z+'|'+x.toFixed(1)+'|'+y.toFixed(1)+'|'+d+'|'+prName()+'|'+(cfSit!=null?1:0),now=Date.now();
+if((key!=prLastKey&&now-prLastSend>900)||now-prLastSend>20000){prLastKey=key;prLastSend=now;prSend(z,x,y,d)}}
+prStatus()}
+function prActors(z,t){const now=Date.now(),out=[];
+Object.keys(prOthers).forEach(k=>{const o=prOthers[k];if(o.zone!=z||now-o.at>60000)return;
+const dx=o.tx-o.x,dy=o.ty-o.y,dd=Math.hypot(dx,dy);if(dd>6){o.x=o.tx;o.y=o.ty}else{o.x+=dx*.18;o.y+=dy*.18}
+const st=dd>.06?[0,1,0,3][Math.floor(t/140)%4]:0,fx=o.x*16,fy=o.y*16,w=o.name.length*5+5;
+const sq=o.s&&z=='cafe',tg=sq?24:31;out.push({y:fy,f:()=>{person(fx,fy,{dir:o.dir,step:st,g:o.g,shirt:PRC[o.c%6],hair:PRH[o.c%3],seated:!!sq});R('rgba(17,24,39,.6)',fx-w/2,fy-tg,w,6.2);TXT(o.name,fx,fy-tg+3.2,5,'#fff')}})});
+return out}
+function prStatus(){const e=document.getElementById('prs');if(!e)return;let s;
+if(!window.claude||!window.claude.use)s='이 파일을 내 컴퓨터에서 단독으로 열면 나만 보여요. 방명록이 동작하는 공유 링크로 열어야 다른 접속자가 보여요.';
+else if(prErr)s='접속자 정보를 불러오지 못했어요.';
+else if(!gbDb)s='접속자 정보를 불러오는 중이에요.';
+else{const now=Date.now(),n={town:0,cafe:0,office:0};Object.keys(prOthers).forEach(k=>{const o=prOthers[k];if(now-o.at<=60000&&n[o.zone]!==undefined)n[o.zone]++});
+n[prZone()]++;s='지금 접속 중 '+(n.town+n.cafe+n.office)+'명 · 마을 '+n.town+'명 · 1층 카페테리아 '+n.cafe+'명 · 사무실 '+n.office+'명'+(gbCan?'':' (쓰기 권한이 없어 내 캐릭터는 다른 사람에게 보이지 않아요)')}
+if(e.textContent!=s)e.textContent=s}
+function prSheet(){return'<div class="sheet"><h2>접속자</h2><p class="mut" id="prs"></p><p class="mut">마을과 1층 카페테리아에서는 같은 곳에 있는 다른 접속자의 캐릭터가 보여요. 사무실은 나만 쓰는 공간이에요. 닉네임과 캐릭터는 마을의 내 정보에서 한 번 정하면 바꿀 수 없어요.</p></div>'}
+/* ===== 내 정보: 계정 저장 · 캐릭터 · 처음부터 다시 ===== */
+let acSync='',acTimer=0,acLoaded=false,acTried=false,acArm=false,acArmT=0;
+function acCan(){return !!(gbDb&&gbUid&&gbCan)}
+function acNorm(x){x=x||{};x.done=x.done||{};x.day=x.day||1;x.notes=x.notes||{};x.q=x.q||{};x.fx=x.fx||[];x.dec=x.dec||{};x.ap=x.ap||{};x.ex=x.ex||[];x.tr=x.tr||{};x.nq=x.nq||{};return x}
+function cloudSave(){if(!acCan()||!acLoaded||mode=='tour')return;acSync='저장 중';clearTimeout(acTimer);acTimer=setTimeout(acPush,1500)}
+function acPush(){if(!acCan()||mode=='tour')return;
+try{const p=gbDb.doc('progress/'+gbUid).set({data:JSON.stringify(S),at:S.at||Date.now(),g:myG,name:prNick});
+if(p&&p.then)p.then(()=>{acSync='저장됨';acStat()},()=>{acSync='저장 실패';acStat()});else{acSync='저장됨';acStat()}}
+catch(e){acSync='저장 실패';acStat()}}
+function acData(sn){if(!sn)return null;const ex=typeof sn.exists=='function'?sn.exists():sn.exists;if(ex===false)return null;return typeof sn.data=='function'?(sn.data()||null):sn}
+async function acLoad(){let v=null;
+try{const ref=gbDb.doc('progress/'+gbUid);
+if(typeof ref.get=='function')v=acData(await ref.get());
+else if(typeof ref.onSnapshot=='function')v=await new Promise((res,rej)=>{let un=null,fin=false;
+un=ref.onSnapshot(sn=>{if(fin)return;fin=true;res(acData(sn));setTimeout(()=>{if(typeof un=='function')un()},0)},rej);
+setTimeout(()=>{if(!fin)rej(new Error('timeout'))},8000)});
+else throw new Error('unsupported')}
+catch(e){acSync='계정 저장소를 읽지 못해 이 브라우저에만 저장돼요.';acStat();return}
+const mine=!S.uid||S.uid==gbUid;let cs=null,took=false;
+if(v&&typeof v.data=='string'){try{cs=JSON.parse(v.data)}catch(e){cs=null}}
+if(cs&&typeof cs=='object'&&(!mine||(+v.at||0)>(S.at||0))){S=acNorm(cs);took=true}
+else if(!mine){S=acNorm({vat:null,tax:null,bk:null,tx:null});took=true}
+if(v){if(!myG&&(v.g=='f'||v.g=='m')){myG=v.g;try{localStorage.setItem('sc_g',myG)}catch(e){}took=true}
+if(!prNick&&v.name){prNick=String(v.name).slice(0,8);try{localStorage.setItem('sc_nick',prNick)}catch(e){}took=true}}
+S.uid=gbUid;try{localStorage.setItem('hongun1',JSON.stringify(S))}catch(e){}
+acLoaded=true;acSync='저장 중';acPush();
+if(took){cur=null;fb=null;if(view=='voucher'||view=='req')view='map';render()}else acFill()}
+function acStat(){const e=document.getElementById('acs');if(!e)return;let s;
+if(!window.claude||!window.claude.use)s='지금은 이 브라우저에만 저장돼요. 공유 링크로 열면 로그인한 계정에 저장돼요.';
+else if(!gbDb||!gbUid)s='계정을 확인하는 중이에요. 확인되기 전에는 이 브라우저에 저장돼요.';
+else if(!gbCan)s='보기 전용 권한이라 이 브라우저에만 저장돼요.';
+else if(!acLoaded)s=acSync||'계정에 저장된 기록을 불러오는 중이에요.';
+else s='로그인됨 · 진행 기록이 내 계정에 쌓여요. 다른 기기에서 열어도 이어져요.'+(acSync?' ('+acSync+')':'');
+if(e.textContent!=s)e.textContent=s}
+let acPG='',acNV='',acArm0=false,acArmT2=0;
+const acDone=()=>!!myG&&!!(prNick||'').trim();
+function acFillC(){const c=document.getElementById('acc');if(!c)return;
+if(acDone()){c.innerHTML='';return}
+c.innerHTML='<button class="btn" onclick="acConfirm()">'+(acArm0?'정말 확정할까요? 한 번 더 누르세요 (이후 수정 불가)':'내 정보 확정하기')+'</button><span class="mut" id="acm">한 번 확정하면 닉네임과 캐릭터를 바꿀 수 없어요.</span>'}
+function acFill(){acStat();const p=document.getElementById('acp'),n=document.getElementById('acn'),g=document.getElementById('acg'),r=document.getElementById('acr');if(!p||!n||!g||!r)return;
+const nl=!!(prNick||'').trim(),gl=!!myG,cnt=ALL().filter(e=>S.done[e.id]).length;
+p.textContent='진행 상황: '+dl(S.day)+' · 전표 '+cnt+'건 처리';
+n.innerHTML=nl?'<p>닉네임 <b>'+esc(prNick)+'</b> <span class="mut">· 확정됨 (바꿀 수 없어요)</span></p>':'<div class="gbf"><input id="prn" maxlength="8" placeholder="닉네임 (다른 사람에게 보이는 이름, 최대 8자)" value="'+esc(acNV).split('"').join('&quot;')+'" oninput="acNV=this.value;acArm0=false;acFillC()"></div>';
+g.innerHTML=gl?'<span>캐릭터 <b>'+(myG=='f'?'여자':'남자')+'</b></span><span class="mut">· 확정됨 (바꿀 수 없어요)</span>':'<span class="mut">캐릭터</span>'+[['m','남자'],['f','여자']].map(x=>'<button class="btn'+(acPG==x[0]?'':' g')+'" onclick="acPick(\''+x[0]+'\')">'+x[1]+'</button>').join('')+(acPG?'':'<span class="mut">캐릭터를 골라 주세요</span>');
+acFillC();
+r.innerHTML='<button class="btn g" onclick="acReset()">'+(acArm?'정말 지울까요? 한 번 더 누르세요':'처음부터 다시')+'</button><span class="mut">진행 기록을 지우고 1일차로 돌아가요. 닉네임과 캐릭터는 유지돼요.</span>'}
+function acPick(g){if(myG)return;acPG=g=='f'?'f':'m';acArm0=false;acFill()}
+function acConfirm(){const nl=!!(prNick||'').trim(),gl=!!myG,nv=nl?prNick:(acNV||'').trim().slice(0,8),gv=gl?myG:acPG;let err='';
+if(!nv)err='닉네임을 입력해 주세요.';else if(gv!='m'&&gv!='f')err='캐릭터를 골라 주세요.';
+if(err){acArm0=false;clearTimeout(acArmT2);acFill();const m=document.getElementById('acm');if(m)m.textContent=err;return}
+if(!acArm0){acArm0=true;clearTimeout(acArmT2);acArmT2=setTimeout(()=>{acArm0=false;acFillC()},6000);acFillC();return}
+acArm0=false;clearTimeout(acArmT2);
+if(!nl){prNick=nv;try{localStorage.setItem('sc_nick',prNick)}catch(e){}}
+if(!gl){myG=gv;try{localStorage.setItem('sc_g',myG)}catch(e){}}
+prLastKey='';cloudSave();render()}
+function acReset(){if(!acArm){acArm=true;clearTimeout(acArmT);acArmT=setTimeout(()=>{acArm=false;acFill()},5000);acFill();return}
+acArm=false;clearTimeout(acArmT);S=acNorm({vat:null,tax:null,bk:null,tx:null});save();acFill()}
+function acSheet(){return'<div class="sheet"><h2>내 정보</h2><p class="mut" id="acs"></p><p id="acp"></p><div id="acn"></div><div class="bar" id="acg"></div><div class="bar" id="acc"></div><div class="bar" id="acr"></div></div>'}
+setInterval(prTick,500);
+window.addEventListener('pagehide',()=>{prSend('off',0,0,'d')});
+/* ===== 1층 카페테리아 ===== */
+const CF_W=20,CF_H=14;
+let cfSol=null,cfFl=null,cfDec=[],cfHot=[],cfStat=null,cfX=10,cfY=12.7,cfDir='u',cfStep=0,cfAct=0,cfPath=[],cfPend=-1,cfNear=-2,cfLast=0;
+/* 1층 카페: 자연친화 SNS 카페 + 카공석(앉으면 스톱워치) */
+let cfSeats=[],cfSit=null,cfT0=0,cfSw=-1;
+function cfElev(X,Y){R('#6d5a45',X+1,Y-6,30,22);R('#aeb8c4',X+3,Y-3,12.5,19);R('#aeb8c4',X+16.5,Y-3,12.5,19);R('#d5dce5',X+4,Y-2,2,17);R('#d5dce5',X+17.5,Y-2,2,17);R('#1f2937',X+15.5,Y-3,1,19);
+R('#2b3b2c',X+2,Y-14,28,7);TXT('내 사무실',X+16,Y-10.3,4.8,'#fbd57a');R('#d1d5db',X+33,Y+3,3,6);R('#fbbf24',X+34,Y+4.5,1,1.5)}
+function cfWin(X,Y,w){const Wd=w*16;R('#9a7a52',X+1,Y+1,Wd-2,14);R('#bfe3f4',X+3,Y+3,Wd-6,10);R('#e6f5fb',X+3,Y+3,Wd-6,3);R('#78b87a',X+3,Y+9,Wd-6,4);R('#4f9456',X+5,Y+6.5,5,6.5);R('#5ea866',X+Wd-12,Y+7.5,6,5.5);R('#9a7a52',X+Wd/2-.6,Y+3,1.2,10);R('#f6efe0',X+2,Y+2,2.6,11);R('#f6efe0',X+Wd-4.6,Y+2,2.6,11)}
+function cfWallShelf(X,Y){R('#9a7a52',X+1,Y+9,14,2);R('#a8643c',X+3,Y+5,4,4);R('#4caf6a',X+2,Y+1,6,5);R('#6bbd78',X+3.5,Y+2,2.5,2.5);R('#c0504d',X+9,Y+4,2,5);R('#d9a441',X+11,Y+3,2,6);R('#4a78b5',X+13,Y+5,2,4)}
+function cfNeon(X,Y,w){const Wd=w*16;R('rgba(255,120,170,.16)',X+1,Y+1,Wd-2,13);R('#3a2f3a',X+3,Y+3,Wd-6,9);TXT('coffee',X+Wd/2,Y+7.6,6.4,'#ff8fb7');R('#ff8fb7',X+Wd/2-9,Y+10.6,18,.9)}
+function cfSign(X,Y,w){const Wd=w*16;R('#6b4f33',X+1,Y+1,Wd-2,13);R('#3d5a3c',X+2.5,Y+2.5,Wd-5,10);TXT('GREEN CAFE',X+Wd/2,Y+6.4,4.6,'#f5ecd9');R('#a7c88a',X+7,Y+9.6,Wd-14,1);R('#a7c88a',X+4,Y+9,2,2);R('#a7c88a',X+Wd-6,Y+9,2,2)}
+function cfFrames(X,Y){R('#9a7a52',X+2,Y+2,6,8);R('#f6efe0',X+3,Y+3,4,6);R('#9bc4a0',X+3.5,Y+5.5,3,3);R('#9a7a52',X+9,Y+5,5,7);R('#f6efe0',X+10,Y+6,3,5);R('#f4b6c2',X+10.5,Y+8,2,3)}
+function cfHang(X,Y){R('#6b5a45',X+7.5,Y,1,3);R('#a8643c',X+4,Y+3,8,5);R('#c27a4c',X+4,Y+3,8,1.4);R('#4f9e5f',X+2,Y+7,12,4);R('#6bbd78',X+3,Y+8,4,3.5);R('#4f9e5f',X+3,Y+11,1.6,9);R('#4f9e5f',X+11,Y+11,1.6,12);R('#6bbd78',X+2.4,Y+17,2.8,2.4);R('#6bbd78',X+10.4,Y+20,3,2.6);R('#4f9e5f',X+7,Y+11,1.4,6)}
+function cfLights(X,Y,w){const Wd=w*16;R('#6b5a45',X,Y+1,Wd,.8);for(let k=0;k<Wd/8;k++){const bx=X+k*8+2;if(bx>X+8*8&&bx<X+11*8)continue;const by=Y+1+((k%4)<2?0:1.4);R('rgba(253,230,138,.3)',bx-1,by,4.2,5);R('#fde68a',bx,by+1,2.2,3)}}
+function cfBig(X,Y){R('rgba(0,0,0,.18)',X+2,Y+14,12,2);R('#c9a46b',X+3,Y+8,10,7);R('#b08a52',X+3,Y+11,10,1);R('#2f8f55',X+1,Y-4,6,10);R('#3fae68',X+8,Y-8,6,14);R('#27774a',X+5,Y-10,5,11);R('#56c07c',X+3,Y-2,3,5);R('#56c07c',X+10,Y-5,2.5,5)}
+function cfSide(X,Y){R('rgba(0,0,0,.2)',X+2,Y+14,12,2);R('#b89a78',X+2,Y+7,12,8);R('#ead9bd',X+1,Y+5,14,3);R('#fde68a',X+5,Y-4,6,6);R('#9a7a52',X+7.5,Y+1,1,5)}
+function cfMachine(X,Y){R('#c8d3c0',X+2,Y-2,12,16);R('#e3ebdd',X+3,Y-1,10,4);R('#b87333',X+4,Y+5,8,2);R('#111827',X+6,Y+8,4,4);R('#ffffff',X+7,Y+9.4,2,2);R('#ef4444',X+11,Y,1.5,1.5)}
+function cfCounter(X,Y,w){const Wd=w*16;R('rgba(0,0,0,.2)',X,Y+14,Wd,2);R('#7d9a78',X,Y+4,Wd,11);R('#6c8868',X,Y+9,Wd,1);R('#f1ece2',X-1,Y+1,Wd+1,5);R('#d9d2c3',X-1,Y+5.5,Wd+1,.8);
+R('#dfeff2',X+6,Y-5,16,7);R('#f6fbfc',X+6,Y-5,16,1.5);R('#f4b6c2',X+8,Y-1,4,3);R('#f2c14e',X+13,Y-1,4,3);R('#8a6338',X+18,Y-1,3,3);
+R('#ffffff',X+30,Y-2,3.5,3.5);R('#ffffff',X+35,Y-2,3.5,3.5);R('#a8643c',X+58,Y-2,7,5);R('#4caf6a',X+57,Y-7,9,6);R('#6bbd78',X+59,Y-8,4,3);R('#3d5a3c',X+78,Y-5,9,7);R('#f5ecd9',X+79.5,Y-3.5,6,1);R('#f5ecd9',X+79.5,Y-1.5,4,1)}
+function cfChair(X,Y,w,o){R('rgba(0,0,0,.18)',X+3,Y+13,10,2);R('#b8905a',X+4,Y+5,8,8);R('#6d4f33',X+4,Y+2,8,4);R('#8fae8b',X+5,Y+6,6,5)}
+function cfCane(X,Y){R('rgba(0,0,0,.18)',X+3,Y+13,10,2);R('#d9b97c',X+3,Y+4,10,9);R('#c39f5f',X+4,Y+5,8,7);R('#e6cf9b',X+5,Y+6,6,2);R('#c39f5f',X+4,Y+1,8,4)}
+function cfStool(X,Y){R('rgba(0,0,0,.18)',X+4,Y+13,8,2);R('#b8905a',X+4,Y+6,8,3.5);R('#d3ad78',X+4,Y+6,8,1.2);R('#8a6a47',X+5,Y+9.5,1.5,5.5);R('#8a6a47',X+9.5,Y+9.5,1.5,5.5)}
+function cfRound(X,Y,w,o){R('rgba(0,0,0,.2)',X+3,Y+14,26,2);R('#c9a77a',X+3,Y+3,26,10);R('#c9a77a',X+1,Y+5,30,6);R('#e8d2aa',X+4,Y+3.5,24,8);R('#e8d2aa',X+2.5,Y+5.5,27,5);R('#6d5a45',X+14,Y+12,4,3);
+R('#ffffff',X+7,Y+5,4,3);R('#92400e',X+7.4,Y+5.2,3.2,1);R('#ffffff',X+13,Y+7.5,7,1.6);R('#f4b6c2',X+14,Y+5.5,5,2.5);R('#e44d6d',X+16,Y+4.8,1.4,1.4);R('#7fb069',X+23.6,Y+2,1,4);R('#f28fad',X+22.4,Y+.6,3.4,3);R('#fde68a',X+23.4,Y+1.5,1.4,1.4)}
+function cfBuild(){
+cfSol=Array.from({length:CF_H},()=>Array(CF_W).fill(true));cfFl=Array.from({length:CF_H},()=>Array(CF_W).fill('wall'));cfDec=[];cfSeats=[];
+cfHot=[{k:'elev',n:'엘리베이터 (내 사무실)',cx:10,cy:2.3,r:1.5,fr:[[9,2],[10,2]],x0:9,y0:0,x1:10,y1:1},{k:'exit',n:'마을로 나가기',cx:10,cy:12.5,r:1.4,fr:[[9,12],[10,12]],x0:9,y0:13,x1:10,y1:13}];
+for(let x=1;x<=18;x++){cfFl[1][x]='face';for(let y=2;y<=12;y++){cfSol[y][x]=false;cfFl[y][x]='fl'}}
+const add=(z,f,x,y,w,solid,o)=>{cfDec.push({z,f,x:x*16,y:y*16,w:w||1,o:o||{}});if(solid)for(let a=0;a<(w||1);a++)cfSol[y][x+a]=true};
+const seat=(x,y,dir,kind,sy)=>{const si=cfSeats.length,st=sy===undefined?y:sy;cfSeats.push({x,y,dir,sx:x,sy:st,px:x+.5,py:y+.8,kind});cfHot.push({k:'seat',n:kind,si,cx:x+.5,cy:y+.45,r:1.25,fr:[[x,st]],x0:x,y0:y,x1:x,y1:y})};
+/* 벽 장식 */
+add(-50,cfWin,2,1,2);add(-50,cfWin,5,1,2);add(-50,cfWallShelf,7,1,1);add(-50,cfElev,9,1,2);add(-50,cfNeon,11,1,2);add(-50,cfSign,13,1,3);add(-50,D.clock,17,1,1);add(-50,cfFrames,18,1,1);
+add(-45,cfLights,1,1,18);add(-30,cfHang,1,1,1);add(-30,cfHang,4,1,1);add(-30,cfHang,8,1,1);add(-30,cfHang,16,1,1);
+/* 러그 */
+add(-80,D.rug,9,2,2,false,{c:'#b9c9a6',c2:'#c9d6b9',h:11});add(-80,D.rug,2,4,4,false,{c:'#cfdcbf',c2:'#dce7cf',h:8});add(-80,D.rug,12,5,6,false,{c:'#eadcbf',c2:'#f2e8d2',h:7});
+/* 왼쪽 위: 소파 코너 */
+add(34,cfBig,1,2,1,true);add(34,D.sofa,3,2,3,true,{c:'#7f9f78'});add(34,cfSide,6,2,1,true);add(34,cfBig,7,2,1,true);
+[3,4,5].forEach(x=>seat(x,2,'d','카페석',3));
+/* 오른쪽 위: 카운터 */
+add(32,cfMachine,13,2,1,true);add(32,(X,Y)=>person(X+8,Y+14,{dir:'d',shirt:'#8fae8b',hair:'#5a3b2e'}),15,2,1,true);
+for(let x=14;x<=18;x++)cfSol[2][x]=true;
+add(50,cfCounter,13,3,6,true);
+[14,16,18].forEach(x=>{add(4*16+2,cfStool,x,4,1,false);seat(x,4,'u','카페석')});
+/* 카공석: 긴 나무 책상 2개 (8자리) */
+[[3,5],[3,9]].forEach(([x,y])=>{[x,x+1].forEach(c=>{add((y-1)*16,cfChair,c,y-1,1,false);add((y+1)*16,cfChair,c,y+1,1,false);seat(c,y-1,'d','카공석');seat(c,y+1,'u','카공석')});
+add(y*16+2,D.desk,x,y,2,true,{tp:'#ead9bd',dk:'#b89a78',lap:[0],cup:[1]})});
+/* 오른쪽: 둥근 테이블 */
+[[14,6],[14,10]].forEach(([x,y])=>{add(y*16+2,cfRound,x,y,2,true);add(y*16,cfCane,x-1,y,1,false);add(y*16,cfCane,x+2,y,1,false);seat(x-1,y,'r','카페석');seat(x+2,y,'l','카페석')});
+/* 식물 */
+add(12*16+2,D.plant,1,12,1,true);add(12*16+2,D.plant,18,12,1,true);add(12*16+2,cfBig,8,12,1,true);add(12*16+2,cfBig,11,12,1,true);add(8*16+2,D.plant,12,8,1,true);add(8*16+2,D.plant,7,7,1,true);
+cfDec.sort((a,b)=>a.z-b.z)}
+function cfTile(x,y,k){const X=x*16,Y=y*16;
+if(k=='wall'){R('#55705a',X,Y,16,16);R('#66836a',X,Y,16,1.2);R('rgba(0,0,0,.08)',X,Y+14,16,2);return}
+if(k=='face'){R('#f5ecd9',X,Y,16,16);R('#b7cba9',X,Y+10,16,6);R('#98b08b',X,Y+10,16,1.2);R('rgba(0,0,0,.05)',X,Y,16,2);return}
+R((x+y)&1?'#e6d0a8':'#dfc79c',X,Y,16,16);R('#cfb487',X,Y+15,16,1);R('#d6bc90',X+((y*7+x*3)%13)+1,Y,1,16)}
+function cfStatic(){const cv=$('#cfv');if(!cv)return;const dpr=Math.min(window.devicePixelRatio||1,3),cw=cv.clientWidth||360;sc=cw*dpr/(CF_W*16);cv.width=Math.round(CF_W*16*sc);cv.height=Math.round(CF_H*16*sc);
+cfStat=document.createElement('canvas');cfStat.width=cv.width;cfStat.height=cv.height;cx=cfStat.getContext('2d');
+for(let y=0;y<CF_H;y++)for(let x=0;x<CF_W;x++)cfTile(x,y,cfFl[y][x]);
+[2,5].forEach(wx=>{for(let k=0;k<6;k++)R('rgba(255,248,214,.2)',wx*16+4+k*3,32+k*7,26,7)});
+R('#9c7a4e',9*16+3,12*16+9,26,5);R('#b8935f',9*16+4,12*16+10,24,3);
+R('#6d4f33',9*16,13*16,32,16);R('#a7cbd8',9*16+2,13*16+2,13,13);R('#a7cbd8',10*16+1,13*16+2,13,13);R('#d9eef5',9*16+3,13*16+3,4,6);R('#fbbf24',10*16-1,13*16+6,2,4);
+cfDec.forEach(d=>{d.f(d.x,d.y,d.w,d.o)});
+cx=cv.getContext('2d')}
+const cfIsSol=(x,y)=>{const r=cfSol[Math.floor(y)];return !r||r[Math.floor(x)]!==false};
+const cfCan=(x,y)=>!(cfIsSol(x-.26,y)||cfIsSol(x+.26,y)||cfIsSol(x-.26,y-.28)||cfIsSol(x+.26,y-.28));
+function cfNearest(tx,ty){for(let r=0;r<12;r++)for(let dy=-r;dy<=r;dy++)for(let dx=-r;dx<=r;dx++){if(Math.max(Math.abs(dx),Math.abs(dy))!=r)continue;const x=tx+dx,y=ty+dy;if(y>=0&&y<CF_H&&x>=0&&x<CF_W&&!cfSol[y][x])return{x,y}}return null}
+function cfFind(sx,sy,tx,ty){const key=(x,y)=>y*CF_W+x,prev=new Map([[key(sx,sy),-1]]),q=[[sx,sy]];
+while(q.length){const c0=q.shift(),x=c0[0],y=c0[1];if(x==tx&&y==ty){const p=[];let c=key(x,y);while(prev.get(c)!=-1){p.push([c%CF_W,Math.floor(c/CF_W)]);c=prev.get(c)}return p.reverse()}
+[[1,0],[-1,0],[0,1],[0,-1]].forEach(dd=>{const nx=x+dd[0],ny=y+dd[1];if(nx<0||ny<0||nx>=CF_W||ny>=CF_H||cfSol[ny][nx]||prev.has(key(nx,ny)))return;prev.set(key(nx,ny),key(x,y));q.push([nx,ny])})}
+return null}
+function cfNearHot(){let b=-1,bd=1;cfHot.forEach((h,j)=>{const d=Math.hypot(cfX-h.cx,(cfY-.4)-h.cy)/h.r;if(d<bd){bd=d;b=j}});return b}
+function cfUpd(dt){let dx=0,dy=0,lim=9;if(keys.l)dx--;if(keys.r)dx++;if(keys.u)dy--;if(keys.d)dy++;
+if(cfSit!=null){if(dx||dy)cfStand();else{const s=cfSeats[cfSit];cfX=s.px;cfY=s.py;cfDir=s.dir;cfStep=0;cfAct=0;return}}
+if(dx||dy){cfPath=[];cfPend=-1;const n=Math.hypot(dx,dy);dx/=n;dy/=n}
+else if(cfPath.length){const wp=cfPath[0],ddx=wp[0]+.5-cfX,ddy=wp[1]+.75-cfY,dist=Math.hypot(ddx,ddy);
+if(dist<.07){cfPath.shift();if(!cfPath.length&&cfPend>=0){const j=cfPend;cfPend=-1;if(cfNearHot()==j){cfUse(j);return}}}else{dx=ddx/dist;dy=ddy/dist;lim=dist}}
+if(dx||dy){const sp=Math.min(4.4*dt,lim),nx=cfX+dx*sp,ny=cfY+dy*sp;if(cfCan(nx,cfY))cfX=nx;if(cfCan(cfX,ny))cfY=ny;
+cfDir=Math.abs(dx)>Math.abs(dy)?(dx<0?'l':'r'):(dy<0?'u':'d');cfAct+=dt;cfStep=[0,1,0,3][Math.floor(cfAct*7)%4]}else{cfStep=0;cfAct=0}}
+function cfDraw(t){const cv=$('#cfv');if(!cv||!cfStat)return;cx=cv.getContext('2d');cx.drawImage(cfStat,0,0);
+const bob=Math.sin(t/260)*1.2,c0=cfNear==0?'#fde047':'#fbbf24',c1=cfNear==1?'#fde047':'#fbbf24';
+let ax=160,ay=2*16+7+bob;R(c0,ax-1,ay-4,2,2);R(c0,ax-2.5,ay-2,5,2);R(c0,ax-4,ay,8,2);
+ay=12*16+9+bob;R(c1,ax-4,ay-4,8,2);R(c1,ax-2.5,ay-2,5,2);R(c1,ax-1,ay,2,2);
+if(cfSit==null&&cfNear>=2){const s=cfSeats[cfHot[cfNear].si],sx=s.x*16+8,sy=s.y*16-3+bob;R('#fde047',sx-3,sy-3,6,2);R('#fde047',sx-1.5,sy-1,3,2);R('#fde047',sx-.5,sy+1,1,1)}
+const sit=cfSit!=null,fx=cfX*16,fy=cfY*16,ty=sit?24:31,me=()=>{person(fx,fy,Object.assign(meLook(),{dir:cfDir,step:cfStep,seated:sit}));R('rgba(17,24,39,.78)',fx-5,fy-ty,10,6.2);TXT('나',fx,fy-ty+3.2,5.6,'#fff')};
+prActors('cafe',t).concat([{y:fy,f:me}]).sort((a,b)=>a.y-b.y).forEach(a=>a.f())}
+function cfFmt(s){s=Math.max(0,Math.floor(s));const h=Math.floor(s/3600),m=Math.floor(s%3600/60),c=s%60,p=n=>(n<10?'0':'')+n;return p(h)+':'+p(m)+':'+p(c)}
+function cfDay(){const d=new Date();return d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate()}
+function cfStudyLoad(){try{const o=JSON.parse(localStorage.getItem('sc_study')||'null');return o&&o.d==cfDay()?(+o.s||0):0}catch(e){return 0}}
+function cfStudySave(s){try{localStorage.setItem('sc_study',JSON.stringify({d:cfDay(),s:Math.round(s)}))}catch(e){}}
+function cfHud(){const h=document.getElementById('cfhud');if(!h)return;
+if(cfSit==null){if(!h.hidden)h.hidden=true;cfSw=-1;return}
+const e=Math.floor((Date.now()-cfT0)/1000);if(h.hidden)h.hidden=false;if(e==cfSw)return;cfSw=e;
+document.getElementById('cfsw').textContent=cfFmt(e);document.getElementById('cfsw2').textContent='오늘 합계 '+cfFmt(cfStudyLoad()+e)}
+function cfSitDo(si){const s=cfSeats[si];if(!s)return;cfSit=si;cfT0=Date.now();cfSw=-1;cfX=s.px;cfY=s.py;cfDir=s.dir;cfStep=0;cfPath=[];cfPend=-1;keys={};cfNear=-2;prLastKey=''}
+function cfStand(){if(cfSit==null)return;const s=cfSeats[cfSit];cfStudySave(cfStudyLoad()+(Date.now()-cfT0)/1000);cfSit=null;cfX=s.sx+.5;cfY=s.sy+.75;cfPath=[];cfPend=-1;keys={};cfNear=-2;cfSw=-1;prLastKey='';cfHud()}
+function cfLoop(t){if(view!='cafe'||!$('#cfv'))return;const dt=Math.min(.05,(t-cfLast)/1000||0);cfLast=t;cfUpd(dt);if(view!='cafe')return;cfDraw(t);cfHud();
+const n=cfNearHot();if(n!=cfNear){cfNear=n;cfBar()}raf=requestAnimationFrame(cfLoop)}
+function cfBar(){const a=$('#cact');if(!a)return;
+if(cfSit!=null){a.innerHTML='<button class="btn" onclick="cfStand()">일어나기</button><span class="mut">'+cfSeats[cfSit].kind+'에서 스톱워치 작동 중 · Space 또는 E, 방향키로도 일어나요</span>';return}
+const h=cfNear>=0?cfHot[cfNear]:null;
+a.innerHTML=!h?'<span class="mut">의자 가까이 가서 앉으면 스톱워치가 켜져요 · 위쪽 엘리베이터는 내 사무실, 아래쪽 문은 마을</span>':h.k=='seat'?'<button class="btn" onclick="cfUse('+cfNear+')">여기 앉기 (스톱워치 시작)</button><span class="mut">'+h.n+' · Space 또는 E</span>':'<button class="btn" onclick="cfUse('+cfNear+')">'+(h.k=='elev'?'엘리베이터 타고 내 사무실로':'마을로 나가기')+'</button><span class="mut">Space 또는 E</span>'}
+function cfUse(j){if(cfSit!=null){cfStand();return}const h=cfHot[j];if(!h)return;cfPath=[];cfPend=-1;keys={};if(h.k=='seat'){cfSitDo(h.si);return}if(h.k=='elev')begin();else goTown()}
+function cfGo(j){if(cfHot[j])cfUse(j)}
+function cfSeatNear(){if(cfSit!=null)return;let b=-1,bd=1e9;cfHot.forEach((h,j)=>{if(h.k!='seat')return;const d=Math.hypot(cfX-h.cx,cfY-h.cy);if(d<bd){bd=d;b=j}});if(b>=0)cfWalkHot(b)}
+function goCafe(fromElev){if(!cfSol)cfBuild();if(fromElev){cfX=10;cfY=2.8;cfDir='d'}else{cfX=10;cfY=12.7;cfDir='u'}cfSit=null;cfPath=[];cfPend=-1;keys={};cur=null;fb=null;view='cafe';render()}
+function cfStart(){return[Math.min(CF_W-1,Math.max(0,Math.floor(cfX))),Math.min(CF_H-1,Math.max(0,Math.floor(cfY-.2)))]}
+function cfWalkHot(j){const st=cfStart();let best=null;cfHot[j].fr.forEach(f=>{if(cfSol[f[1]][f[0]])return;const p=cfFind(st[0],st[1],f[0],f[1]);if(p&&(!best||p.length<best.length))best=p});
+if(best){cfPath=best;cfPend=j;if(!best.length){cfPend=-1;cfUse(j)}}}
+function cfTap(ev){const r=$('#cfv').getBoundingClientRect(),tx=Math.floor((ev.clientX-r.left)/r.width*CF_W),ty=Math.floor((ev.clientY-r.top)/r.height*CF_H);
+if(cfSit!=null){const s=cfSeats[cfSit],same=tx==s.x&&ty==s.y;cfStand();if(same)return}
+let j=-1;cfHot.forEach((h,k)=>{if(tx>=h.x0&&tx<=h.x1&&ty>=h.y0&&ty<=h.y1)j=k});
+if(j>=0){cfWalkHot(j);return}
+const st=cfStart(),t=cfNearest(tx,ty);if(!t)return;const p=cfFind(st[0],st[1],t.x,t.y);if(p){cfPath=p;cfPend=-1}}
+function cfHTML(){if(!cfSol)cfBuild();
+const rows=[['엘리베이터 (위쪽)','내 사무실로 올라가요'],['카공석 (왼쪽 책상 8자리)','앉으면 스톱워치가 켜지고, 일어나면 오늘 합계에 쌓여요'],['카페석 (소파 · 바 · 둥근 테이블)','편하게 앉아 쉬는 자리예요 · 앉으면 마찬가지로 스톱워치가 켜져요'],['출입문 (아래쪽)','마을로 나가요']];
+return'<div class="stage tst" id="cfst"><canvas id="cfv" role="application" aria-label="회계 사무실 1층 카페테리아" onpointerdown="cfTap(event)"></canvas><div id="cfhud" class="cfhud" hidden><small>공부 중</small><b id="cfsw">00:00:00</b><small id="cfsw2"></small></div></div><div id="cact" class="act"></div>'
++'<div class="pad" aria-hidden="true">'+[['u','▲'],['l','◀'],['d','▼'],['r','▶']].map(p=>'<button onpointerdown="padHold(\''+p[0]+'\',1)" onpointerup="padHold(\''+p[0]+'\',0)" onpointerleave="padHold(\''+p[0]+'\',0)" onpointercancel="padHold(\''+p[0]+'\',0)">'+p[1]+'</button>').join('')+'</div>'
++'<p class="hint">화면을 눌러 걸어가거나 방향키(WASD)로 움직여요. 의자 가까이에서 Space 또는 E를 누르거나 의자를 누르면 앉아요. 일어나려면 다시 Space·E나 방향키를 눌러요.</p>'
++'<details class="qm"><summary>바로 이동</summary><div class="bar"><button class="btn g" onclick="cfSeatNear()">가까운 자리에 앉기</button>'+cfHot.map((h,j)=>h.k=='seat'?'':'<button class="btn g" onclick="cfGo('+j+')">'+h.n+'</button>').join('')+'</div></details>'
++prSheet()+'<div class="sheet"><h2>1층 안내</h2><table>'+rows.map(r=>'<tr><td>'+r[0]+'</td><td class="n">'+r[1]+'</td></tr>').join('')+'</table></div>'}
+function cfInit(){cfStatic();cfNear=-2;cancelAnimationFrame(raf);cfLast=performance.now();raf=requestAnimationFrame(cfLoop)}
+window.addEventListener('pagehide',()=>{cfStand()});
+const render0=render;
+render=function(){
+if(view!='cafe'&&cfSit!=null)cfStand();
+if(view=='start')view='town';
+const h1=document.querySelector('header h1');
+if(view!='town'&&view!='cafe'){h1.textContent=tnTitle;render0();if(view=='map'||view=='gate')$('#nav').insertAdjacentHTML('afterbegin','<button class="on" onclick="goCafe(1)">← 1층으로</button>');return}
+cancelAnimationFrame(raf);
+if(lastView!=view){rstArm=false;lastView=view;window.scrollTo(0,0)}
+const m=$('#m');
+if(view=='cafe'){h1.textContent='산철이네 회계 사무실 · 1층';$('#sub').textContent='같은 직무 사람들이 모이는 카페테리아';
+$('#nav').innerHTML='<button class="on" onclick="goTown()">← 마을로</button><span class="rn">1층 카페테리아</span>';
+m.className='map town';m.innerHTML=cfHTML();cfInit();prStatus();return}
+h1.textContent='산철이네 마을';
+$('#sub').textContent='직무별 사무실이 모여 있는 가상 실무 마을';
+$('#nav').innerHTML='<span class="rn">마을</span>';
+m.className='map town';m.innerHTML=tnHTML();tnInit();gbRender();gbList();prStatus();acFill()};
+window.addEventListener('keydown',e=>{const t=e.target&&e.target.tagName;if(t=='INPUT'||t=='TEXTAREA'||t=='SELECT'){e.stopImmediatePropagation();return}
+const tw=view=='town';if((!tw&&view!='cafe')||e.ctrlKey||e.metaKey||e.altKey)return;const k=e.key.toLowerCase();
+if(KM[k]){e.preventDefault();if(!tw&&cfSit!=null)cfStand();keys[KM[k]]=1}else if(k==' '||k=='e'||k=='enter'){if(e.repeat)return;const n=tw?tnNear:cfNear;if((n>=0||(!tw&&cfSit!=null))&&t!='BUTTON'){e.preventDefault();if(tw)tnUse(n);else cfUse(n)}}},true);
+window.addEventListener('resize',()=>{if(view=='town'&&$('#tv'))tnStatic();if(view=='cafe'&&$('#cfv'))cfStatic()});
+view='town';render();
+</script>
+
+<style>
+.stage{position:relative}
+#qsw{display:flex;align-items:center;gap:6px;line-height:1.3;font-size:13px}
+.stage #qsw{position:absolute;left:8px;top:8px;z-index:3}
+.qsr{max-width:680px;margin:0 auto 10px}
+#qsb{position:relative;width:40px;height:40px;border-radius:50%;border:2px solid #92400e;background:#fbbf24;color:#451a03;font:700 22px/1 inherit;cursor:pointer;box-shadow:0 2px 0 rgba(0,0,0,.35);flex:0 0 auto;padding:0}
+#qsb.idle{background:#cbd5e1;border-color:#64748b;color:#334155;opacity:.85}
+#qsb.new{animation:qsPulse 1s ease-in-out infinite}
+#qsb i{position:absolute;right:-6px;top:-6px;min-width:18px;height:18px;border-radius:9px;background:#ef4444;color:#fff;font:700 11px/18px sans-serif;font-style:normal;text-align:center;padding:0 4px}
+#qsl{background:rgba(17,24,39,.88);color:#fff;border-radius:6px;padding:5px 9px;max-width:230px}
+@keyframes qsPulse{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
+@media (prefers-reduced-motion:reduce){#qsb.new{animation:none}}
+#qsp{max-width:540px;margin:10px auto 0}
+main.room #qsp{max-width:680px;margin:0 auto 12px}
+.qsi{border:1px solid var(--ln);border-radius:8px;padding:10px 12px;margin-top:8px;background:var(--card)}
+.qsi.dn{border-left:4px solid var(--ok)}
+.qst{display:inline-block;font-size:12px;font-weight:700;border-radius:4px;padding:1px 6px;margin-right:6px;background:var(--ac);color:var(--onac)}
+.qst.sug{background:#b7791f;color:#fff}.qst.fb{background:var(--mut);color:#fff}
+.qsi .bar{margin-top:8px}.qsi .btn{padding:7px 12px;font-size:13px}
+</style>
+
+<script>
+/* ===== 퀘스트: 상사·동료의 업무 요청, 제안, 피드백 ===== */
+let qsOpen=false,qsNext=0,qsFlash=null;
+const qsTY={req:'업무 요청',sug:'제안',fb:'피드백'};
+const qsSt=()=>{if(!S.qs)S.qs={};return S.qs};
+const qsOffice=()=>view!='town'&&view!='cafe'&&view!='gate'&&view!='start';
+const qsNum=ks=>ks.every(k=>S.nq&&S.nq[k]&&S.nq[k].ok);
+function qsDefs(){const d=S.day,tr=Object.keys(S.tries||{}).length,
+fi=ALL().filter(e=>S.done[e.id]&&S.done[e.id].ok&&!(S.tries&&S.tries[e.id])).length,
+apBad=()=>RQ.some(r=>S.ap[r.id]&&!S.ap[r.id].ok),
+apNew=()=>RQ.some(r=>r.day<=d&&!S.ap[r.id]),
+cl=[31,32,33];
+return[
+{id:'inbox-'+d,ty:'req',from:'김 팀장 (상사)',t:'오늘 전표 마감',m:'오늘 사건함에 올라온 전표를 퇴근 전까지 모두 처리해 주세요. 막히면 힌트를 보고, 그래도 어려우면 정답을 확인한 뒤 자료실에서 복습하세요.',go:'inbox',on:()=>EVD().some(e=>!S.done[e.id]),ok:()=>EVD().every(e=>S.done[e.id]),r:'오늘 전표가 모두 마감됐네요. 수고했어요.'},
+{id:'ap-'+d,ty:'req',from:'이 대리 (동료)',t:'결제 품의 검토',m:'구매팀에서 결제 품의가 올라왔어요. 증빙을 확인하고 승인, 보류, 반려 중 하나로 결정해 주세요.',go:'ap',on:apNew,ok:()=>!apNew(),r:'품의 검토 고마워요. 구매팀에 결과 전달할게요.'},
+{id:'biz-'+d,ty:'sug',from:'대표',t:'오늘의 경영 선택',m:'경제 뉴스 예보를 보고 오늘 안건을 골라 주세요. 회계 담당자 의견이 궁금해요.',go:'biz',on:()=>!!DC[d]&&!S.dec[d],ok:()=>!!S.dec[d],r:'의견 잘 받았어요. 결과는 2일 뒤 정산되면 같이 봅시다.'},
+{id:'fb-good',ty:'fb',from:'김 팀장 (상사)',t:'전표 정확도 칭찬',m:'전표 '+fi+'건을 한 번에 맞혔네요. 차변·대변 구분이 안정적이에요. 이 속도로 가면 결산도 맡길 수 있겠어요.',on:()=>fi>=3},
+{id:'fb-try',ty:'fb',from:'김 팀장 (상사)',t:'전표 재입력 건 복습',m:'다시 입력한 전표가 '+tr+'건 있었어요. 틀린 건 괜찮지만 같은 실수가 반복되지 않게 자료실의 복습할 항목을 한 번 훑어보세요.',go:'rec',on:()=>tr>0},
+{id:'ap-redo',ty:'req',from:'이 대리 (동료)',t:'품의 결정 재검토',m:'아까 결정한 품의 중에 다시 봐야 할 건이 있어요. 결재실에서 해당 건을 다시 검토해 주세요.',go:'ap',on:apBad,ok:()=>!apBad(),r:'재검토까지 깔끔하게 끝났어요.'},
+{id:'pay',ty:'req',from:'최 과장 (세무)',t:'급여·4대보험 계산',m:'정규직 급여 지급 전에 4대보험과 실수령액 계산 세 문제를 검산해 주세요. 세무실에 있어요.',go:'tx',on:()=>d>=2,ok:()=>qsNum(['p1','p2','p3']),r:'계산이 맞아요. 이 숫자로 급여 전표를 입력하면 돼요.'},
+{id:'bank',ty:'req',from:'박 주임 (자금)',t:'은행 잔액 대사',m:'장부 보통예금 잔액과 은행 잔고증명서 금액이 달라요. 자금팀에서 차이 원인을 찾아 맞춰 주세요.',go:'fund',on:()=>d>=2,ok:()=>!!(S.bk&&S.bk.done),r:'대사 끝났네요. 수수료와 이자가 장부에 반영됐어요.'},
+{id:'htx',ty:'req',from:'최 과장 (세무)',t:'홈택스 대사 차이 정리',m:'홈택스 매입 세금계산서와 장부 매입세액이 50,000원 차이 나요. 세무실에서 누락 전표를 추가하고 입력해 주세요.',go:'tx',on:()=>d>=2&&!S.done[201],ok:()=>!!S.done[201],r:'누락분이 장부에 들어갔어요. 이제 대사 차이가 없어요.'},
+{id:'txsub',ty:'req',from:'김 팀장 (상사)',t:'세무 신고서 제출',m:'홈택스 대사와 검토 업무를 끝내고 세무실에서 신고서를 제출해 주세요.',go:'tx',on:()=>d>=3,ok:()=>!!S.tx,r:'신고서 접수 확인했어요.'},
+{id:'loan',ty:'sug',from:'박 주임 (자금)',t:'이자 계산 맞춰 보기',m:'차입금과 대여금 이자를 제가 계산한 값과 맞춰 보고 싶어요. 자금팀의 이자 계산 세 문제를 풀어 주실래요?',go:'fund',on:()=>d>=4,ok:()=>qsNum(['i1','i2','i3']),r:'제 계산과 같아요. 덕분에 확신이 생겼어요.'},
+{id:'close',ty:'req',from:'김 팀장 (상사)',t:'월말 결산 분개',m:'월말이에요. 결산실에서 감가상각, 원재료비 대체, 미지급 이자 분개를 입력해 주세요.',go:'rep',on:()=>d>=6,ok:()=>cl.every(k=>S.done[k]),r:'결산 조정이 끝났어요. 손익계산서를 확인해 보세요.'}
+]}
+function qsCheck(){const st=qsSt(),df={};qsDefs().forEach(x=>df[x.id]=x);let ch=false;
+Object.keys(st).forEach(id=>{const q=st[id];if(q.st!='new'&&q.st!='acc')return;const x=df[id];
+if(!x){q.st='exp';ch=true}
+else if(x.ok&&x.ok()){q.st='done';q.at=Date.now();q.f=x.from;q.t=x.t;q.r=x.r;qsFlash={u:Date.now()+7000,s:'완료 · '+x.t};ch=true}});
+if(ch&&mode!='tour')save();return ch}
+function qsIssue(){if(mode=='tour'||!qsOffice())return false;const now=Date.now();if(!qsNext){qsNext=now+6000;return false}if(now<qsNext)return false;
+const st=qsSt();if(Object.keys(st).filter(id=>st[id].st=='new'||st[id].st=='acc').length>=2){qsNext=now+15000;return false}
+const x=qsDefs().find(x=>!st[x.id]&&x.on()&&!(x.ok&&x.ok()));
+if(!x){qsNext=now+10000;return false}
+st[x.id]={st:'new',d:S.day};qsNext=now+30000+Math.floor(Math.random()*30000);qsFlash={u:now+7000,s:x.from+' · '+qsTY[x.ty]};save();return true}
+function qsBtn(){const st=qsSt(),op=Object.keys(st).filter(id=>st[id].st=='new'||st[id].st=='acc'),nw=op.filter(id=>st[id].st=='new').length,fl=qsFlash&&qsFlash.u>Date.now()&&!qsOpen;
+return'<div id="qsw"><button id="qsb" class="'+(nw?'new':op.length?'':'idle')+'" onclick="qsToggle()" aria-label="업무 요청 '+op.length+'건">?'+(op.length?'<i>'+op.length+'</i>':'')+'</button>'+(fl?'<span id="qsl">'+qsFlash.s+'</span>':'')+'</div>'}
+function qsPanel(){const st=qsSt(),df={};qsDefs().forEach(x=>df[x.id]=x);
+const op=Object.keys(st).filter(id=>(st[id].st=='new'||st[id].st=='acc')&&df[id]),dn=Object.keys(st).filter(id=>st[id].st=='done').sort((a,b)=>(st[b].at||0)-(st[a].at||0));
+let h='<div id="qsp" class="sheet"><h2>받은 요청</h2><p class="mut">상사와 동료가 가끔 요청, 제안, 피드백을 보내요. 진행 중 '+op.length+'건 · 완료 '+dn.length+'건</p>';
+if(!op.length)h+='<p class="mut">지금은 새 요청이 없어요. 일하다 보면 ?가 다시 떠요.</p>';
+op.forEach(id=>{const x=df[id],q=st[id];
+h+='<div class="qsi"><span class="qst '+x.ty+'">'+qsTY[x.ty]+'</span><b>'+x.t+'</b><p class="mut">'+x.from+(q.st=='acc'?' · 진행 중':'')+'</p><p>'+x.m+'</p><div class="bar">'
++(x.ty=='fb'?'<button class="btn" onclick="qsAck(\''+id+'\')">확인했어요</button>':q.st=='new'?'<button class="btn" onclick="qsAcc(\''+id+'\')">수락</button>':'')
++(x.go?'<button class="btn g" onclick="qsGo(\''+id+'\')">'+ROOMS.find(r=>r.k==x.go).n+'(으)로 가기</button>':'')
++(x.ty=='sug'?'<button class="btn g" onclick="qsSkip(\''+id+'\')">이번엔 넘길게요</button>':'')+'</div></div>'});
+if(dn.length){h+='<h2 style="margin-top:14px">완료한 요청</h2>';dn.slice(0,5).forEach(id=>{const q=st[id];h+='<div class="qsi dn"><b>'+(q.t||'요청')+'</b><p class="mut">'+(q.f||'')+(q.d?' · '+q.d+'일차':'')+'</p>'+(q.r?'<p>'+q.r+'</p>':'')+'</div>'})}
+return h+'<div class="bar"><button class="btn g" onclick="qsToggle()">닫기</button></div></div>'}
+function qsPaint(){['qsw','qsp'].forEach(k=>{const e=document.getElementById(k);if(e){const p=e.parentNode;p.removeChild(e);if(p.className=='qsr')p.parentNode.removeChild(p)}});
+if(!qsOffice()||mode=='tour')return;const m=$('#m'),sg=view=='map'?m.querySelector('.stage'):null;
+if(sg){sg.insertAdjacentHTML('beforeend',qsBtn());if(qsOpen)sg.insertAdjacentHTML('afterend',qsPanel())}
+else m.insertAdjacentHTML('afterbegin','<div class="qsr">'+qsBtn()+'</div>'+(qsOpen?qsPanel():''))}
+function qsToggle(){qsOpen=!qsOpen;qsPaint()}
+function qsAcc(id){const q=qsSt()[id];if(q&&q.st=='new'){q.st='acc';save()}qsPaint()}
+function qsAck(id){const q=qsSt()[id],x=qsDefs().find(y=>y.id==id);if(q){q.st='done';q.at=Date.now();if(x){q.f=x.from;q.t=x.t;q.r=x.m}save()}qsPaint()}
+function qsSkip(id){const q=qsSt()[id];if(q){q.st='skip';save()}qsPaint()}
+function qsGo(id){const q=qsSt()[id],x=qsDefs().find(y=>y.id==id);if(!x||!x.go)return;if(q&&q.st=='new'){q.st='acc';save()}qsOpen=false;
+if(!SOL)buildMap();const j=HOT.findIndex(h=>ROOMS[h.i].k==x.go);if(j>=0)openRoom(j)}
+const qsRender0=render;
+render=function(){qsRender0();if(qsOffice()){qsCheck();qsIssue()}else qsOpen=false;qsPaint()};
+setInterval(()=>{if(!qsOffice()||mode=='tour')return;const a=qsCheck(),b=qsIssue(),c=qsFlash&&qsFlash.u<=Date.now();if(c)qsFlash=null;if(a||b||c)qsPaint()},3000);
+document.addEventListener('keydown',e=>{const t=e.target&&e.target.tagName;if(t=='INPUT'||t=='TEXTAREA'||t=='SELECT'||e.ctrlKey||e.metaKey||e.altKey)return;if(view=='map'&&e.key.toLowerCase()=='q'){e.preventDefault();qsToggle()}});
+render();
+</script>
+</body></html>
