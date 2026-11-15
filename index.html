@@ -899,6 +899,10 @@ view='town';render();
 @media (prefers-reduced-motion:reduce){#qsb.new{animation:none}}
 #qsp{max-width:540px;margin:10px auto 0}
 main.room #qsp{max-width:680px;margin:0 auto 12px}
+#qsp.qsov{position:fixed;inset:0;z-index:60;max-width:none;margin:0;background:rgba(15,23,42,.6);display:flex;align-items:center;justify-content:center;padding:16px}
+#qsp .qsbox{background:#fff;color:#1f2937;opacity:1;width:100%;max-width:520px;max-height:85vh;overflow:auto;margin:0;border:2px solid #1f2a3c;border-radius:10px;box-shadow:0 12px 40px rgba(0,0,0,.45)}
+#qsp .qsi{background:#f8fafc}
+#qsl{background:#111827;color:#fff;border:2px solid #fbbf24;border-radius:8px;padding:8px 12px;max-width:280px;font-size:14px;font-weight:700;line-height:1.35;cursor:pointer;box-shadow:0 4px 14px rgba(0,0,0,.5)}
 .qsi{border:1px solid var(--ln);border-radius:8px;padding:10px 12px;margin-top:8px;background:var(--card)}
 .qsi.dn{border-left:4px solid var(--ok)}
 .qst{display:inline-block;font-size:12px;font-weight:700;border-radius:4px;padding:1px 6px;margin-right:6px;background:var(--ac);color:var(--onac)}
@@ -941,12 +945,12 @@ function qsIssue(){if(mode=='tour'||!qsOffice())return false;const now=Date.now(
 const st=qsSt();if(Object.keys(st).filter(id=>st[id].st=='new'||st[id].st=='acc').length>=2){qsNext=now+15000;return false}
 const x=qsDefs().find(x=>!st[x.id]&&x.on()&&!(x.ok&&x.ok()));
 if(!x){qsNext=now+10000;return false}
-st[x.id]={st:'new',d:S.day};qsNext=now+30000+Math.floor(Math.random()*30000);qsFlash={u:now+7000,s:x.from+' · '+qsTY[x.ty]};save();return true}
+st[x.id]={st:'new',d:S.day};qsNext=now+30000+Math.floor(Math.random()*30000);qsFlash={u:now+10000,s:x.from+' · '+qsTY[x.ty]+': '+x.t};save();return true}
 function qsBtn(){const st=qsSt(),op=Object.keys(st).filter(id=>st[id].st=='new'||st[id].st=='acc'),nw=op.filter(id=>st[id].st=='new').length,fl=qsFlash&&qsFlash.u>Date.now()&&!qsOpen;
-return'<div id="qsw"><button id="qsb" class="'+(nw?'new':op.length?'':'idle')+'" onclick="qsToggle()" aria-label="업무 요청 '+op.length+'건">?'+(op.length?'<i>'+op.length+'</i>':'')+'</button>'+(fl?'<span id="qsl">'+qsFlash.s+'</span>':'')+'</div>'}
+return'<div id="qsw"><button id="qsb" class="'+(nw?'new':op.length?'':'idle')+'" onclick="qsToggle()" aria-label="업무 요청 '+op.length+'건">?'+(op.length?'<i>'+op.length+'</i>':'')+'</button>'+(fl?'<span id="qsl" onclick="qsToggle()">'+qsFlash.s+'</span>':'')+'</div>'}
 function qsPanel(){const st=qsSt(),df={};qsDefs().forEach(x=>df[x.id]=x);
 const op=Object.keys(st).filter(id=>(st[id].st=='new'||st[id].st=='acc')&&df[id]),dn=Object.keys(st).filter(id=>st[id].st=='done').sort((a,b)=>(st[b].at||0)-(st[a].at||0));
-let h='<div id="qsp" class="sheet"><h2>받은 요청</h2><p class="mut">상사와 동료가 가끔 요청, 제안, 피드백을 보내요. 진행 중 '+op.length+'건 · 완료 '+dn.length+'건</p>';
+let h='<div id="qsp" class="qsov" onclick="if(event.target===this)qsToggle()"><div class="sheet qsbox"><h2>받은 요청</h2><p class="mut">상사와 동료가 가끔 요청, 제안, 피드백을 보내요. 진행 중 '+op.length+'건 · 완료 '+dn.length+'건</p>';
 if(!op.length)h+='<p class="mut">지금은 새 요청이 없어요. 일하다 보면 ?가 다시 떠요.</p>';
 op.forEach(id=>{const x=df[id],q=st[id];
 h+='<div class="qsi"><span class="qst '+x.ty+'">'+qsTY[x.ty]+'</span><b>'+x.t+'</b><p class="mut">'+x.from+(q.st=='acc'?' · 진행 중':'')+'</p><p>'+x.m+'</p><div class="bar">'
@@ -954,7 +958,7 @@ h+='<div class="qsi"><span class="qst '+x.ty+'">'+qsTY[x.ty]+'</span><b>'+x.t+'<
 +(x.go?'<button class="btn g" onclick="qsGo(\''+id+'\')">'+ROOMS.find(r=>r.k==x.go).n+'(으)로 가기</button>':'')
 +(x.ty=='sug'?'<button class="btn g" onclick="qsSkip(\''+id+'\')">이번엔 넘길게요</button>':'')+'</div></div>'});
 if(dn.length){h+='<h2 style="margin-top:14px">완료한 요청</h2>';dn.slice(0,5).forEach(id=>{const q=st[id];h+='<div class="qsi dn"><b>'+(q.t||'요청')+'</b><p class="mut">'+(q.f||'')+(q.d?' · '+q.d+'일차':'')+'</p>'+(q.r?'<p>'+q.r+'</p>':'')+'</div>'})}
-return h+'<div class="bar"><button class="btn g" onclick="qsToggle()">닫기</button></div></div>'}
+return h+'<div class="bar"><button class="btn g" onclick="qsToggle()">닫기</button></div></div></div>'}
 function qsPaint(){['qsw','qsp'].forEach(k=>{const e=document.getElementById(k);if(e){const p=e.parentNode;p.removeChild(e);if(p.className=='qsr')p.parentNode.removeChild(p)}});
 if(!qsOffice()||mode=='tour')return;const m=$('#m'),sg=view=='map'?m.querySelector('.stage'):null;
 if(sg){sg.insertAdjacentHTML('beforeend',qsBtn());if(qsOpen)sg.insertAdjacentHTML('afterend',qsPanel())}
@@ -969,6 +973,7 @@ const qsRender0=render;
 render=function(){qsRender0();if(qsOffice()){qsCheck();qsIssue()}else qsOpen=false;qsPaint()};
 setInterval(()=>{if(!qsOffice()||mode=='tour')return;const a=qsCheck(),b=qsIssue(),c=qsFlash&&qsFlash.u<=Date.now();if(c)qsFlash=null;if(a||b||c)qsPaint()},3000);
 document.addEventListener('keydown',e=>{const t=e.target&&e.target.tagName;if(t=='INPUT'||t=='TEXTAREA'||t=='SELECT'||e.ctrlKey||e.metaKey||e.altKey)return;if(view=='map'&&e.key.toLowerCase()=='q'){e.preventDefault();qsToggle()}});
+document.addEventListener('keydown',e=>{if(e.key=='Escape'&&qsOpen)qsToggle()});
 render();
 </script>
 </body></html>
