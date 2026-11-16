@@ -1,13 +1,13 @@
 <!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
 <meta name="claude:viewport-fit-sides" content="cover">
-<title>산철이네 마을 · 가상 실무 체험</title>
+<title>가상 실무 체험</title>
 <link rel="manifest" href="manifest.webmanifest">
 <meta name="theme-color" content="#1f3350">
 <link rel="icon" type="image/png" href="icon-192.png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-title" content="산철이네">
+<meta name="apple-mobile-web-app-title" content="실무 체험">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;700&display=swap">
 <style>:root{--wall:#1c2636;--wall2:#27364d;--desk:#e6ebf1;--paper:#eef1f5;--card:#ffffff;--tx:#1f2937;--mut:#586274;--ln:#d3dae3;--ac:#245f9e;--ok:#1f7a4d;--bad:#c0392b;--hi:#f1f5f9;--onac:#ffffff}
@@ -91,12 +91,14 @@ main.map .sheet{max-width:540px}
 .tbn .btn,.rbn .btn{white-space:nowrap}
 </style>
 <header>
-<h1>(주)산철이네 본사 회계팀</h1>
+<h1>내 회사</h1>
 <div class="sub" id="sub"></div>
 <nav id="nav"></nav>
 </header>
 <main id="m"></main>
 <script>
+let coName='';try{coName=localStorage.getItem('sc_co')||''}catch(e){}
+const coNm=()=>(coName||'').trim().slice(0,10)||'내 회사';
 const W=n=>(Number(n)||0).toLocaleString('ko-KR');
 const ACC=['현금','보통예금','카드매출미수금','배달앱미수금','선급금','부가세대급금','원재료','비품','시설장치','단기대여금','감가상각누계액','외상매입금','미지급금','예수금','부가세예수금','단기차입금','4대보험예수금','미지급비용','매장매출','배달매출','이자수익','원재료비','급여','복리후생비','임차료','수도광열비','배달수수료','카드수수료','소모품비','수선비','광고선전비','접대비','이자비용','잡손실','감가상각비','지급수수료'];
 const ASSET=['현금','보통예금','카드매출미수금','배달앱미수금','선급금','부가세대급금','원재료','비품','시설장치','단기대여금'],LIAB=['외상매입금','미지급금','예수금','부가세예수금','단기차입금','4대보험예수금','미지급비용'],REVN=['매장매출','배달매출','이자수익'];
@@ -448,7 +450,7 @@ R('#17243a',0,0,384,176);R('#1f3350',0,50,384,50);R('#2a4466',0,100,384,50);
 [[6,92,26,60],[34,104,22,48],[330,88,30,64],[360,110,24,42],[62,118,18,34],[304,112,20,40]].forEach(([x,y,w,h])=>R('#31465f',x,y,w,h));
 R('#3b4a60',40,26,304,126);R('#2a3548',34,22,316,8);R('#475872',40,26,304,2);
 for(let r=0;r<4;r++)for(let k=0;k<12;k++){const lit=(r*7+k*3)%5==0||(r+k)%7==0;R(lit?'#f6d466':'#566d8c',52+k*24.3,38+r*17,17,11)}
-R('#0f172a',112,74,160,26);R('#d4a017',112,74,160,1.5);R('#d4a017',112,98.5,160,1.5);TXT('산철이네',192,85,13,'#ffffff');TXT('본사 회계팀',192,94.5,5.6,'#9fb0c7');
+R('#0f172a',112,74,160,26);R('#d4a017',112,74,160,1.5);R('#d4a017',112,98.5,160,1.5);TXT(coNm(),192,85,Math.min(13,150/Math.max(coNm().length,1)),'#ffffff');TXT('본사 회계팀',192,94.5,5.6,'#9fb0c7');
 R('#1f2937',165,104,54,48);R('#fde68a',168,107,48,45);
 const s=Math.round(open*20);R('#8ec1ea',168-s,107,24,45);R('#8ec1ea',192+s,107,24,45);R('#cfe6f7',170-s,110,5,16);R('#cfe6f7',194+s,110,5,16);R('#6b7f95',191.2-s,107,1.6,45);R('#6b7f95',192+s,107,1.6,45);
 R('#6b7280',0,152,384,24);R('#7b8494',0,152,384,3);R('#5b6472',0,164,384,1);
@@ -488,7 +490,7 @@ function pay(){return`<div class="sheet"><h2>급여·4대보험 정산</h2><p cl
 function closeSheet(){return`<div class="sheet"><h2>월말 결산 분개 실습</h2><p class="mut">월말(6일차)에 열려요. 기간이 지난 비용과 자산 가치를 장부에 맞추는 결산 조정 분개를 직접 입력해 보세요.</p>${xl('close')}</div>`}
 function resetSheet(){return mode=='tour'?'':`<div class="sheet"><h2>처음부터 다시</h2><p class="mut">진행 기록을 모두 지우고 1일차로 돌아가요.</p><div class="bar"><button class="btn g" onclick="rst()">${rstArm?'정말 지울까요? 한 번 더 누르세요':'처음부터 다시'}</button></div></div>`}
 /* ---------- 시작 화면과 구경 모드 ---------- */
-function start(){return`<canvas id="fc" class="fcv" aria-label="산철이네 본사 입구"></canvas><div class="sheet"><h2>산철이네 본사 회계팀</h2><p>가상의 식당 회사 회계팀 사무실이에요. 사무실을 걸어 다니며 실제 회계 업무를 해볼 수 있어요. 구경하기는 예시가 채워진 화면을 저장 없이 둘러봐요.</p></div>${gbSheet()}`}
+function start(){return`<canvas id="fc" class="fcv" aria-label="본사 입구"></canvas><div class="sheet"><h2>${coNm()} 본사 회계팀</h2><p>가상의 식당 회사 회계팀 사무실이에요. 사무실을 걸어 다니며 실제 회계 업무를 해볼 수 있어요. 구경하기는 예시가 채워진 화면을 저장 없이 둘러봐요.</p></div>`}
 function sample(){const s={done:{},vat:null,tax:null,day:6,notes:{},q:{},fx:[],dec:{},ap:{},ex:[],tr:{},nq:{},bk:null,tries:{}};
 [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,20,21].forEach(i=>s.done[i]={ok:true,n:1});
 s.ap[1]={dec:'승인',fl:[],ok:true};s.ex.push({id:101,day:6,...RQ[0].ev});s.done[101]={ok:true,n:1};
@@ -496,16 +498,41 @@ s.nq.i1={v:120000,ok:true};s.nq.p1={v:280650,ok:true};return s}
 function goTour(){realS=S;S=sample();mode='tour';cur=null;fb=null;spawn();view='map';render()}
 function exitTour(){S=realS;realS=null;mode='work';cur=null;fb=null;view='start';render()}
 function begin(){const d=S.day;cur=null;fb=null;spawn();fresh=true;view='map';render()}
-/* ---------- 방명록 (공유 저장) ---------- */
-let GB=[],gbDb=null,gbUid=null,gbCan=false,gbOwner=false,gbMsg='불러오는 중이에요.';
-const gbSheet=()=>'<div class="sheet"><h2>방명록</h2><p class="mut">다녀간 분이 한 줄씩 남겨요. 다시 남기면 내 글이 바뀌어요.</p><div id="gbf"></div><div id="gbl"></div></div>';
-function gbRender(){const f=$('#gbf');if(!f)return;f.innerHTML=gbCan?'<div class="gbf"><input id="gbn" maxlength="12" placeholder="이름"><input id="gbm" maxlength="60" placeholder="한마디"><button class="btn" onclick="gbPost()">남기기</button><span class="mut" id="gbs"></span></div>':(gbDb?'<p class="mut">방명록을 남기려면 기여자 권한이 필요해요. 목록은 볼 수 있어요.</p>':'')}
-function gbList(){const l=$('#gbl');if(!l)return;l.textContent='';
-if(!gbDb||!GB.length){const p=document.createElement('p');p.className='mut';p.textContent=gbDb?'아직 남긴 글이 없어요. 첫 글을 남겨 보세요.':gbMsg;l.appendChild(p);return}
-GB.forEach(g=>{const d=document.createElement('div');d.className='gbi';const b=document.createElement('b');b.textContent=g.name||'익명';const s=document.createElement('span');s.textContent=' '+(g.msg||'');const t=document.createElement('small');t.className='mut';t.textContent=' · '+new Date(g.at||0).toLocaleDateString('ko-KR');d.append(b,s,t);
-if(gbOwner){const x=document.createElement('button');x.className='x';x.textContent='×';x.setAttribute('aria-label','삭제');x.onclick=()=>gbDb.doc('guestbook/'+g.id).delete().catch(()=>{});d.append(x)}l.appendChild(d)})}
-async function gbPost(){const n=($('#gbn').value||'').trim().slice(0,12)||'익명',m=($('#gbm').value||'').trim().slice(0,60),s=$('#gbs');if(!m)return;
-try{await gbDb.doc('guestbook/'+gbUid).set({name:n,msg:m,at:Date.now()});$('#gbm').value='';s.textContent='남겼어요.'}catch(e){s.textContent='지금은 남길 수 없어요.'}}
+/* ---------- 방명록 (마을 · 1층 채팅, 서로 별개) ---------- */
+let GB={town:[],cafe:[]},gbDb=null,gbUid=null,gbCan=false,gbOwner=false,gbMsg='불러오는 중이에요.',gbErr=false,gbOpen=false,gbRoom='town',gbAnon=false,gbLastPost=0,gbSubd=false;
+const GBC={town:'guestbook',cafe:'guestbook_cafe'};
+function gbSub(){if(gbSubd||!gbDb)return;gbSubd=true;
+['town','cafe'].forEach(r=>{try{gbDb.collection(GBC[r]).orderBy('at','desc').limit(60).onSnapshot(s=>{gbErr=false;GB[r]=s.docs.map(d=>Object.assign({id:d.id},d.data())).reverse();gbList()},()=>{gbErr=true;gbMsg='방명록을 불러오지 못했어요.';gbList()})}catch(e){gbErr=true;gbMsg='방명록을 불러오지 못했어요.';gbList()}})}
+function gbOpenChat(r){if(view!=r)return;gbRoom=r=='cafe'?'cafe':'town';gbOpen=true;keys={};
+gbHide();const o=document.createElement('div');o.id='gbo';o.onclick=e=>{if(e.target===o)gbClose()};
+o.innerHTML='<div id="gbw" role="dialog" aria-label="방명록"><div class="gbh"><b>방명록</b><span class="mut">'+(gbRoom=='cafe'?'1층 카페테리아':'마을')+'</span><button class="x" onclick="gbClose()" aria-label="닫기">×</button></div><div id="gbl"></div><div id="gbf"></div></div>';
+document.body.appendChild(o);gbRender();gbList()}
+function gbHide(){const o=document.getElementById('gbo');if(o)o.remove()}
+function gbClose(){gbOpen=false;gbHide()}
+function gbRender(){const f=$('#gbf');if(!f||!gbOpen)return;const k=gbCan?'1':gbDb?'0':'x';
+if(f.dataset.k!==k){f.dataset.k=k;
+f.innerHTML=gbCan?'<label class="gba"><input type="checkbox" id="gba" onchange="gbAnon=this.checked;gbWho()"> 익명으로 보내기</label><div class="gbrow"><input id="gbm" maxlength="200" placeholder="메시지를 입력하세요" autocomplete="off" enterkeyhint="send" onkeydown="if(event.key===\'Enter\'&&!event.isComposing){event.preventDefault();gbPost()}"><button class="btn" onclick="gbPost()">보내기</button></div><div class="mut" id="gbs"></div>':(gbDb?'<p class="mut" style="margin:0">글을 남기려면 기여자 권한이 필요해요. 대화는 볼 수 있어요.</p>':'<p class="mut" style="margin:0">'+gbMsg+'</p>')}
+gbWho()}
+function gbWho(){const a=document.getElementById('gba'),s=document.getElementById('gbs');if(!a||!s)return;const has=!!(prNick||'').trim();
+if(!has){a.checked=true;a.disabled=true}else{a.disabled=false;a.checked=gbAnon}
+s.textContent=a.checked?(has?'익명으로 보내요.':'내 정보를 확정하기 전이라 익명으로 보내요.'):'내 닉네임 '+prNick+'(으)로 보내요.'}
+function gbList(){const l=$('#gbl');if(!l||!gbOpen)return;const nb=!l.dataset.n||l.scrollHeight-l.scrollTop-l.clientHeight<80;l.dataset.n='1';l.textContent='';
+const arr=GB[gbRoom]||[],rm=gbRoom;
+if(!gbDb||gbErr||!arr.length){const p=document.createElement('p');p.className='mut';p.style.cssText='text-align:center;margin:auto';p.textContent=(!gbDb||gbErr)?gbMsg:'아직 남긴 글이 없어요. 첫 글을 남겨 보세요.';l.appendChild(p);return}
+const td=new Date().toDateString(),z=n=>String(n).padStart(2,'0');
+arr.forEach(g=>{const mine=g.u?g.u==gbUid:g.id==gbUid,d=new Date(g.at||0),tm=(d.toDateString()==td?'':(d.getMonth()+1)+'/'+d.getDate()+' ')+z(d.getHours())+':'+z(d.getMinutes());
+const w=document.createElement('div');w.className='gbm'+(mine?' me':'');
+const n=document.createElement('div');n.className='gbn';n.textContent=(mine?'나':(g.an?'익명':(g.name||'익명')))+' · '+tm;
+if(mine||gbOwner){const x=document.createElement('button');x.textContent='삭제';x.onclick=()=>gbDb.doc(GBC[rm]+'/'+g.id).delete().catch(()=>{});n.appendChild(x)}
+const t=document.createElement('div');t.className='gbt';t.textContent=g.msg||'';w.append(n,t);l.appendChild(w)});
+if(nb)l.scrollTop=l.scrollHeight}
+async function gbPost(){const i=document.getElementById('gbm'),s=document.getElementById('gbs');if(!i||!gbDb||!gbCan||!gbUid)return;
+const m=(i.value||'').trim().slice(0,200);if(!m)return;const now=Date.now();if(now-gbLastPost<1200)return;gbLastPost=now;
+const has=!!(prNick||'').trim(),an=(!has||gbAnon)?1:0,nm=an?'익명':(prNick||'').trim().slice(0,8),rm=gbRoom;
+i.value='';
+try{await gbDb.doc(GBC[rm]+'/'+gbUid+'_'+now.toString(36)).set({name:nm,msg:m,at:now,u:gbUid,an:an});gbWho();i.focus()}
+catch(e){i.value=m;if(s)s.textContent='지금은 남길 수 없어요.'}}
+window.addEventListener('keydown',e=>{if(e.key=='Escape'&&gbOpen){e.stopImmediatePropagation();gbClose()}},true);
 /* ===== Firebase 연결 (GitHub·앱에서도 접속자끼리 만나기) ===== */
 const fbMode=!(window.claude&&window.claude.use);
 const FBCFG={apiKey:"AIzaSyCT2fzNqcZ7NkN0PXaye0VVlXiJOc87Lnc",authDomain:"job-training-village.firebaseapp.com",databaseURL:"https://job-training-village-default-rtdb.asia-southeast1.firebasedatabase.app",projectId:"job-training-village",storageBucket:"job-training-village.firebasestorage.app",messagingSenderId:"849799355556",appId:"1:849799355556:web:fefb5c73ffa26957745a31"};
@@ -524,14 +551,14 @@ onSnapshot(cb,err){const r=rdb.ref(name).orderByChild(by).limitToLast(lim);const
 return{db,uid:u.uid}}
 async function gbInitFB(){gbMsg='불러오는 중이에요.';gbList();
 try{const c=await fbConnect();gbDb=c.db;gbUid=c.uid;gbOwner=false;gbCan=true;gbRender();gbList();
-gbDb.collection('guestbook').orderBy('at','desc').limit(30).onSnapshot(s=>{GB=s.docs.map(d=>Object.assign({id:d.id},d.data()));gbList()},()=>{gbMsg='방명록을 불러오지 못했어요.';gbList()})}
+gbSub()}
 catch(e){fbFail=true;fbCode=(e&&(e.code||e.message))||'';try{console.warn('firebase',e)}catch(x){}gbMsg='서버에 연결하지 못했어요. 인터넷 연결을 확인해 주세요.';gbList()}}
 async function gbInit(){if(!window.claude||!claude.use){return gbInitFB()}
 const tm=setTimeout(()=>{if(!gbDb){gbMsg='방명록을 불러오지 못했어요.';gbList()}},10000);
 try{const[db,user]=await Promise.all([claude.use('db'),claude.use('user')]);clearTimeout(tm);if(!db){gbMsg='방명록은 로그인해서 볼 수 있어요.';gbList();return}
 gbDb=db;if(user){gbUid=await user.id();gbOwner=await user.isOwner();const w=await user.can('data.write');gbCan=!!gbUid&&w!==false}
 gbRender();gbList();
-db.collection('guestbook').orderBy('at','desc').limit(30).onSnapshot(s=>{GB=s.docs.map(d=>Object.assign({id:d.id},d.data()));gbList()},()=>{gbMsg='방명록을 불러오지 못했어요.';gbList()})}
+gbSub()}
 catch(e){clearTimeout(tm);gbMsg='방명록을 불러오지 못했어요.';gbList()}}
 /* ---------- 화면 ---------- */
 function render(){
@@ -542,7 +569,7 @@ $('#sub').textContent=dl(S.day)+' · 회계 담당자'+(mode=='tour'?' · 구경
 $('#nav').innerHTML=R0?'<button class="on" onclick="leave()">← 사무실로</button><span class="rn">'+R0.n+'</span>':'<span class="rn">'+(view=='start'?'본사 입구':'본사 사무실')+'</span>';
 const m=$('#m');m.className=view=='map'?'map':view=='gate'||view=='start'?'gate':'room';
 let body=view=='inbox'?inbox():view=='voucher'?voucher():view=='vat'?vat():view=='tax'?tax():view=='meet'?meet():view=='rep'?rep():view=='quiz'?quiz():view=='biz'?biz():view=='ap'?apl():view=='req'?req():view=='tx'?tx():view=='rec'?rec():view=='fund'?fund():view=='map'?map():view=='start'?start():map();
-if(view=='fund')body+=loan()+bank();else if(view=='tx')body+=pay();else if(view=='rep')body+=closeSheet();else if(view=='rec')body+=resetSheet();else if(view=='map')body+=gbSheet();
+if(view=='fund')body+=loan()+bank();else if(view=='tx')body+=pay();else if(view=='rep')body+=closeSheet();else if(view=='rec')body+=resetSheet();
 const tb=mode=='tour'?'<div class="sheet tbn"><span><b>구경 중이에요.</b> 입력해도 저장되지 않아요.</span><button class="btn" onclick="exitTour()">처음으로</button></div>':'';
 m.innerHTML=tb+(R0?'<div class="sheet rbn"><b>'+R0.n+'</b><span class="mut">'+R0.d+'</span></div>':'')+body;
 if(view=='map')mapInit();
@@ -570,7 +597,7 @@ const TN_B=[
 {k:'mkt',n:'마케팅 사무실',x:2,y:12,w:5,h:4,roof:'#c2714f',wall:'#f3e7dc'},
 {k:'sal',n:'영업 사무실',x:19,y:12,w:5,h:4,roof:'#4f8f6b',wall:'#e4efe7'}];
 let tnSol=null,tnFl=null,tnTree=[],tnHot=[],tnObj=[],tnStat=null,tnX=13,tnY=18.7,tnDir='u',tnStep=0,tnAct=0,tnPath=[],tnPend=-1,tnNear=-2,tnLast=0;
-const tnTitle=document.querySelector('header h1').textContent;
+const tnTitle=()=>'(주)'+coNm()+' 본사 회계팀';
 function tnBuild(){
 tnSol=Array.from({length:TN_H},()=>Array(TN_W).fill(false));tnFl=Array.from({length:TN_H},()=>Array(TN_W).fill('g'));tnTree=[];tnHot=[];tnObj=[];
 const fill=(x0,y0,x1,y1,k)=>{for(let y=y0;y<=y1;y++)for(let x=x0;x<=x1;x++)tnFl[y][x]=k};
@@ -609,7 +636,7 @@ R('rgba(0,0,0,.22)',X+3,Y+Hd-2,Wd,3);
 if(b.open){
 R('#3b4a60',X+1,Y+8,Wd-2,Hd-9);R('#2a3548',X-1,Y+3,Wd+2,6);R('#475872',X-1,Y+3,Wd+2,1.5);
 for(let r=0;r<2;r++)for(let k=0;k<8;k++){const lit=(r*5+k*3)%4==0||(r+k)%5==0;R(lit?'#f6d466':'#566d8c',X+7+k*12.6,Y+13+r*12,9,8)}
-R('#0f172a',mx-42,Y+38,84,15);R('#d4a017',mx-42,Y+38,84,1.2);R('#d4a017',mx-42,Y+51.8,84,1.2);TXT('산철이네 회계 사무실',mx,Y+45.8,7.6,'#ffffff');
+R('#0f172a',mx-42,Y+38,84,15);R('#d4a017',mx-42,Y+38,84,1.2);R('#d4a017',mx-42,Y+51.8,84,1.2);TXT(coNm()+' 회계팀',mx,Y+45.8,Math.min(7.6,80/(coNm().length+4)),'#ffffff');
 R('#1f2937',mx-12,Y+56,24,23);R('#8ec1ea',mx-10,Y+58,9.4,21);R('#8ec1ea',mx+.6,Y+58,9.4,21);R('#cfe6f7',mx-8.5,Y+60,3,8);R('#cfe6f7',mx+2,Y+60,3,8);R('#fbbf24',mx-2.4,Y+67,1.6,4);R('#fbbf24',mx+.8,Y+67,1.6,4);
 [X+8,X+Wd-26].forEach((wx,i)=>{R('#566d8c',wx,Y+59,18,11);R(i?'#f6d466':'#7f9bc0',wx+1.5,Y+60.5,15,8)});
 [X+30,X+Wd-40].forEach(qx=>{R('#4b5563',qx,Y+72,10,7);R('#2f7d4f',qx+1,Y+64,8,9);R('#4caf6a',qx+3,Y+66,4,4)});
@@ -660,7 +687,7 @@ function tnGo(j){const h=tnHot[j];if(!h)return;const f=h.fr[0];tnX=f[0]+.5;tnY=f
 if(h.k=='acc'||h.k=='gb'){tnUse(j);return}tnNear=tnNearHot();tnBar();window.scrollTo(0,0)}
 function enterAcc(){tnPath=[];tnPend=-1;keys={};goCafe(0)}
 function goTown(){const h=tnHot.length?tnHot[0]:null;if(h){tnX=h.tx+.5;tnY=h.ty+1.75;tnDir='d'}tnPath=[];tnPend=-1;keys={};cur=null;fb=null;view='town';render()}
-function gbGo(){const e=document.getElementById('gbf');if(e){const s=e.closest('.sheet')||e;s.scrollIntoView({behavior:'smooth',block:'start'})}}
+function gbGo(){gbOpenChat('town')}
 function tnTap(ev){const r=$('#tv').getBoundingClientRect(),tx=Math.floor((ev.clientX-r.left)/r.width*TN_W),ty=Math.floor((ev.clientY-r.top)/r.height*TN_H);
 let j=-1;tnHot.forEach((h,k)=>{if(tx>=h.x0&&tx<=h.x1&&ty>=h.y0&&ty<=h.y1)j=k});
 const sx=Math.min(TN_W-1,Math.max(0,Math.floor(tnX))),sy=Math.min(TN_H-1,Math.max(0,Math.floor(tnY-.2)));
@@ -669,11 +696,12 @@ if(best){tnPath=best;tnPend=j;if(!best.length){tnPend=-1;tnUse(j)}}return}
 const t=tnNearest(tx,ty);if(!t)return;const p=tnFind(sx,sy,t.x,t.y);if(p){tnPath=p;tnPend=-1}}
 function tnHTML(){if(!tnSol)tnBuild();
 const rows=[['회계 사무실','입장 가능 · 1층 카페테리아, 엘리베이터로 내 사무실'],['개발 · 인사 · 마케팅 · 영업 사무실','준비 중'],['공용 광장','다른 직무 접속자도 함께 보이는 공간 · 게시판에서 방명록']];
-return(acDone()?'':acSheet())+'<div class="stage tst"><canvas id="tv" role="application" aria-label="산철이네 마을 지도" onpointerdown="tnTap(event)"></canvas></div><div id="tact" class="act"></div>'
+return(acDone()?'':acSheet())+'<div class="stage tst"><canvas id="tv" role="application" aria-label="마을 지도" onpointerdown="tnTap(event)"></canvas></div><div id="tact" class="act"></div>'
 +'<div class="pad" aria-hidden="true">'+[['u','▲'],['l','◀'],['d','▼'],['r','▶']].map(([d,t])=>'<button onpointerdown="padHold(\''+d+'\',1)" onpointerup="padHold(\''+d+'\',0)" onpointerleave="padHold(\''+d+'\',0)" onpointercancel="padHold(\''+d+'\',0)">'+t+'</button>').join('')+'</div>'
 +'<p class="hint">화면을 눌러 걸어가거나 방향키(WASD)로 움직여요. 회계 사무실 문 앞에서 Space 또는 E를 누르면 1층 카페테리아로 들어가요. 건물을 두 번 누르면(더블클릭) 바로 들어가요.</p>'
++'<div class="bar"><button class="btn g" onclick="gbOpenChat(\'town\')">방명록 열기</button><span class="mut">마을에 온 사람들과 채팅처럼 글을 나눠요</span></div>'
 +'<details class="qm"><summary>건물로 바로 이동</summary><div class="bar">'+tnHot.map((h,j)=>'<button class="btn g" onclick="tnGo('+j+')">'+h.n+'</button>').join('')+'</div></details>'
-+(acDone()?acSheet():'')+prSheet()+'<div class="sheet"><h2>마을 안내</h2><table>'+rows.map(r=>'<tr><td>'+r[0]+'</td><td class="n">'+r[1]+'</td></tr>').join('')+'</table></div>'+gbSheet()}
++(acDone()?acSheet():'')+prSheet()+'<div class="sheet"><h2>마을 안내</h2><table>'+rows.map(r=>'<tr><td>'+r[0]+'</td><td class="n">'+r[1]+'</td></tr>').join('')+'</table></div>'}
 function tnInit(){tnStatic();tnNear=-2;cancelAnimationFrame(raf);tnLast=performance.now();raf=requestAnimationFrame(tnLoop)}
 /* ===== 접속자 표시 (공유 저장소 사용) ===== */
 const PRC=['#c0504d','#4f8f6b','#8a63b0','#d97b5a','#3f7d9a','#b4506a'],PRH=['#2b211c','#5a3b2e','#1f1a17'];
@@ -709,14 +737,14 @@ else if(!gbDb)s='접속자 정보를 불러오는 중이에요.';
 else{const now=Date.now(),n={town:0,cafe:0,office:0};Object.keys(prOthers).forEach(k=>{const o=prOthers[k];if(now-o.at<=60000&&n[o.zone]!==undefined)n[o.zone]++});
 n[prZone()]++;s='지금 접속 중 '+(n.town+n.cafe+n.office)+'명 · 마을 '+n.town+'명 · 1층 카페테리아 '+n.cafe+'명 · 사무실 '+n.office+'명'+(gbCan?'':' (쓰기 권한이 없어 내 캐릭터는 다른 사람에게 보이지 않아요)')}
 if(e.textContent!=s)e.textContent=s}
-function prSheet(){return'<div class="sheet"><h2>접속자</h2><p class="mut" id="prs"></p><p class="mut">마을과 1층 카페테리아에서는 같은 곳에 있는 다른 접속자의 캐릭터가 보여요. 사무실은 나만 쓰는 공간이에요. 닉네임과 캐릭터는 마을의 내 정보에서 한 번 정하면 바꿀 수 없어요.</p></div>'}
+function prSheet(){return'<div class="sheet"><h2>접속자</h2><p class="mut" id="prs"></p><p class="mut">마을과 1층 카페테리아에서는 같은 곳에 있는 다른 접속자의 캐릭터가 보여요. 사무실은 나만 쓰는 공간이에요. 닉네임, 회사 이름, 캐릭터는 마을의 내 정보에서 한 번 정하면 바꿀 수 없어요.</p></div>'}
 /* ===== 내 정보: 계정 저장 · 캐릭터 · 처음부터 다시 ===== */
 let acSync='',acTimer=0,acLoaded=false,acTried=false,acArm=false,acArmT=0;
 function acCan(){return !!(gbDb&&gbUid&&gbCan&&!fbMode)}
 function acNorm(x){x=x||{};x.done=x.done||{};x.day=x.day||1;x.notes=x.notes||{};x.q=x.q||{};x.fx=x.fx||[];x.dec=x.dec||{};x.ap=x.ap||{};x.ex=x.ex||[];x.tr=x.tr||{};x.nq=x.nq||{};return x}
 function cloudSave(){if(!acCan()||!acLoaded||mode=='tour')return;acSync='저장 중';clearTimeout(acTimer);acTimer=setTimeout(acPush,1500)}
 function acPush(){if(!acCan()||mode=='tour')return;
-try{const p=gbDb.doc('progress/'+gbUid).set({data:JSON.stringify(S),at:S.at||Date.now(),g:myG,name:prNick});
+try{const p=gbDb.doc('progress/'+gbUid).set({data:JSON.stringify(S),at:S.at||Date.now(),g:myG,name:prNick,co:coName});
 if(p&&p.then)p.then(()=>{acSync='저장됨';acStat()},()=>{acSync='저장 실패';acStat()});else{acSync='저장됨';acStat()}}
 catch(e){acSync='저장 실패';acStat()}}
 function acData(sn){if(!sn)return null;const ex=typeof sn.exists=='function'?sn.exists():sn.exists;if(ex===false)return null;return typeof sn.data=='function'?(sn.data()||null):sn}
@@ -733,7 +761,8 @@ if(v&&typeof v.data=='string'){try{cs=JSON.parse(v.data)}catch(e){cs=null}}
 if(cs&&typeof cs=='object'&&(!mine||(+v.at||0)>(S.at||0))){S=acNorm(cs);took=true}
 else if(!mine){S=acNorm({vat:null,tax:null,bk:null,tx:null});took=true}
 if(v){if(!myG&&(v.g=='f'||v.g=='m')){myG=v.g;try{localStorage.setItem('sc_g',myG)}catch(e){}took=true}
-if(!prNick&&v.name){prNick=String(v.name).slice(0,8);try{localStorage.setItem('sc_nick',prNick)}catch(e){}took=true}}
+if(!prNick&&v.name){prNick=String(v.name).slice(0,8);try{localStorage.setItem('sc_nick',prNick)}catch(e){}took=true}
+if(!coName&&v.co){coName=String(v.co).slice(0,10);try{localStorage.setItem('sc_co',coName)}catch(e){}took=true}}
 S.uid=gbUid;try{localStorage.setItem('hongun1',JSON.stringify(S))}catch(e){}
 acLoaded=true;acSync='저장 중';acPush();
 if(took){cur=null;fb=null;if(view=='voucher'||view=='req')view='map';render()}else acFill()}
@@ -744,30 +773,33 @@ else if(!gbCan)s='보기 전용 권한이라 이 브라우저에만 저장돼요
 else if(!acLoaded)s=acSync||'계정에 저장된 기록을 불러오는 중이에요.';
 else s='로그인됨 · 진행 기록이 내 계정에 쌓여요. 다른 기기에서 열어도 이어져요.'+(acSync?' ('+acSync+')':'');
 if(e.textContent!=s)e.textContent=s}
-let acPG='',acNV='',acArm0=false,acArmT2=0;
-const acDone=()=>!!myG&&!!(prNick||'').trim();
+let acPG='',acNV='',acCV='',acArm0=false,acArmT2=0;
+const acDone=()=>!!myG&&!!(prNick||'').trim()&&!!(coName||'').trim();
 function acFillC(){const c=document.getElementById('acc');if(!c)return;
 if(acDone()){c.innerHTML='';return}
-c.innerHTML='<button class="btn" onclick="acConfirm()">'+(acArm0?'정말 확정할까요? 한 번 더 누르세요 (이후 수정 불가)':'내 정보 확정하기')+'</button><span class="mut" id="acm">한 번 확정하면 닉네임과 캐릭터를 바꿀 수 없어요.</span>'}
-function acFill(){acStat();const p=document.getElementById('acp'),n=document.getElementById('acn'),g=document.getElementById('acg'),r=document.getElementById('acr');if(!p||!n||!g||!r)return;
+c.innerHTML='<button class="btn" onclick="acConfirm()">'+(acArm0?'정말 확정할까요? 한 번 더 누르세요 (이후 수정 불가)':'내 정보 확정하기')+'</button><span class="mut" id="acm">한 번 확정하면 닉네임, 회사 이름, 캐릭터를 바꿀 수 없어요.</span>'}
+function acFill(){acStat();const p=document.getElementById('acp'),n=document.getElementById('acn'),g=document.getElementById('acg'),r=document.getElementById('acr');const co=document.getElementById('acco');if(!p||!n||!g||!r||!co)return;
 const nl=!!(prNick||'').trim(),gl=!!myG,cnt=ALL().filter(e=>S.done[e.id]).length;
 p.textContent='진행 상황: '+dl(S.day)+' · 전표 '+cnt+'건 처리';
 n.innerHTML=nl?'<p>닉네임 <b>'+esc(prNick)+'</b> <span class="mut">· 확정됨 (바꿀 수 없어요)</span></p>':'<div class="gbf"><input id="prn" maxlength="8" placeholder="닉네임 (다른 사람에게 보이는 이름, 최대 8자)" value="'+esc(acNV).split('"').join('&quot;')+'" oninput="acNV=this.value;acArm0=false;acFillC()"></div>';
+const hc=!!(coName||'').trim();
+co.innerHTML=hc?'<p>회사 이름 <b>'+esc(coName)+'</b> <span class="mut">· 확정됨 (바꿀 수 없어요)</span></p>':'<div class="gbf"><input id="prc" maxlength="10" placeholder="회사 이름 (가상 회사의 이름, 최대 10자)" value="'+esc(acCV).split('"').join('&quot;')+'" oninput="acCV=this.value;acArm0=false;acFillC()"></div>';
 g.innerHTML=gl?'<span>캐릭터 <b>'+(myG=='f'?'여자':'남자')+'</b></span><span class="mut">· 확정됨 (바꿀 수 없어요)</span>':'<span class="mut">캐릭터</span>'+[['m','남자'],['f','여자']].map(x=>'<button class="btn'+(acPG==x[0]?'':' g')+'" onclick="acPick(\''+x[0]+'\')">'+x[1]+'</button>').join('')+(acPG?'':'<span class="mut">캐릭터를 골라 주세요</span>');
 acFillC();
-r.innerHTML='<button class="btn g" onclick="acReset()">'+(acArm?'정말 지울까요? 한 번 더 누르세요':'처음부터 다시')+'</button><span class="mut">진행 기록을 지우고 1일차로 돌아가요. 닉네임과 캐릭터는 유지돼요.</span>'}
+r.innerHTML='<button class="btn g" onclick="acReset()">'+(acArm?'정말 지울까요? 한 번 더 누르세요':'처음부터 다시')+'</button><span class="mut">진행 기록을 지우고 1일차로 돌아가요. 닉네임, 회사 이름, 캐릭터는 유지돼요.</span>'}
 function acPick(g){if(myG)return;acPG=g=='f'?'f':'m';acArm0=false;acFill()}
-function acConfirm(){const nl=!!(prNick||'').trim(),gl=!!myG,nv=nl?prNick:(acNV||'').trim().slice(0,8),gv=gl?myG:acPG;let err='';
-if(!nv)err='닉네임을 입력해 주세요.';else if(gv!='m'&&gv!='f')err='캐릭터를 골라 주세요.';
+function acConfirm(){const nl=!!(prNick||'').trim(),cl=!!(coName||'').trim(),gl=!!myG,nv=nl?prNick:(acNV||'').trim().slice(0,8),cv=cl?coName:(acCV||'').trim().slice(0,10),gv=gl?myG:acPG;let err='';
+if(!nv)err='닉네임을 입력해 주세요.';else if(!cv)err='회사 이름을 입력해 주세요.';else if(gv!='m'&&gv!='f')err='캐릭터를 골라 주세요.';
 if(err){acArm0=false;clearTimeout(acArmT2);acFill();const m=document.getElementById('acm');if(m)m.textContent=err;return}
 if(!acArm0){acArm0=true;clearTimeout(acArmT2);acArmT2=setTimeout(()=>{acArm0=false;acFillC()},6000);acFillC();return}
 acArm0=false;clearTimeout(acArmT2);
 if(!nl){prNick=nv;try{localStorage.setItem('sc_nick',prNick)}catch(e){}}
+if(!cl){coName=cv;try{localStorage.setItem('sc_co',coName)}catch(e){}}
 if(!gl){myG=gv;try{localStorage.setItem('sc_g',myG)}catch(e){}}
 prLastKey='';cloudSave();render()}
 function acReset(){if(!acArm){acArm=true;clearTimeout(acArmT);acArmT=setTimeout(()=>{acArm=false;acFill()},5000);acFill();return}
 acArm=false;clearTimeout(acArmT);S=acNorm({vat:null,tax:null,bk:null,tx:null});save();acFill()}
-function acSheet(){return'<div class="sheet"><h2>내 정보</h2><p class="mut" id="acs"></p><p id="acp"></p><div id="acn"></div><div class="bar" id="acg"></div><div class="bar" id="acc"></div><div class="bar" id="acr"></div></div>'}
+function acSheet(){return'<div class="sheet"><h2>내 정보</h2><p class="mut" id="acs"></p><p id="acp"></p><div id="acn"></div><div id="acco"></div><div class="bar" id="acg"></div><div class="bar" id="acc"></div><div class="bar" id="acr"></div></div>'}
 setInterval(prTick,500);
 window.addEventListener('pagehide',()=>{prSend('off',0,0,'d')});
 /* ===== 1층 카페테리아 ===== */
@@ -889,6 +921,7 @@ const rows=[['엘리베이터 (위쪽)','내 사무실로 올라가요'],['카�
 return'<div class="stage tst" id="cfst"><canvas id="cfv" role="application" aria-label="회계 사무실 1층 카페테리아" onpointerdown="cfTap(event)"></canvas><div id="cfhud" class="cfhud" hidden><small>공부 중</small><b id="cfsw">00:00:00</b><small id="cfsw2"></small></div></div><div id="cact" class="act"></div>'
 +'<div class="pad" aria-hidden="true">'+[['u','▲'],['l','◀'],['d','▼'],['r','▶']].map(p=>'<button onpointerdown="padHold(\''+p[0]+'\',1)" onpointerup="padHold(\''+p[0]+'\',0)" onpointerleave="padHold(\''+p[0]+'\',0)" onpointercancel="padHold(\''+p[0]+'\',0)">'+p[1]+'</button>').join('')+'</div>'
 +'<p class="hint">화면을 눌러 걸어가거나 방향키(WASD)로 움직여요. 의자 가까이에서 Space 또는 E를 누르거나 의자를 누르면 앉아요. 의자·엘리베이터·문을 두 번 누르면 바로 이동해요. 일어나려면 다시 Space·E나 방향키를 눌러요.</p>'
++'<div class="bar"><button class="btn g" onclick="gbOpenChat(\'cafe\')">방명록 열기</button><span class="mut">1층에 있는 사람들과 채팅처럼 글을 나눠요 (마을 방명록과는 별개예요)</span></div>'
 +'<details class="qm"><summary>바로 이동</summary><div class="bar"><button class="btn g" onclick="cfSeatNear()">가까운 자리에 앉기</button>'+cfHot.map((h,j)=>h.k=='seat'?'':'<button class="btn g" onclick="cfGo('+j+')">'+h.n+'</button>').join('')+'</div></details>'
 +prSheet()+'<div class="sheet"><h2>1층 안내</h2><table>'+rows.map(r=>'<tr><td>'+r[0]+'</td><td class="n">'+r[1]+'</td></tr>').join('')+'</table></div>'}
 function cfInit(){cfStatic();cfNear=-2;cancelAnimationFrame(raf);cfLast=performance.now();raf=requestAnimationFrame(cfLoop)}
@@ -897,26 +930,43 @@ const render0=render;
 render=function(){
 if(view!='cafe'&&cfSit!=null)cfStand();
 if(view=='start')view='town';
-const h1=document.querySelector('header h1');
-if(view!='town'&&view!='cafe'){h1.textContent=tnTitle;render0();if(view=='map'||view=='gate')$('#nav').insertAdjacentHTML('afterbegin','<button class="on" onclick="goCafe(1)">← 1층으로</button>');return}
+const h1=document.querySelector('header h1');document.title=coNm()+' · 가상 실무 체험';
+if(view!='town'&&view!='cafe'){h1.textContent=tnTitle();render0();if(view=='map'||view=='gate')$('#nav').insertAdjacentHTML('afterbegin','<button class="on" onclick="goCafe(1)">← 1층으로</button>');return}
 cancelAnimationFrame(raf);
 if(lastView!=view){rstArm=false;lastView=view;window.scrollTo(0,0)}
 const m=$('#m');
-if(view=='cafe'){h1.textContent='산철이네 회계 사무실 · 1층';$('#sub').textContent='같은 직무 사람들이 모이는 카페테리아';
+if(view=='cafe'){h1.textContent=coNm()+' 회계 사무실 · 1층';$('#sub').textContent='같은 직무 사람들이 모이는 카페테리아';
 $('#nav').innerHTML='<button class="on" onclick="goTown()">← 마을로</button><span class="rn">1층 카페테리아</span>';
 m.className='map town';m.innerHTML=cfHTML();cfInit();prStatus();return}
-h1.textContent='산철이네 마을';
+h1.textContent=coNm();
 $('#sub').textContent='직무별 사무실이 모여 있는 가상 실무 마을';
 $('#nav').innerHTML='<span class="rn">마을</span>';
 m.className='map town';m.innerHTML=tnHTML();tnInit();gbRender();gbList();prStatus();acFill()};
 window.addEventListener('keydown',e=>{const t=e.target&&e.target.tagName;if(t=='INPUT'||t=='TEXTAREA'||t=='SELECT'){e.stopImmediatePropagation();return}
-const tw=view=='town';if((!tw&&view!='cafe')||e.ctrlKey||e.metaKey||e.altKey)return;const k=e.key.toLowerCase();
+const tw=view=='town';if((!tw&&view!='cafe')||gbOpen||e.ctrlKey||e.metaKey||e.altKey)return;const k=e.key.toLowerCase();
 if(KM[k]){e.preventDefault();if(!tw&&cfSit!=null)cfStand();keys[KM[k]]=1}else if(k==' '||k=='e'||k=='enter'){if(e.repeat)return;const n=tw?tnNear:cfNear;if((n>=0||(!tw&&cfSit!=null))&&t!='BUTTON'){e.preventDefault();if(tw)tnUse(n);else cfUse(n)}}},true);
 window.addEventListener('resize',()=>{if(view=='town'&&$('#tv'))tnStatic();if(view=='cafe'&&$('#cfv'))cfStatic()});
 view='town';render();
 </script>
 
 <style>
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:20}
+#gbo{position:fixed;inset:0;z-index:70;background:rgba(15,23,42,.55);display:flex;align-items:center;justify-content:center;padding:max(12px,env(safe-area-inset-top,0px)) max(12px,env(safe-area-inset-right,0px)) max(12px,env(safe-area-inset-bottom,0px)) max(12px,env(safe-area-inset-left,0px))}
+#gbw{background:var(--card);color:var(--tx);opacity:1;width:100%;max-width:480px;height:min(640px,100%);display:flex;flex-direction:column;border:2px solid var(--ln);border-radius:14px;overflow:hidden;box-shadow:0 12px 40px rgba(0,0,0,.45)}
+.gbh{display:flex;align-items:center;gap:8px;padding:12px 14px;background:var(--wall2);color:#eaf2ee;flex:0 0 auto}
+.gbh b{font-size:16px}.gbh .mut{color:#b9d0c6;font-size:13px}
+.gbh .x{margin-left:auto;border:0;background:transparent;color:#eaf2ee;font-size:26px;line-height:1;cursor:pointer;padding:0 4px}
+#gbl{flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain;padding:12px;background:var(--desk);display:flex;flex-direction:column;gap:10px}
+.gbm{max-width:82%;display:flex;flex-direction:column;gap:2px;align-self:flex-start}
+.gbm.me{align-self:flex-end;align-items:flex-end}
+.gbn{font-size:12px;color:var(--mut)}
+.gbn button{border:0;background:transparent;color:var(--mut);font:inherit;font-size:12px;cursor:pointer;padding:0 0 0 8px;text-decoration:underline}
+.gbt{padding:8px 12px;border-radius:14px;border-top-left-radius:4px;background:var(--card);border:1px solid var(--ln);word-break:break-word;white-space:pre-wrap}
+.gbm.me .gbt{background:var(--ac);color:var(--onac);border-color:var(--ac);border-top-left-radius:14px;border-top-right-radius:4px}
+#gbf{flex:0 0 auto;border-top:1px solid var(--ln);padding:8px 12px 10px;background:var(--card)}
+.gba{display:flex;align-items:center;gap:6px;font-size:13px;margin-bottom:6px}
+.gbrow{display:flex;gap:6px}.gbrow input{flex:1;font-size:16px;padding:9px 10px}
+#gbs{margin-top:6px;font-size:12px}
 .stage{position:relative}
 #qsw{display:flex;align-items:center;gap:6px;line-height:1.3;font-size:13px}
 .stage #qsw{position:absolute;left:8px;top:8px;z-index:3}
@@ -981,14 +1031,13 @@ function qsBtn(){const st=qsSt(),op=Object.keys(st).filter(id=>st[id].st=='new'|
 return'<div id="qsw"><button id="qsb" class="'+(nw?'new':op.length?'':'idle')+'" onclick="qsToggle()" aria-label="업무 요청 '+op.length+'건">?'+(op.length?'<i>'+op.length+'</i>':'')+'</button>'+(fl?'<span id="qsl" onclick="qsToggle()">'+qsFlash.s+'</span>':'')+'</div>'}
 function qsPanel(){const st=qsSt(),df={};qsDefs().forEach(x=>df[x.id]=x);
 const op=Object.keys(st).filter(id=>(st[id].st=='new'||st[id].st=='acc')&&df[id]),dn=Object.keys(st).filter(id=>st[id].st=='done').sort((a,b)=>(st[b].at||0)-(st[a].at||0));
-let h='<div id="qsp" class="qsov" onclick="if(event.target===this)qsToggle()"><div class="sheet qsbox"><h2>받은 요청</h2><p class="mut">상사와 동료가 가끔 요청, 제안, 피드백을 보내요. 진행 중 '+op.length+'건 · 완료 '+dn.length+'건 · 요청을 두 번 누르면 해당 방으로 바로 가요.</p>';
+let h='<div id="qsp" class="qsov" onclick="if(event.target===this)qsToggle()"><div class="sheet qsbox"><h2>받은 요청</h2><p class="mut">상사와 동료가 가끔 요청, 제안, 피드백을 보내요. 진행 중 '+op.length+'건 · 요청을 두 번 누르면 해당 방으로 바로 가요.</p>';
 if(!op.length)h+='<p class="mut">지금은 새 요청이 없어요. 일하다 보면 ?가 다시 떠요.</p>';
 op.forEach(id=>{const x=df[id],q=st[id];
 h+='<div class="qsi"'+(x.go?' ondblclick="qsGo(\''+id+'\')" title="두 번 누르면 해당 방으로 이동"':'')+'><span class="qst '+x.ty+'">'+qsTY[x.ty]+'</span><b>'+x.t+'</b><p class="mut">'+x.from+(q.st=='acc'?' · 진행 중':'')+'</p><p>'+x.m+'</p><div class="bar">'
 +(x.ty=='fb'?'<button class="btn" onclick="qsAck(\''+id+'\')">확인했어요</button>':q.st=='new'?'<button class="btn" onclick="qsAcc(\''+id+'\')">수락</button>':'')
 +(x.go?'<button class="btn g" onclick="qsGo(\''+id+'\')">'+ROOMS.find(r=>r.k==x.go).n+'(으)로 가기</button>':'')
 +(x.ty=='sug'?'<button class="btn g" onclick="qsSkip(\''+id+'\')">이번엔 넘길게요</button>':'')+'</div></div>'});
-if(dn.length){h+='<h2 style="margin-top:14px">완료한 요청</h2>';dn.slice(0,5).forEach(id=>{const q=st[id];h+='<div class="qsi dn"><b>'+(q.t||'요청')+'</b><p class="mut">'+(q.f||'')+(q.d?' · '+q.d+'일차':'')+'</p>'+(q.r?'<p>'+q.r+'</p>':'')+'</div>'})}
 return h+'<div class="bar"><button class="btn g" onclick="qsToggle()">닫기</button></div></div></div>'}
 function qsPaint(){['qsw','qsp'].forEach(k=>{const e=document.getElementById(k);if(e){const p=e.parentNode;p.removeChild(e);if(p.className=='qsr')p.parentNode.removeChild(p)}});
 if(!qsOffice()||mode=='tour')return;const m=$('#m'),sg=view=='map'?m.querySelector('.stage'):null;
@@ -1001,7 +1050,7 @@ function qsSkip(id){const q=qsSt()[id];if(q){q.st='skip';save()}qsPaint()}
 function qsGo(id){const q=qsSt()[id],x=qsDefs().find(y=>y.id==id);if(!x||!x.go)return;if(q&&q.st=='new'){q.st='acc';save()}qsOpen=false;
 if(!SOL)buildMap();const j=HOT.findIndex(h=>ROOMS[h.i].k==x.go);if(j>=0)openRoom(j)}
 const qsRender0=render;
-render=function(){qsRender0();if(qsOffice()){qsCheck();qsIssue()}else qsOpen=false;qsPaint()};
+render=function(){qsRender0();if(qsOffice()){qsCheck();qsIssue()}else qsOpen=false;if(gbOpen&&view!=gbRoom)gbClose();qsPaint()};
 setInterval(()=>{if(!qsOffice()||mode=='tour')return;const a=qsCheck(),b=qsIssue(),c=qsFlash&&qsFlash.u<=Date.now();if(c)qsFlash=null;if(a||b||c)qsPaint()},3000);
 document.addEventListener('keydown',e=>{const t=e.target&&e.target.tagName;if(t=='INPUT'||t=='TEXTAREA'||t=='SELECT'||e.ctrlKey||e.metaKey||e.altKey)return;if(view=='map'&&e.key.toLowerCase()=='q'){e.preventDefault();qsToggle()}});
 document.addEventListener('keydown',e=>{if(e.key=='Escape'&&qsOpen)qsToggle()});
