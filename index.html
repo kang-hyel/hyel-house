@@ -506,7 +506,27 @@ GB.forEach(g=>{const d=document.createElement('div');d.className='gbi';const b=d
 if(gbOwner){const x=document.createElement('button');x.className='x';x.textContent='×';x.setAttribute('aria-label','삭제');x.onclick=()=>gbDb.doc('guestbook/'+g.id).delete().catch(()=>{});d.append(x)}l.appendChild(d)})}
 async function gbPost(){const n=($('#gbn').value||'').trim().slice(0,12)||'익명',m=($('#gbm').value||'').trim().slice(0,60),s=$('#gbs');if(!m)return;
 try{await gbDb.doc('guestbook/'+gbUid).set({name:n,msg:m,at:Date.now()});$('#gbm').value='';s.textContent='남겼어요.'}catch(e){s.textContent='지금은 남길 수 없어요.'}}
-async function gbInit(){if(!window.claude||!claude.use){gbMsg='방명록은 공유 링크에서 볼 수 있어요.';gbList();return}
+/* ===== Firebase 연결 (GitHub·앱에서도 접속자끼리 만나기) ===== */
+const fbMode=!(window.claude&&window.claude.use);
+const FBCFG={apiKey:"AIzaSyCT2fzNqcZ7NkN0PXaye0VVlXiJOc87Lnc",authDomain:"job-training-village.firebaseapp.com",databaseURL:"https://job-training-village-default-rtdb.asia-southeast1.firebasedatabase.app",projectId:"job-training-village",storageBucket:"job-training-village.firebasestorage.app",messagingSenderId:"849799355556",appId:"1:849799355556:web:fefb5c73ffa26957745a31"};
+let fbFail=false,fbCode='';
+function fbScripts(){const base='https://www.gstatic.com/firebasejs/10.12.2/firebase-',names=['app','auth','database'];
+return names.reduce((pr,n)=>pr.then(()=>new Promise((res,rej)=>{const s=document.createElement('script');s.src=base+n+'-compat.js';s.onload=res;s.onerror=()=>rej({code:'script-load'});document.head.appendChild(s)})),Promise.resolve())}
+async function fbConnect(){await fbScripts();firebase.initializeApp(FBCFG);const au=firebase.auth();await au.signInAnonymously();
+const u=au.currentUser||await new Promise(r=>{const un=au.onAuthStateChanged(x=>{if(x){un();r(x)}})});
+const rdb=firebase.database(),snap=sn=>({id:sn.key,exists:()=>sn.exists(),data:()=>sn.val()}),dis={};
+const db={doc(path){const ref=rdb.ref(path);return{
+set(v){if(path.indexOf('presence/')==0&&!dis[path]){dis[path]=1;try{ref.onDisconnect().remove()}catch(e){}}return ref.set(v)},
+get(){return ref.once('value').then(snap)},
+delete(){return ref.remove()}}},
+collection(name){let by='at',lim=40;const q={orderBy(f){by=f;return q},limit(n){lim=n;return q},
+onSnapshot(cb,err){const r=rdb.ref(name).orderByChild(by).limitToLast(lim);const h=r.on('value',sn=>{const docs=[];sn.forEach(c=>{docs.push({id:c.key,data:()=>c.val()})});docs.reverse();cb({docs})},err);return()=>r.off('value',h)}};return q}};
+return{db,uid:u.uid}}
+async function gbInitFB(){gbMsg='불러오는 중이에요.';gbList();
+try{const c=await fbConnect();gbDb=c.db;gbUid=c.uid;gbOwner=false;gbCan=true;gbRender();gbList();
+gbDb.collection('guestbook').orderBy('at','desc').limit(30).onSnapshot(s=>{GB=s.docs.map(d=>Object.assign({id:d.id},d.data()));gbList()},()=>{gbMsg='방명록을 불러오지 못했어요.';gbList()})}
+catch(e){fbFail=true;fbCode=(e&&(e.code||e.message))||'';try{console.warn('firebase',e)}catch(x){}gbMsg='서버에 연결하지 못했어요. 인터넷 연결을 확인해 주세요.';gbList()}}
+async function gbInit(){if(!window.claude||!claude.use){return gbInitFB()}
 const tm=setTimeout(()=>{if(!gbDb){gbMsg='방명록을 불러오지 못했어요.';gbList()}},10000);
 try{const[db,user]=await Promise.all([claude.use('db'),claude.use('user')]);clearTimeout(tm);if(!db){gbMsg='방명록은 로그인해서 볼 수 있어요.';gbList();return}
 gbDb=db;if(user){gbUid=await user.id();gbOwner=await user.isOwner();const w=await user.can('data.write');gbCan=!!gbUid&&w!==false}
@@ -665,7 +685,7 @@ function prSend(z,x,y,d){if(!gbDb||!gbCan||!gbUid)return;
 if(prC<0)prC=String(gbUid).split('').reduce((a,ch)=>(a*31+ch.charCodeAt(0))%997,7);
 try{const p=gbDb.doc('presence/'+gbUid).set({s:(z=='cafe'&&cfSit!=null)?1:0,name:prName(),zone:z,x:Math.round(x*100)/100,y:Math.round(y*100)/100,dir:d,c:prC,g:myG=='f'?'f':'m',at:Date.now()});if(p&&p.catch)p.catch(()=>{})}catch(e){}}
 function prTick(){
-if(gbDb&&gbUid&&gbCan&&!acTried){acTried=true;acLoad()}acStat();
+if(gbDb&&gbUid&&gbCan&&!fbMode&&!acTried){acTried=true;acLoad()}acStat();
 if(gbDb&&!prSub){prSub=true;
 try{gbDb.collection('presence').orderBy('at','desc').limit(40).onSnapshot(s=>{const seen={};
 s.docs.forEach(d=>{const v=d.data();if(!v||d.id==gbUid)return;seen[d.id]=1;const nx=+v.x||0,ny=+v.y||0;let o=prOthers[d.id];
@@ -674,7 +694,7 @@ o.tx=nx;o.ty=ny;o.dir=v.dir||'d';o.zone=v.zone;o.name=String(v.name||'익명').s
 Object.keys(prOthers).forEach(k=>{if(!seen[k])delete prOthers[k]});prStatus()},()=>{prErr=true;prStatus()})}catch(e){prErr=true}}
 if(gbDb&&gbCan&&gbUid&&!document.hidden){const z=prZone(),x=z=='town'?tnX:z=='cafe'?cfX:0,y=z=='town'?tnY:z=='cafe'?cfY:0,d=z=='town'?tnDir:z=='cafe'?cfDir:'d',
 key=z+'|'+x.toFixed(1)+'|'+y.toFixed(1)+'|'+d+'|'+prName()+'|'+(cfSit!=null?1:0),now=Date.now();
-if((key!=prLastKey&&now-prLastSend>900)||now-prLastSend>20000){prLastKey=key;prLastSend=now;prSend(z,x,y,d)}}
+if((key!=prLastKey&&now-prLastSend>1000)||now-prLastSend>20000){prLastKey=key;prLastSend=now;prSend(z,x,y,d)}}
 prStatus()}
 function prActors(z,t){const now=Date.now(),out=[];
 Object.keys(prOthers).forEach(k=>{const o=prOthers[k];if(o.zone!=z||now-o.at>60000)return;
@@ -683,7 +703,7 @@ const st=dd>.06?[0,1,0,3][Math.floor(t/140)%4]:0,fx=o.x*16,fy=o.y*16,w=o.name.le
 const sq=o.s&&z=='cafe',tg=sq?24:31;out.push({y:fy,f:()=>{person(fx,fy,{dir:o.dir,step:st,g:o.g,shirt:PRC[o.c%6],hair:PRH[o.c%3],seated:!!sq});R('rgba(17,24,39,.6)',fx-w/2,fy-tg,w,6.2);TXT(o.name,fx,fy-tg+3.2,5,'#fff')}})});
 return out}
 function prStatus(){const e=document.getElementById('prs');if(!e)return;let s;
-if(!window.claude||!window.claude.use)s='이 파일을 내 컴퓨터에서 단독으로 열면 나만 보여요. 방명록이 동작하는 공유 링크로 열어야 다른 접속자가 보여요.';
+if(fbFail)s='서버에 연결하지 못했어요'+(fbCode?' ('+fbCode+')':'')+'. 인터넷 연결을 확인해 주세요. 혼자서는 그대로 즐길 수 있어요.';
 else if(prErr)s='접속자 정보를 불러오지 못했어요.';
 else if(!gbDb)s='접속자 정보를 불러오는 중이에요.';
 else{const now=Date.now(),n={town:0,cafe:0,office:0};Object.keys(prOthers).forEach(k=>{const o=prOthers[k];if(now-o.at<=60000&&n[o.zone]!==undefined)n[o.zone]++});
@@ -692,7 +712,7 @@ if(e.textContent!=s)e.textContent=s}
 function prSheet(){return'<div class="sheet"><h2>접속자</h2><p class="mut" id="prs"></p><p class="mut">마을과 1층 카페테리아에서는 같은 곳에 있는 다른 접속자의 캐릭터가 보여요. 사무실은 나만 쓰는 공간이에요. 닉네임과 캐릭터는 마을의 내 정보에서 한 번 정하면 바꿀 수 없어요.</p></div>'}
 /* ===== 내 정보: 계정 저장 · 캐릭터 · 처음부터 다시 ===== */
 let acSync='',acTimer=0,acLoaded=false,acTried=false,acArm=false,acArmT=0;
-function acCan(){return !!(gbDb&&gbUid&&gbCan)}
+function acCan(){return !!(gbDb&&gbUid&&gbCan&&!fbMode)}
 function acNorm(x){x=x||{};x.done=x.done||{};x.day=x.day||1;x.notes=x.notes||{};x.q=x.q||{};x.fx=x.fx||[];x.dec=x.dec||{};x.ap=x.ap||{};x.ex=x.ex||[];x.tr=x.tr||{};x.nq=x.nq||{};return x}
 function cloudSave(){if(!acCan()||!acLoaded||mode=='tour')return;acSync='저장 중';clearTimeout(acTimer);acTimer=setTimeout(acPush,1500)}
 function acPush(){if(!acCan()||mode=='tour')return;
@@ -718,7 +738,7 @@ S.uid=gbUid;try{localStorage.setItem('hongun1',JSON.stringify(S))}catch(e){}
 acLoaded=true;acSync='저장 중';acPush();
 if(took){cur=null;fb=null;if(view=='voucher'||view=='req')view='map';render()}else acFill()}
 function acStat(){const e=document.getElementById('acs');if(!e)return;let s;
-if(!window.claude||!window.claude.use)s='지금은 이 브라우저에만 저장돼요. 공유 링크로 열면 로그인한 계정에 저장돼요.';
+if(fbMode)s='진행 기록은 이 브라우저(기기)에만 저장돼요. 닉네임·접속자 표시·방명록만 서버를 써요.';
 else if(!gbDb||!gbUid)s='계정을 확인하는 중이에요. 확인되기 전에는 이 브라우저에 저장돼요.';
 else if(!gbCan)s='보기 전용 권한이라 이 브라우저에만 저장돼요.';
 else if(!acLoaded)s=acSync||'계정에 저장된 기록을 불러오는 중이에요.';
