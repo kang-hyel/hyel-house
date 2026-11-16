@@ -89,7 +89,7 @@ main.map .sheet{max-width:540px}
 </header>
 <main id="m"></main>
 <script>
-const W=n=>Number(n).toLocaleString('ko-KR');
+const W=n=>(Number(n)||0).toLocaleString('ko-KR');
 const ACC=['현금','보통예금','카드매출미수금','배달앱미수금','선급금','부가세대급금','원재료','비품','시설장치','단기대여금','감가상각누계액','외상매입금','미지급금','예수금','부가세예수금','단기차입금','4대보험예수금','미지급비용','매장매출','배달매출','이자수익','원재료비','급여','복리후생비','임차료','수도광열비','배달수수료','카드수수료','소모품비','수선비','광고선전비','접대비','이자비용','잡손실','감가상각비','지급수수료'];
 const ASSET=['현금','보통예금','카드매출미수금','배달앱미수금','선급금','부가세대급금','원재료','비품','시설장치','단기대여금'],LIAB=['외상매입금','미지급금','예수금','부가세예수금','단기차입금','4대보험예수금','미지급비용'],REVN=['매장매출','배달매출','이자수익'];
 const OPEN={'현금':10000000,'보통예금':120000000,'자본금':-130000000};
@@ -126,6 +126,9 @@ let view='inbox',cur=null,rows=[],fb=null;
 let myG='';try{myG=localStorage.getItem('sc_g')||''}catch(e){}if(myG!='f'&&myG!='m')myG='';
 const meLook=()=>({g:myG=='f'?'f':'m',shirt:myG=='f'?'#a8456b':'#35507a'});
 const $=s=>document.querySelector(s);
+const NV=s=>+String($(s).value).replace(/,/g,'');
+const fmtN=v=>{v=String(v==null?'':v);const neg=v.trim().charAt(0)=='-',d=v.replace(/[^\d]/g,'');if(!d)return neg?'-':'';return(neg?'-':'')+d.replace(/\B(?=(\d{3})+(?!\d))/g,',')};
+document.addEventListener('input',e=>{const t=e.target;if(!t||!t.classList||!t.classList.contains('num'))return;const pos=t.selectionStart,before=String(t.value).slice(0,pos).replace(/[^\d]/g,'').length,f=fmtN(t.value);if(f===t.value)return;t.value=f;let c=0,i=0;for(;i<f.length&&c<before;i++)if(/\d/.test(f[i]))c++;try{t.setSelectionRange(i,i)}catch(x){}},true);
 function ledger(){const b={...OPEN},log=[];ALL().forEach(e=>{if(!S.done[e.id])return;e.a.forEach(([s,a,m])=>{b[a]=(b[a]||0)+(s=='D'?m:-m);if(a=='현금'||a=='보통예금')log.push({t:e.t,a,i:s=='D'?m:0,o:s=='C'?m:0})})});(S.fx||[]).forEach(f=>f.a.forEach(([s,a,m])=>{b[a]=(b[a]||0)+(s=='D'?m:-m);if(a=='현금'||a=='보통예금')log.push({t:f.t,a,i:s=='D'?m:0,o:s=='C'?m:0})}));return{b,log}}
 function agg(l){const o={};l.forEach(([s,a,m])=>{if(a&&m>0){const k=s+'|'+a;o[k]=(o[k]||0)+m}});return o}
 function grade(r,ans){const u=agg(r.map(x=>[x.s,x.a,+x.m])),c=agg(ans),msg=[];
@@ -140,7 +143,7 @@ return{ok:!msg.length,msg}}
 function newRows(){rows=[{s:'D',a:'',m:''},{s:'C',a:'',m:''}]}
 function openEv(id){cur=ALL().find(e=>e.id==id);fb=null;newRows();view='voucher';render()}
 function nav(v){view=v;cur=null;fb=null;render()}
-function sync(){document.querySelectorAll('.row').forEach((el,i)=>{rows[i].s=el.children[0].value;rows[i].a=el.children[1].value;rows[i].m=el.children[2].value})}
+function sync(){document.querySelectorAll('.row').forEach((el,i)=>{rows[i].s=el.children[0].value;rows[i].a=el.children[1].value;rows[i].m=String(el.children[2].value).replace(/,/g,'')})}
 function addRow(){sync();rows.push({s:'D',a:'',m:''});render()}
 function delRow(i){sync();if(rows.length>2)rows.splice(i,1);render()}
 function submit(){sync();const r=grade(rows,cur.a),st=S.done[cur.id]||{n:0};
@@ -154,19 +157,19 @@ return'<div class="sheet"><h2>오늘의 사건함</h2><p class="mut">?가 붙은
 function voucher(){const d=S.done[cur.id];
 let h='<div class="sheet"><h2>'+cur.t+'</h2><p>'+cur.d+'</p>';
 if(d){h+='<p class="mut">'+(d.ok?'처리된 전표입니다.':'정답을 확인한 전표입니다.')+'</p>'+ansTable(cur)+'<div class="bar"><button class="btn" onclick="back()">돌아가기</button></div></div>';return h}
-h+='<div id="rows">'+rows.map((r,i)=>'<div class="row"><select><option value="D"'+(r.s=='D'?' selected':'')+'>차변</option><option value="C"'+(r.s=='C'?' selected':'')+'>대변</option></select><select><option value="">계정과목</option>'+ACC.map(a=>'<option'+(r.a==a?' selected':'')+'>'+a+'</option>').join('')+'</select><input type="number" inputmode="numeric" placeholder="금액" value="'+r.m+'"><button class="x" onclick="delRow('+i+')" aria-label="줄 삭제">×</button></div>').join('')+'</div>';
+h+='<div id="rows">'+rows.map((r,i)=>'<div class="row"><select><option value="D"'+(r.s=='D'?' selected':'')+'>차변</option><option value="C"'+(r.s=='C'?' selected':'')+'>대변</option></select><select><option value="">계정과목</option>'+ACC.map(a=>'<option'+(r.a==a?' selected':'')+'>'+a+'</option>').join('')+'</select><input class="num" type="text" inputmode="numeric" autocomplete="off" placeholder="금액" value="'+fmtN(r.m)+'"><button class="x" onclick="delRow('+i+')" aria-label="줄 삭제">×</button></div>').join('')+'</div>';
 const u=rows.reduce((t,r)=>{t[r.s]+=+r.m||0;return t},{D:0,C:0});
 h+='<div class="tot">차변 '+W(u.D)+' / 대변 '+W(u.C)+'</div><div class="bar"><button class="btn g" onclick="addRow()">줄 추가</button><button class="btn" onclick="submit()">전표 제출</button><button class="btn g" onclick="back()">나중에</button></div>';
 if(fb)h+='<div class="fb'+(fb.ok?' ok':'')+'"><ul style="margin:0;padding-left:18px">'+fb.msg.map(m=>'<li>'+m+'</li>').join('')+'</ul>'+(fb.ok?'<div class="bar"><button class="btn" onclick="back()">돌아가기</button></div>':'<p class="mut">힌트: '+cur.h+'</p><div class="bar"><button class="btn g" onclick="show()">정답 보기</button></div>')+'</div>';
 return h+'</div>'}
 function vat(){const{b}=ledger(),sale=-(b['부가세예수금']||0),buy=b['부가세대급금']||0,pay=sale-buy,v=S.vat;
-return'<div class="sheet"><h2>부가세 신고</h2><p class="mut">지금까지 반영된 전표를 기준으로 매출세액과 매입세액을 계산해 입력하세요. 원 단위로 입력합니다.</p><div class="fld"><span>매출세액</span><input id="v1" type="number" inputmode="numeric"></div><div class="fld"><span>매입세액</span><input id="v2" type="number" inputmode="numeric"></div><div class="fld"><span>납부(환급)세액 · 환급은 음수</span><input id="v3" type="number" inputmode="numeric"></div><div class="bar"><button class="btn" onclick="chkVat()">신고서 확인</button></div>'+(v?'<div class="fb'+(v.ok?' ok':'')+'">'+v.msg+'</div>':'')+'</div>'}
-function chkVat(){const{b}=ledger(),sale=-(b['부가세예수금']||0),buy=b['부가세대급금']||0,x=[+$('#v1').value,+$('#v2').value,+$('#v3').value],e=[sale,buy,sale-buy];
+return'<div class="sheet"><h2>부가세 신고</h2><p class="mut">지금까지 반영된 전표를 기준으로 매출세액과 매입세액을 계산해 입력하세요. 원 단위로 입력합니다.</p><div class="fld"><span>매출세액</span><input id="v1" class="num" type="text" inputmode="numeric" autocomplete="off" value="'+W(sale)+'"></div><div class="fld"><span>매입세액</span><input id="v2" class="num" type="text" inputmode="numeric" autocomplete="off" value="'+W(buy)+'"></div><div class="fld"><span>납부(환급)세액 · 환급은 음수</span><input id="v3" class="num" type="text" inputmode="numeric" autocomplete="off" value="'+W(pay)+'"></div><div class="bar"><button class="btn" onclick="chkVat()">신고서 확인</button></div>'+(v?'<div class="fb'+(v.ok?' ok':'')+'">'+v.msg+'</div>':'')+'</div>'}
+function chkVat(){const{b}=ledger(),sale=-(b['부가세예수금']||0),buy=b['부가세대급금']||0,x=[NV('#v1'),NV('#v2'),NV('#v3')],e=[sale,buy,sale-buy];
 const bad=['매출세액','매입세액','납부세액'].filter((_,i)=>x[i]!=e[i]);
 S.vat=bad.length?{ok:false,msg:bad.join(', ')+' 항목이 원장과 달라요. 부가세예수금과 부가세대급금 잔액을 다시 확인하세요.'}:{ok:true,msg:'일치합니다. 매출세액 '+W(sale)+'원, 매입세액 '+W(buy)+'원, 납부세액 '+W(sale-buy)+'원입니다.'};save();render()}
 function tax(){const t=S.tax,got=S.done[6];
-return'<div class="sheet"><h2>세무 신청 · 원천세</h2>'+(got?'<p class="mut">아르바이트 급여 지급분에서 떼어 둔 원천징수세액을 구분해 신고서에 적으세요. 신고·납부는 다음 달 10일까지입니다.</p><div class="fld"><span>소득세(3%)</span><input id="t1" type="number" inputmode="numeric"></div><div class="fld"><span>지방소득세(0.3%)</span><input id="t2" type="number" inputmode="numeric"></div><div class="bar"><button class="btn" onclick="chkTax()">신고서 확인</button></div>'+(t?'<div class="fb'+(t.ok?' ok':'')+'">'+t.msg+'</div>':''):'<p class="mut">급여 지급 전표(사건 6)를 먼저 처리하면 신고서를 쓸 수 있어요.</p>')+'</div>'}
-function chkTax(){const a=+$('#t1').value,c=+$('#t2').value;S.tax=a==60000&&c==6000?{ok:true,msg:'일치합니다. 원천징수세액은 66,000원이고 예수금 잔액과 같아요.'}:{ok:false,msg:'금액이 달라요. 급여 2,000,000원에 3%와 0.3%를 각각 곱해 보세요.'};save();render()}
+return'<div class="sheet"><h2>세무 신청 · 원천세</h2>'+(got?'<p class="mut">아르바이트 급여 지급분에서 떼어 둔 원천징수세액을 구분해 신고서에 적으세요. 신고·납부는 다음 달 10일까지입니다.</p><div class="fld"><span>소득세(3%)</span><input id="t1" class="num" type="text" inputmode="numeric" autocomplete="off" value="60,000"></div><div class="fld"><span>지방소득세(0.3%)</span><input id="t2" class="num" type="text" inputmode="numeric" autocomplete="off" value="6,000"></div><div class="bar"><button class="btn" onclick="chkTax()">신고서 확인</button></div>'+(t?'<div class="fb'+(t.ok?' ok':'')+'">'+t.msg+'</div>':''):'<p class="mut">급여 지급 전표(사건 6)를 먼저 처리하면 신고서를 쓸 수 있어요.</p>')+'</div>'}
+function chkTax(){const a=NV('#t1'),c=NV('#t2');S.tax=a==60000&&c==6000?{ok:true,msg:'일치합니다. 원천징수세액은 66,000원이고 예수금 잔액과 같아요.'}:{ok:false,msg:'금액이 달라요. 급여 2,000,000원에 3%와 0.3%를 각각 곱해 보세요.'};save();render()}
 function fund(){const{b,log}=ledger();
 const row=a=>{const i=log.filter(l=>l.a==a).reduce((t,l)=>t+l.i,0),o=log.filter(l=>l.a==a).reduce((t,l)=>t+l.o,0);return'<tr><td>'+a+'</td><td class="n">'+W(OPEN[a])+'</td><td class="n">'+W(i)+'</td><td class="n">'+W(o)+'</td><td class="n">'+W(b[a])+'</td></tr>'};
 return'<div class="sheet"><h2>자금일보 · 누적 현황</h2><table><tr><th>구분</th><th class="n">전일</th><th class="n">입금</th><th class="n">출금</th><th class="n">잔액</th></tr>'+row('보통예금')+row('현금')+'</table></div><div class="sheet"><h2>자금 변동 내역</h2>'+(log.length?'<table>'+log.map(l=>'<tr><td>'+l.t+'<br><span class="mut">'+l.a+'</span></td><td class="n" style="color:var(--'+(l.i?'ok':'bad')+')">'+(l.i?'+'+W(l.i):'-'+W(l.o))+'</td></tr>').join('')+'</table>':'<p class="mut">아직 반영된 자금 거래가 없어요. 회계팀에서 전표를 처리하세요.</p>')+'</div>'}
@@ -427,7 +430,7 @@ function padHold(d,on){keys[d]=on?1:0}
 function map(){if(!SOL)buildMap();
 return'<div class="stage"><canvas id="cv" role="application" aria-label="본사 사무실 지도" onpointerdown="mapTap(event)"></canvas></div><div id="act" class="act"></div>'
 +'<div class="pad" aria-hidden="true">'+[['u','▲'],['l','◀'],['d','▼'],['r','▶']].map(([d,t])=>'<button data-d="'+d+'" onpointerdown="padHold(\''+d+'\',1)" onpointerup="padHold(\''+d+'\',0)" onpointerleave="padHold(\''+d+'\',0)" onpointercancel="padHold(\''+d+'\',0)">'+t+'</button>').join('')+'</div>'
-+'<p class="hint">화면을 눌러 걸어가거나 방향키(WASD)로 움직여요. 책상 위 노란 표시 가까이에서 Space 또는 E를 누르면 열려요. 아래쪽 엘리베이터 앞에서 Space 또는 E를 누르면 1층으로 내려가요. 왼쪽 위 ?에는 상사와 동료의 요청이 가끔 도착해요(Q).</p>'
++'<p class="hint">화면을 눌러 걸어가거나 방향키(WASD)로 움직여요. 책상 위 노란 표시 가까이에서 Space 또는 E를 누르면 열려요. 방이나 엘리베이터를 두 번 누르면(더블클릭) 바로 들어가요. 아래쪽 엘리베이터 앞에서 Space 또는 E를 누르면 1층으로 내려가요. 왼쪽 위 ?에는 상사와 동료의 요청이 가끔 도착해요(Q).</p>'
 +'<details class="qm"><summary>방 목록으로 바로 이동</summary><div class="bar"><button class="btn g" onclick="goCafe(1)">엘리베이터 (1층으로)</button>'+HOT.map((h,j)=>'<button class="btn g" onclick="openRoom('+j+')">'+ROOMS[h.i].n+'</button>').join('')+'</div></details>'}
 function badges(){const d=S.day;return{inbox:EVD().filter(e=>!S.done[e.id]).length,ap:RQ.filter(r=>r.day<=d&&!S.ap[r.id]).length,quiz:qids(d).filter(id=>S.q[d+'-'+id]===undefined).length,biz:DC[d]&&!S.dec[d]?1:0}}
 /* ----- 건물 외관 (시작·출근 화면) ----- */
@@ -453,9 +456,9 @@ i3:{q:'대여금 12,000,000원, 연 5%입니다. 한 달에 받을 이자는?',a
 p1:{q:'월급 3,000,000원에서 근로자가 내는 4대보험 합계는? (국민연금 4.5%, 건강보험 3.5%, 장기요양 건강보험료의 13%, 고용보험 0.9%)',a:280650,h:'장기요양은 월급이 아니라 건강보험료(105,000원)에 13%를 곱해요.',w:'135,000 + 105,000 + 13,650 + 27,000 = 280,650원'},
 p2:{q:'월급 3,000,000원에서 위 4대보험과 소득세·지방소득세 88,000원을 빼면 실수령액은?',a:2631350,h:'3,000,000에서 280,650과 88,000을 모두 빼요.',w:'3,000,000 - 280,650 - 88,000 = 2,631,350원'},
 p3:{q:'회사가 부담하는 4대보험은? (국민연금 4.5%, 건강보험 3.5%, 장기요양 건강보험료의 13%, 고용보험 1.15%)',a:288150,h:'근로자 부담과 같지만 고용보험만 1.15%예요.',w:'135,000 + 105,000 + 13,650 + 34,500 = 288,150원'}};
-function nqRow(k){const x=NQ[k],r=S.nq[k],ok=r&&r.ok;
-return`<p style="margin-top:10px"><b>${x.q}</b></p><div class="bar" style="margin-top:4px"><input id="n_${k}" type="number" inputmode="numeric" placeholder="원" value="${r?r.v:''}" ${ok?'disabled':''}>${ok?'':`<button class="btn" onclick="chkN('${k}')">확인</button>`}</div>${r?`<div class="fb${ok?' ok':''}">${ok?'맞아요. '+x.w:'다시 계산해 보세요. 힌트: '+x.h}</div>`:''}`}
-function chkN(k){const v=+$('#n_'+k).value;S.nq[k]={v,ok:v==NQ[k].a};save();render()}
+function nqRow(k){const x=NQ[k];let r=S.nq[k];if(!r||!r.ok){S.nq[k]={v:x.a,ok:true,auto:1};save()}
+return`<p style="margin-top:10px"><b>${x.q}</b></p><div class="fb ok"><b>자동 계산</b> · ${x.w}</div>`}
+function chkN(k){const v=NV('#n_'+k);S.nq[k]={v,ok:v==NQ[k].a};save();render()}
 const xb=e=>{const d=S.done[e.id];return`<button class="ev" onclick="openEv(${e.id})"><span class="q${d?d.ok?' ok':' see':''}">${d?d.ok?'✓':'…':'?'}</span><span><b>${e.t}</b><span class="mut">${d?d.ok?'처리 완료':'정답 확인함':'전표 입력 대기'}</span></span></button>`};
 const xl=t=>ALL().filter(e=>e.x==t&&(e.day||1)<=S.day).map(xb).join('')||'<p class="mut">아직 열리지 않았어요.</p>';
 const XR={close:'rep',pay:'tx'};
@@ -466,8 +469,8 @@ return`<div class="sheet"><h2>차입금·대여금</h2><table><tr><td>단기차�
 function bank(){const{b}=ledger();if(!S.bk){S.bk={B:b['보통예금']};save()}
 const B=S.bk.B,K=B+303000,r=S.bk.res,ok=r&&r.ok,c=r?r.c:[false,false,false];
 const it=['은행 수수료 5,000원 (은행이 먼저 차감했고 장부에는 아직 없음)','예금이자 8,000원 (은행이 먼저 입금했고 장부에는 아직 없음)','미결제 수표 300,000원 (우리가 발행해 장부에는 지급으로 적었지만 은행에서는 아직 안 빠짐)'];
-return`<div class="sheet"><h2>은행 잔액 대사</h2><table><tr><td>장부 보통예금 잔액</td><td class="n">${W(B)}</td></tr><tr><td>은행 잔고증명서 잔액</td><td class="n">${W(K)}</td></tr></table><p class="mut">두 잔액이 다른 이유를 찾아 맞추는 업무예요. 차이 내역은 아래와 같아요.</p>${li(it)}<div class="fld"><span>조정 후 일치하는 잔액</span><input id="bk1" type="number" inputmode="numeric" value="${r?r.v:''}" ${ok?'disabled':''}></div><p class="mut" style="margin-top:8px">장부를 고쳐야 하는 항목에 체크하세요.</p>${it.map((t,i)=>`<label style="display:block;margin:4px 0"><input type="checkbox" id="bk_${i}" ${c[i]?'checked':''} ${ok?'disabled':''}> ${t.split(' (')[0]}</label>`).join('')}${ok?'':'<div class="bar"><button class="btn" onclick="chkBk()">대사 확인</button></div>'}${r?`<div class="fb${ok?' ok':''}">${ok?'일치해요. 수수료 5,000원 비용과 이자수익 8,000원을 장부에 반영했어요. 은행 쪽은 미결제 수표 300,000원을 빼서 맞췄어요.':r.m}</div>`:''}</div>`}
-function chkBk(){const v=+$('#bk1').value,c=[0,1,2].map(i=>$('#bk_'+i).checked),ms=[];
+return`<div class="sheet"><h2>은행 잔액 대사</h2><table><tr><td>장부 보통예금 잔액</td><td class="n">${W(B)}</td></tr><tr><td>은행 잔고증명서 잔액</td><td class="n">${W(K)}</td></tr></table><p class="mut">두 잔액이 다른 이유를 찾아 맞추는 업무예요. 차이 내역은 아래와 같아요.</p>${li(it)}<div class="fld"><span>조정 후 일치하는 잔액</span><input id="bk1" class="num" type="text" inputmode="numeric" autocomplete="off" value="${W(r?r.v:S.bk.B+3000)}" ${ok?'disabled':''}></div><p class="mut" style="margin-top:8px">장부를 고쳐야 하는 항목에 체크하세요.</p>${it.map((t,i)=>`<label style="display:block;margin:4px 0"><input type="checkbox" id="bk_${i}" ${c[i]?'checked':''} ${ok?'disabled':''}> ${t.split(' (')[0]}</label>`).join('')}${ok?'':'<div class="bar"><button class="btn" onclick="chkBk()">대사 확인</button></div>'}${r?`<div class="fb${ok?' ok':''}">${ok?'일치해요. 수수료 5,000원 비용과 이자수익 8,000원을 장부에 반영했어요. 은행 쪽은 미결제 수표 300,000원을 빼서 맞췄어요.':r.m}</div>`:''}</div>`}
+function chkBk(){const v=NV('#bk1'),c=[0,1,2].map(i=>$('#bk_'+i).checked),ms=[];
 if(v!=S.bk.B+3000)ms.push('조정 후 잔액이 달라요. 장부는 수수료를 빼고 이자를 더하고, 은행은 미결제 수표를 빼면 같은 금액이 돼요.');
 if(!(c[0]&&c[1]&&!c[2]))ms.push('장부를 고치는 건 은행이 먼저 처리한 수수료와 이자예요. 미결제 수표는 장부에 이미 지급으로 적혀 있어서 고치지 않아요.');
 const ok=!ms.length;S.bk.res={v,c,ok,m:ms.join(' ')};
@@ -640,7 +643,7 @@ function tnHTML(){if(!tnSol)tnBuild();
 const rows=[['회계 사무실','입장 가능 · 1층 카페테리아, 엘리베이터로 내 사무실'],['개발 · 인사 · 마케팅 · 영업 사무실','준비 중'],['공용 광장','다른 직무 접속자도 함께 보이는 공간 · 게시판에서 방명록']];
 return(acDone()?'':acSheet())+'<div class="stage tst"><canvas id="tv" role="application" aria-label="산철이네 마을 지도" onpointerdown="tnTap(event)"></canvas></div><div id="tact" class="act"></div>'
 +'<div class="pad" aria-hidden="true">'+[['u','▲'],['l','◀'],['d','▼'],['r','▶']].map(([d,t])=>'<button onpointerdown="padHold(\''+d+'\',1)" onpointerup="padHold(\''+d+'\',0)" onpointerleave="padHold(\''+d+'\',0)" onpointercancel="padHold(\''+d+'\',0)">'+t+'</button>').join('')+'</div>'
-+'<p class="hint">화면을 눌러 걸어가거나 방향키(WASD)로 움직여요. 회계 사무실 문 앞에서 Space 또는 E를 누르면 1층 카페테리아로 들어가요.</p>'
++'<p class="hint">화면을 눌러 걸어가거나 방향키(WASD)로 움직여요. 회계 사무실 문 앞에서 Space 또는 E를 누르면 1층 카페테리아로 들어가요. 건물을 두 번 누르면(더블클릭) 바로 들어가요.</p>'
 +'<details class="qm"><summary>건물로 바로 이동</summary><div class="bar">'+tnHot.map((h,j)=>'<button class="btn g" onclick="tnGo('+j+')">'+h.n+'</button>').join('')+'</div></details>'
 +(acDone()?acSheet():'')+prSheet()+'<div class="sheet"><h2>마을 안내</h2><table>'+rows.map(r=>'<tr><td>'+r[0]+'</td><td class="n">'+r[1]+'</td></tr>').join('')+'</table></div>'+gbSheet()}
 function tnInit(){tnStatic();tnNear=-2;cancelAnimationFrame(raf);tnLast=performance.now();raf=requestAnimationFrame(tnLoop)}
@@ -857,7 +860,7 @@ function cfHTML(){if(!cfSol)cfBuild();
 const rows=[['엘리베이터 (위쪽)','내 사무실로 올라가요'],['카공석 (왼쪽 책상 8자리)','앉으면 스톱워치가 켜지고, 일어나면 오늘 합계에 쌓여요'],['카페석 (소파 · 바 · 둥근 테이블)','편하게 앉아 쉬는 자리예요 · 앉으면 마찬가지로 스톱워치가 켜져요'],['출입문 (아래쪽)','마을로 나가요']];
 return'<div class="stage tst" id="cfst"><canvas id="cfv" role="application" aria-label="회계 사무실 1층 카페테리아" onpointerdown="cfTap(event)"></canvas><div id="cfhud" class="cfhud" hidden><small>공부 중</small><b id="cfsw">00:00:00</b><small id="cfsw2"></small></div></div><div id="cact" class="act"></div>'
 +'<div class="pad" aria-hidden="true">'+[['u','▲'],['l','◀'],['d','▼'],['r','▶']].map(p=>'<button onpointerdown="padHold(\''+p[0]+'\',1)" onpointerup="padHold(\''+p[0]+'\',0)" onpointerleave="padHold(\''+p[0]+'\',0)" onpointercancel="padHold(\''+p[0]+'\',0)">'+p[1]+'</button>').join('')+'</div>'
-+'<p class="hint">화면을 눌러 걸어가거나 방향키(WASD)로 움직여요. 의자 가까이에서 Space 또는 E를 누르거나 의자를 누르면 앉아요. 일어나려면 다시 Space·E나 방향키를 눌러요.</p>'
++'<p class="hint">화면을 눌러 걸어가거나 방향키(WASD)로 움직여요. 의자 가까이에서 Space 또는 E를 누르거나 의자를 누르면 앉아요. 의자·엘리베이터·문을 두 번 누르면 바로 이동해요. 일어나려면 다시 Space·E나 방향키를 눌러요.</p>'
 +'<details class="qm"><summary>바로 이동</summary><div class="bar"><button class="btn g" onclick="cfSeatNear()">가까운 자리에 앉기</button>'+cfHot.map((h,j)=>h.k=='seat'?'':'<button class="btn g" onclick="cfGo('+j+')">'+h.n+'</button>').join('')+'</div></details>'
 +prSheet()+'<div class="sheet"><h2>1층 안내</h2><table>'+rows.map(r=>'<tr><td>'+r[0]+'</td><td class="n">'+r[1]+'</td></tr>').join('')+'</table></div>'}
 function cfInit(){cfStatic();cfNear=-2;cancelAnimationFrame(raf);cfLast=performance.now();raf=requestAnimationFrame(cfLoop)}
@@ -950,10 +953,10 @@ function qsBtn(){const st=qsSt(),op=Object.keys(st).filter(id=>st[id].st=='new'|
 return'<div id="qsw"><button id="qsb" class="'+(nw?'new':op.length?'':'idle')+'" onclick="qsToggle()" aria-label="업무 요청 '+op.length+'건">?'+(op.length?'<i>'+op.length+'</i>':'')+'</button>'+(fl?'<span id="qsl" onclick="qsToggle()">'+qsFlash.s+'</span>':'')+'</div>'}
 function qsPanel(){const st=qsSt(),df={};qsDefs().forEach(x=>df[x.id]=x);
 const op=Object.keys(st).filter(id=>(st[id].st=='new'||st[id].st=='acc')&&df[id]),dn=Object.keys(st).filter(id=>st[id].st=='done').sort((a,b)=>(st[b].at||0)-(st[a].at||0));
-let h='<div id="qsp" class="qsov" onclick="if(event.target===this)qsToggle()"><div class="sheet qsbox"><h2>받은 요청</h2><p class="mut">상사와 동료가 가끔 요청, 제안, 피드백을 보내요. 진행 중 '+op.length+'건 · 완료 '+dn.length+'건</p>';
+let h='<div id="qsp" class="qsov" onclick="if(event.target===this)qsToggle()"><div class="sheet qsbox"><h2>받은 요청</h2><p class="mut">상사와 동료가 가끔 요청, 제안, 피드백을 보내요. 진행 중 '+op.length+'건 · 완료 '+dn.length+'건 · 요청을 두 번 누르면 해당 방으로 바로 가요.</p>';
 if(!op.length)h+='<p class="mut">지금은 새 요청이 없어요. 일하다 보면 ?가 다시 떠요.</p>';
 op.forEach(id=>{const x=df[id],q=st[id];
-h+='<div class="qsi"><span class="qst '+x.ty+'">'+qsTY[x.ty]+'</span><b>'+x.t+'</b><p class="mut">'+x.from+(q.st=='acc'?' · 진행 중':'')+'</p><p>'+x.m+'</p><div class="bar">'
+h+='<div class="qsi"'+(x.go?' ondblclick="qsGo(\''+id+'\')" title="두 번 누르면 해당 방으로 이동"':'')+'><span class="qst '+x.ty+'">'+qsTY[x.ty]+'</span><b>'+x.t+'</b><p class="mut">'+x.from+(q.st=='acc'?' · 진행 중':'')+'</p><p>'+x.m+'</p><div class="bar">'
 +(x.ty=='fb'?'<button class="btn" onclick="qsAck(\''+id+'\')">확인했어요</button>':q.st=='new'?'<button class="btn" onclick="qsAcc(\''+id+'\')">수락</button>':'')
 +(x.go?'<button class="btn g" onclick="qsGo(\''+id+'\')">'+ROOMS.find(r=>r.k==x.go).n+'(으)로 가기</button>':'')
 +(x.ty=='sug'?'<button class="btn g" onclick="qsSkip(\''+id+'\')">이번엔 넘길게요</button>':'')+'</div></div>'});
@@ -974,6 +977,18 @@ render=function(){qsRender0();if(qsOffice()){qsCheck();qsIssue()}else qsOpen=fal
 setInterval(()=>{if(!qsOffice()||mode=='tour')return;const a=qsCheck(),b=qsIssue(),c=qsFlash&&qsFlash.u<=Date.now();if(c)qsFlash=null;if(a||b||c)qsPaint()},3000);
 document.addEventListener('keydown',e=>{const t=e.target&&e.target.tagName;if(t=='INPUT'||t=='TEXTAREA'||t=='SELECT'||e.ctrlKey||e.metaKey||e.altKey)return;if(view=='map'&&e.key.toLowerCase()=='q'){e.preventDefault();qsToggle()}});
 document.addEventListener('keydown',e=>{if(e.key=='Escape'&&qsOpen)qsToggle()});
+/* 더블클릭·더블탭: 해당 장소로 바로 이동 */
+let dtT=0,dtX=0,dtY=0;
+function dtHit(ev){const el=ev.target,id=el&&el.id;if(!id)return false;
+if(id=='cv'&&view=='map'){const r=el.getBoundingClientRect(),tx=Math.floor((ev.clientX-r.left)/r.width*TW),ty=Math.floor((ev.clientY-r.top)/r.height*TH);
+if(tx>=10&&tx<=13&&ty>=31){goCafe(1);return true}
+let j=-1;HOT.forEach((h,k)=>{if(Math.abs(h.tx-tx)<=1&&Math.abs(h.ty-ty)<=1)j=k});if(j>=0){openRoom(j);return true}return false}
+if(id=='cfv'&&view=='cafe'){if(cfSit!=null)return false;const r=el.getBoundingClientRect(),tx=Math.floor((ev.clientX-r.left)/r.width*CF_W),ty=Math.floor((ev.clientY-r.top)/r.height*CF_H);
+let j=-1;cfHot.forEach((h,k)=>{if(tx>=h.x0&&tx<=h.x1&&ty>=h.y0&&ty<=h.y1)j=k});if(j>=0){cfUse(j);return true}return false}
+if(id=='tv'&&view=='town'){const r=el.getBoundingClientRect(),tx=Math.floor((ev.clientX-r.left)/r.width*TN_W),ty=Math.floor((ev.clientY-r.top)/r.height*TN_H);
+let j=-1;tnHot.forEach((h,k)=>{if(tx>=h.x0&&tx<=h.x1&&ty>=h.y0&&ty<=h.y1)j=k});if(j>=0){tnUse(j);return true}return false}
+return false}
+window.addEventListener('pointerdown',e=>{const now=Date.now();if(now-dtT<380&&Math.hypot(e.clientX-dtX,e.clientY-dtY)<30){dtT=0;if(dtHit(e)){e.stopPropagation();e.preventDefault()}return}dtT=now;dtX=e.clientX;dtY=e.clientY},true);
 render();
 </script>
 </body></html>
