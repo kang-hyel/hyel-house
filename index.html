@@ -163,7 +163,7 @@ render()}
 function show(){S.done[cur.id]={ok:false,seen:true};save();fb=null;render()}
 function ansTable(e){return'<table class="ans"><tr><th>구분</th><th>계정과목</th><th class="n">금액</th></tr>'+e.a.map(([s,a,m])=>'<tr><td>'+(s=='D'?'차변':'대변')+'</td><td>'+a+'</td><td class="n">'+W(m)+'</td></tr>').join('')+'</table>'}
 function inbox(){const E=EVD(),n=E.filter(e=>S.done[e.id]).length,ok=E.filter(e=>S.done[e.id]&&S.done[e.id].ok).length;
-return'<div class="sheet"><h2>오늘의 사건함</h2><p class="mut">?가 붙은 사건을 눌러 전표를 입력하세요. 처리 '+n+'/'+E.length+'건, 정답 '+ok+'건.</p>'+E.map(e=>{const d=S.done[e.id];return'<button class="ev" onclick="openEv('+e.id+')"><span class="q'+(d?d.ok?' ok':' see':'')+'">'+(d?d.ok?'✓':'…':'?')+'</span><span><b>'+e.t+'</b><span class="mut">'+(d?d.ok?'처리 완료':'정답 확인함':'전표 입력 대기')+'</span></span></button>'}).join('')+(n==E.length?'<div class="fb ok" style="margin-top:12px">'+S.day+'일차 전표를 모두 처리했어요. 결산실과 교육실도 둘러보고 다음 날로 넘어가세요.'+(S.day<MAXD?'<div class="bar"><button class="btn" onclick="nextDay()">다음 날로 ('+dl(S.day+1)+')</button></div>':'<p>준비된 사건은 여기까지예요. 다음 사건은 이어서 추가할 수 있어요.</p>')+'</div>':'')+'</div>'}
+return'<div class="sheet"><h2>오늘의 사건함</h2><p class="mut">?가 붙은 사건을 눌러 전표를 입력하세요. 처리 '+n+'/'+E.length+'건, 정답 '+ok+'건.</p>'+E.map(e=>{const d=S.done[e.id];return'<button class="ev" onclick="openEv('+e.id+')"><span class="q'+(d?d.ok?' ok':' see':'')+'">'+(d?d.ok?'✓':'…':'?')+'</span><span><b>'+e.t+'</b><span class="mut">'+(d?d.ok?'처리 완료':'정답 확인함':'전표 입력 대기')+'</span></span></button>'}).join('')+(n==E.length?'<div class="fb ok" style="margin-top:12px">'+S.day+'일차 전표를 모두 처리했어요. 결산실과 교육실도 둘러보세요. 하루 업무를 모두 마치면 사무실 복도 오른쪽 위의 "다음 날" 버튼으로 넘어갈 수 있어요.'+(S.day<MAXD?'':'<p>준비된 사건은 여기까지예요. 다음 사건은 이어서 추가할 수 있어요.</p>')+'</div>':'')+'</div>'}
 function voucher(){const d=S.done[cur.id];
 let h='<div class="sheet"><h2>'+cur.t+'</h2><p>'+cur.d+'</p>';
 if(d){h+='<p class="mut">'+(d.ok?'처리된 전표입니다.':'정답을 확인한 전표입니다.')+'</p>'+ansTable(cur)+'<div class="bar"><button class="btn" onclick="back()">돌아가기</button></div></div>';return h}
@@ -190,7 +190,7 @@ const EVD=()=>ALL().filter(e=>!e.x&&(e.day||1)<=S.day);
 const esc=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');
 const li=a=>'<ul style="margin:6px 0;padding-left:18px">'+a.map(x=>'<li>'+x+'</li>').join('')+'</ul>';
 const ta=(k,ph,dv)=>'<textarea rows="5" style="width:100%;font:inherit;color:var(--tx);background:var(--card);border:1px solid var(--ln);border-radius:5px;padding:8px" placeholder="'+ph+'" oninput="note(\''+k+'\',this.value)">'+esc(S.notes[k]!==undefined?S.notes[k]:(dv||''))+'</textarea>';
-function nextDay(){S.day++;resolve();save();begin()}
+function nextDay(){if(S.day>=MAXD||!ndDone())return;S.day++;resolve();save();begin()}
 function note(k,v){S.notes[k]=v;save()}
 function meet(){const{b}=ledger(),d=S.day,ev=EV.filter(e=>(e.day||1)==d),sale=-(b['부가세예수금']||0),buy=b['부가세대급금']||0;
 const ag=ev.map(e=>e.t+' ('+(S.done[e.id]?'처리 완료':'미처리')+'): 증빙과 계정 처리 근거를 설명한다').concat(['자금 잔액 보고: 보통예금 '+W(b['보통예금'])+'원, 현금 '+W(b['현금'])+'원','미결 사항과 내일 예정 업무를 확인한다']);
@@ -967,6 +967,14 @@ header{position:sticky;top:env(safe-area-inset-top,0px);z-index:20}
 .gba{display:flex;align-items:center;gap:6px;font-size:13px;margin-bottom:6px}
 .gbrow{display:flex;gap:6px}.gbrow input{flex:1;font-size:16px;padding:9px 10px}
 #gbs{margin-top:6px;font-size:12px}
+.stage #ndw{position:absolute;right:8px;top:8px;z-index:3;line-height:1.3}
+#ndb{position:relative;border:2px solid #0f5132;background:#34d399;color:#052e1b;font-weight:700;font-size:13px;font-family:inherit;line-height:1;border-radius:999px;padding:9px 13px;cursor:pointer;box-shadow:0 2px 0 rgba(0,0,0,.35)}
+#ndb.idle{background:#cbd5e1;border-color:#64748b;color:#334155;opacity:.92}
+#ndb.ready{animation:qsPulse 1s ease-in-out infinite}
+#ndb i{position:absolute;right:-6px;top:-8px;min-width:18px;height:18px;border-radius:9px;background:#ef4444;color:#fff;font:700 11px/18px sans-serif;font-style:normal;text-align:center;padding:0 4px}
+@media (prefers-reduced-motion:reduce){#ndb.ready{animation:none}}
+#ndo{position:fixed;inset:0;z-index:70;background:rgba(15,23,42,.6);display:flex;align-items:center;justify-content:center;padding:16px}
+#ndo .qsbox{width:100%;max-width:480px;max-height:85vh;overflow:auto;margin:0;border:2px solid #1f2a3c;border-radius:10px;box-shadow:0 12px 40px rgba(0,0,0,.45)}
 .stage{position:relative}
 #qsw{display:flex;align-items:center;gap:6px;line-height:1.3;font-size:13px}
 .stage #qsw{position:absolute;left:8px;top:8px;z-index:3}
@@ -1066,6 +1074,27 @@ if(id=='tv'&&view=='town'){const r=el.getBoundingClientRect(),tx=Math.floor((ev.
 let j=-1;tnHot.forEach((h,k)=>{if(tx>=h.x0&&tx<=h.x1&&ty>=h.y0&&ty<=h.y1)j=k});if(j>=0){tnUse(j);return true}return false}
 return false}
 window.addEventListener('pointerdown',e=>{const now=Date.now();if(now-dtT<380&&Math.hypot(e.clientX-dtX,e.clientY-dtY)<30){dtT=0;if(dtHit(e)){e.stopPropagation();e.preventDefault()}return}dtT=now;dtX=e.clientX;dtY=e.clientY},true);
+/* ===== 다음 날 버튼 (사무실 복도 우측 상단): 하루 업무를 모두 마쳐야 활성화 ===== */
+let ndOpen=false;
+function ndTasks(){const d=S.day,E=EVD(),a=RQ.filter(r=>r.day<=d),t=[{k:'inbox',n:'오늘의 사건함 전표',c:E.filter(e=>S.done[e.id]).length,m:E.length}];
+if(a.length)t.push({k:'ap',n:'결재 품의 검토',c:a.filter(r=>S.ap[r.id]).length,m:a.length});
+if(DC[d])t.push({k:'biz',n:'오늘의 경영 선택',c:S.dec[d]?1:0,m:1});return t}
+function ndDone(){return ndTasks().every(x=>x.c>=x.m)}
+function ndBtn(){const ok=ndDone(),last=S.day>=MAXD,left=ndTasks().filter(x=>x.c<x.m).length;
+return'<div id="ndw"><button id="ndb" class="'+(ok&&!last?'ready':'idle')+'" onclick="ndToggle()" aria-label="다음 날로 넘어가기">'+(last?'마지막 날':'다음 날 ▶')+(ok?'':'<i>'+left+'</i>')+'</button></div>'}
+function ndPanel(){const t=ndTasks(),ok=t.every(x=>x.c>=x.m),last=S.day>=MAXD;
+let h='<div class="sheet qsbox"><h2>'+dl(S.day)+' 하루 마무리</h2><p class="mut">'+(last?'준비된 하루는 여기까지예요. 다음 날은 이어서 추가할 수 있어요.':ok?'오늘 업무를 모두 마쳤어요. 다음 날로 넘어갈 수 있어요.':'오늘 업무를 모두 마쳐야 다음 날로 넘어갈 수 있어요.')+'</p>';
+t.forEach(x=>{const d=x.c>=x.m,r=ROOMS.find(y=>y.k==x.k);h+='<div class="qsi'+(d?' dn':'')+'"><b>'+(d?'✓ ':'')+x.n+'</b> <span class="mut">'+x.c+'/'+x.m+'</span>'+(d||!r?'':'<div class="bar"><button class="btn g" onclick="ndGo(\''+x.k+'\')">'+r.n+'(으)로 가기</button></div>')+'</div>'});
+return h+'<div class="bar">'+(ok&&!last?'<button class="btn" onclick="ndGoNext()">'+dl(S.day+1)+'(으)로 넘어가기</button>':'')+'<button class="btn g" onclick="ndToggle()">닫기</button></div></div>'}
+function ndPaint(){['ndw','ndo'].forEach(k=>{const e=document.getElementById(k);if(e)e.remove()});
+if(view!='map'||mode=='tour'){ndOpen=false;return}
+const sg=$('#m').querySelector('.stage');if(sg)sg.insertAdjacentHTML('beforeend',ndBtn());
+if(ndOpen){const o=document.createElement('div');o.id='ndo';o.onclick=e=>{if(e.target===o)ndToggle()};o.innerHTML=ndPanel();document.body.appendChild(o)}}
+function ndToggle(){ndOpen=!ndOpen;ndPaint()}
+function ndGo(k){ndOpen=false;ndPaint();if(!SOL)buildMap();const j=HOT.findIndex(h=>ROOMS[h.i].k==k);if(j>=0)openRoom(j)}
+function ndGoNext(){if(!ndDone()||S.day>=MAXD)return;ndOpen=false;ndPaint();nextDay()}
+window.addEventListener('keydown',e=>{if(e.key=='Escape'&&ndOpen){e.stopImmediatePropagation();ndToggle()}},true);
+const ndRender0=render;render=function(){ndRender0();ndPaint()};
 render();
 </script>
 <script>
