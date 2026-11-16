@@ -1,6 +1,14 @@
 <!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
 <meta name="claude:viewport-fit-sides" content="cover">
 <title>산철이네 마을 · 가상 실무 체험</title>
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#1f3350">
+<link rel="icon" type="image/png" href="icon-192.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="산철이네">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;700&display=swap">
 <style>:root{--wall:#1c2636;--wall2:#27364d;--desk:#e6ebf1;--paper:#eef1f5;--card:#ffffff;--tx:#1f2937;--mut:#586274;--ln:#d3dae3;--ac:#245f9e;--ok:#1f7a4d;--bad:#c0392b;--hi:#f1f5f9;--onac:#ffffff}
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--wall:#0b111a;--wall2:#141d2b;--desk:#101722;--paper:#0c121b;--card:#182131;--tx:#e5eaf2;--mut:#9aa7ba;--ln:#2b394f;--ac:#6aa7e8;--ok:#4cc38a;--bad:#ef7d74;--hi:#1f2a3b;--onac:#0c121b;color-scheme:dark}}
@@ -990,5 +998,8 @@ let j=-1;tnHot.forEach((h,k)=>{if(tx>=h.x0&&tx<=h.x1&&ty>=h.y0&&ty<=h.y1)j=k});i
 return false}
 window.addEventListener('pointerdown',e=>{const now=Date.now();if(now-dtT<380&&Math.hypot(e.clientX-dtX,e.clientY-dtY)<30){dtT=0;if(dtHit(e)){e.stopPropagation();e.preventDefault()}return}dtT=now;dtX=e.clientX;dtY=e.clientY},true);
 render();
+</script>
+<script>
+if('serviceWorker' in navigator&&/^https?:$/.test(location.protocol))addEventListener('load',function(){try{navigator.serviceWorker.register('sw.js').catch(function(){})}catch(e){}});
 </script>
 </body></html>
